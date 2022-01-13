@@ -11,7 +11,7 @@ public class Climbing extends SubsystemBase {
   private final Spark m_winch = new Spark(11);
   private final DigitalInput m_isBottom = new DigitalInput(12);
   private final DigitalInput m_isTop = new DigitalInput(13);
-  private final DoubleSolenoid m_ratchetLift = new DoubleSolenoid(1, 2, 3);
+  private final DoubleSolenoid m_ratchetLift = new DoubleSolenoid(1, null, 2, 3);
 
   public Climbing() {
     m_winch.setInverted(true);

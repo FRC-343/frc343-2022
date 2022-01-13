@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup; 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -38,8 +38,8 @@ public class Drive extends SubsystemBase {
 
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
-    private final SpeedControllerGroup m_leftGroup = new SpeedControllerGroup(m_leftMaster, m_leftFollower);
-    private final SpeedControllerGroup m_rightGroup = new SpeedControllerGroup(m_rightMaster, m_rightFollower);
+    private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_leftMaster, m_leftFollower);
+    private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_rightMaster, m_rightFollower);
 
     private final PIDController m_leftPIDController = new PIDController(2.0, 0, 0);
     private final PIDController m_rightPIDController = new PIDController(2.0, 0, 0);

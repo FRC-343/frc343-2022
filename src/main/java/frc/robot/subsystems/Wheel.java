@@ -1,10 +1,6 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.util.Color;
-import com.revrobotics.ColorMatchResult;
-import com.revrobotics.ColorMatch;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.util.sendable.SendableRegistry;
@@ -14,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Wheel extends SubsystemBase {
     private final Spark m_wheel = new Spark(10);
-    private final DoubleSolenoid m_wheelLift = new DoubleSolenoid(1, 6, 7);
+    private final DoubleSolenoid m_wheelLift = new DoubleSolenoid(1, null, 6, 7);
 
     private final ColorSensorV3 m_color = new ColorSensorV3(I2C.Port.kOnboard);
 

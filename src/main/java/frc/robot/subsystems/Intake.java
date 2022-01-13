@@ -7,7 +7,7 @@ import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
-    private final DoubleSolenoid m_intakeLift = new DoubleSolenoid(1, 0, 1);
+    private final DoubleSolenoid m_intakeLift = new DoubleSolenoid(1, null, 0, 1);
     private final Spark m_intake = new Spark(7);
 
     public Intake() {
