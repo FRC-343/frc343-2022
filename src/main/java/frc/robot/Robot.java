@@ -61,13 +61,13 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto_Choice", m_autoChooser);
 
     m_climbing.setDefaultCommand(new RunCommand(
-        () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getY(XboxController.Hand.kRight)), m_climbing));
+        () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()), m_climbing));
 
     m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed * MiscMath.deadband(-m_stick.getY()),
         kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
 
     m_hood.setDefaultCommand(
-        new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getY(XboxController.Hand.kLeft)), m_hood));
+        new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
 
     new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
       m_hopper.setHopper(-0.6);
@@ -107,10 +107,10 @@ public class Robot extends TimedRobot {
     new JoystickButton(m_stick, 6).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
     new JoystickButton(m_stick, 7).whenPressed(new InstantCommand(m_climbing::disEngage, m_climbing));
     
-    new JoystickButton(m_controller, XboxController.Button.kBumperLeft.value).whenHeld(
-        new ShootCommand(m_shooter, m_hopper, () -> m_controller.getTriggerAxis(XboxController.Hand.kRight) > 0.2));
+    new JoystickButton(m_controller, XboxController.Button.BumperLeft.value).whenHeld(
+        new ShootCommand(m_shooter, m_hopper, () -> m_controller.getRightTriggerAxis() > 0.2));
 
-    new Button(() -> m_controller.getTriggerAxis(XboxController.Hand.kLeft) > 0.2)
+    new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
         .whenHeld(new IntakeCommand(m_intake, m_hopper, false));
 
   }
