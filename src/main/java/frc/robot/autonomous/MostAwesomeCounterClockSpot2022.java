@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
@@ -13,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.AimCommand;
-import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TrajectoryCommand;
@@ -25,26 +25,17 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
 public class MostAwesomeCounterClockSpot2022 extends SequentialCommandGroup {
-  private static final double kIntakeDriveDistance = 0.42;
-  private static final double kIntakeDriveSpeed = 1.5;
 
   public MostAwesomeCounterClockSpot2022(Drive drive, Intake intake, Hopper hopper, Vision vision, Hood hood, Shooter shooter) {
     TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(drive.getRightFeedforward(),
         drive.getKinematics(), 11.0);
 
     // Create config for trajectory
-    TrajectoryConfig forwardPickupConfig = new TrajectoryConfig(Drive.kMaxSpeed, Drive.kMaxAcceleration)
+    TrajectoryConfig forwardPickupConfig = new TrajectoryConfig(Drive.kMaxSpeed/4, Drive.kMaxAcceleration/4)
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(drive.getKinematics())
         // Apply the voltage constraint
         .addConstraint(voltageConstraint);
-
-    // Create config for trajectory
-    TrajectoryConfig reverseShootConfig = new TrajectoryConfig(Drive.kMaxSpeed, Drive.kMaxAcceleration)
-        // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(drive.getKinematics())
-        // Apply the voltage constraint
-        .addConstraint(voltageConstraint).setReversed(true);
 
     // commands in this autonomous
     addCommands(
@@ -54,20 +45,14 @@ public class MostAwesomeCounterClockSpot2022 extends SequentialCommandGroup {
         new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),
         // pickup trajectory
         new ParallelDeadlineGroup(
-            new TrajectoryCommand(TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(270)), List.of(),
-                new Pose2d(-2.0, 0.57, new Rotation2d(20)), forwardPickupConfig), drive),
+            new TrajectoryCommand(TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, Rotation2d.fromDegrees(270)), 
+                List.of(new Translation2d(-0.67, -1.33), 
+                        new Translation2d(-1.11, -0.89),   
+                        new Translation2d(-3.2, -.20)
+                        ),
+                new Pose2d(-3.0, .45, Rotation2d.fromDegrees(30)), forwardPickupConfig), drive),
             new IntakeCommand(intake, hopper, false)
-        ),
-
-        // move forward to pick up yellow spheres
-        new ParallelDeadlineGroup(
-            new SequentialCommandGroup(new DriveDistanceCommand(kIntakeDriveDistance, kIntakeDriveSpeed, drive),
-                new DriveDistanceCommand(kIntakeDriveDistance, -kIntakeDriveSpeed, drive)),
-            new IntakeCommand(intake, hopper, false)),
-         // shoot trajectory
-        new TrajectoryCommand(TrajectoryGenerator.generateTrajectory(new Pose2d(2.0, 0, new Rotation2d(0)), List.of(),
-            new Pose2d(0.2, 1.4999, new Rotation2d(135)), reverseShootConfig), drive),
-        // aim
-        new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper));
+       )
+    );
   }
 }
