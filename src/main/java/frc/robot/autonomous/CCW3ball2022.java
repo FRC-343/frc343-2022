@@ -24,9 +24,9 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
-public class MostAwesomeCounterClockSpot2022 extends SequentialCommandGroup {
+public class CCW3ball2022 extends SequentialCommandGroup {
 
-  public MostAwesomeCounterClockSpot2022(Drive drive, Intake intake, Hopper hopper, Vision vision, Hood hood, Shooter shooter) {
+  public CCW3ball2022(Drive drive, Intake intake, Hopper hopper, Vision vision, Hood hood, Shooter shooter) {
     TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(drive.getRightFeedforward(),
         drive.getKinematics(), 11.0);
 
