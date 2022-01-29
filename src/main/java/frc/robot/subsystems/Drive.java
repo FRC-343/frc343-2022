@@ -28,10 +28,10 @@ public class Drive extends SubsystemBase {
 
     private static final boolean kGyroReversed = true;
 
-    private final Spark m_leftMaster = new Spark(2);
+    private final Spark m_leftMaster = new Spark(1);
     private final Spark m_leftFollower = new Spark(3);
     private final Spark m_rightMaster = new Spark(0);
-    private final Spark m_rightFollower = new Spark(1);
+    private final Spark m_rightFollower = new Spark(2);
 
     private final Encoder m_leftEncoder = new Encoder(2, 3);
     private final Encoder m_rightEncoder = new Encoder(0, 1);

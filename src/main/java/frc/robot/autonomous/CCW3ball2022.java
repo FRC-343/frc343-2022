@@ -52,7 +52,8 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                         ),
                 new Pose2d(-3.0, .45, Rotation2d.fromDegrees(30)), forwardPickupConfig), drive),
             new IntakeCommand(intake, hopper, false)
-       )
+       ),
+       new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper)
     );
   }
 }
