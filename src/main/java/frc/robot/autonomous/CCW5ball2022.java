@@ -37,6 +37,13 @@ public class CCW5ball2022 extends SequentialCommandGroup {
         // Apply the voltage constraint
         .addConstraint(voltageConstraint);
 
+    // Create config for trajectory
+    TrajectoryConfig reversePickupConfig = new TrajectoryConfig(Drive.kMaxSpeed/4, Drive.kMaxAcceleration/4)
+        // Add kinematics to ensure max speed is actually obeyed
+        .setKinematics(drive.getKinematics())
+        // Apply the voltage constraint
+        .addConstraint(voltageConstraint).setReversed(true);
+
     // commands in this autonomous
     addCommands(
         // drop intake
@@ -46,14 +53,23 @@ public class CCW5ball2022 extends SequentialCommandGroup {
         // pickup trajectory
         new ParallelDeadlineGroup(
             new TrajectoryCommand(TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, Rotation2d.fromDegrees(270)), 
-                List.of(new Translation2d(-0.67, -1.33), 
-                        new Translation2d(-1.11, -0.89),   
-                        new Translation2d(-3.2, -.20)
+                List.of(new Translation2d(-0.72, -1.36), 
+                        new Translation2d(-1.04, -1.16)   
                         ),
-                new Pose2d(-3.0, .45, Rotation2d.fromDegrees(30)), forwardPickupConfig), drive),
+                new Pose2d(-2.72, -0.36, Rotation2d.fromDegrees(188)), forwardPickupConfig), drive),
             new IntakeCommand(intake, hopper, false)
        ),
-       new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper)
+      new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),   
+      new ParallelDeadlineGroup(
+            new TrajectoryCommand(TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, Rotation2d.fromDegrees(188)), 
+                List.of(new Translation2d(-3.7, -.4) 
+                        ),
+                new Pose2d(-3.7, -.4, Rotation2d.fromDegrees(205)), forwardPickupConfig), drive),
+            new IntakeCommand(intake, hopper, false)
+       ), new TrajectoryCommand(TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, Rotation2d.fromDegrees(188)), 
+                List.of(new Translation2d(-3.7, -.4) 
+                        ),
+                new Pose2d(-3.7, -.4, Rotation2d.fromDegrees(205)), forwardPickupConfig), drive)
     );
   }
 }
