@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
   public static final double kTargetP = -0.055;
   public static final double kMinTargetCommand = -0.35;
 
-  // private final Drive m_drive = new Drive();
+  private final Drive m_drive = new Drive();
   // private final Hood m_hood = new Hood();
   // private final Shooter m_shooter = new Shooter();
   // private final Vision m_vision = new Vision();
@@ -44,19 +44,11 @@ public class Robot extends TimedRobot {
   private final SendableChooser<CommandBase> m_autoChooser = new SendableChooser<CommandBase>();
 
   public Robot() {
-<<<<<<< Updated upstream
-    m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
-    m_autoChooser.addOption("PAS", new PickupAndShoot(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
-    m_autoChooser.addOption("OFS", new OurTrenchFishtailShoot(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
-    m_autoChooser.addOption("BIAS", new JustBackItUpAndShoot(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
-    m_auto = m_autoChooser.getSelected();
-=======
-    // m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
+     m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
     // m_autoChooser.addOption("5CCW", new CCW5ball2022(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
     // m_autoChooser.addOption("3CCW", new CCW3ball2022(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
     // m_autoChooser.addOption("BIAS", new JustBackItUpAndShoot(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
     // m_auto = m_autoChooser.getSelected();
->>>>>>> Stashed changes
     
   }
 
@@ -71,8 +63,8 @@ public class Robot extends TimedRobot {
     // m_climbing.setDefaultCommand(new RunCommand(
         // () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()), m_climbing));
 // 
-    // m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed * MiscMath.deadband(-m_stick.getY()),
-        // kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
+    m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed * MiscMath.deadband(-m_stick.getY()),
+        kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
 // 
     // m_hood.setDefaultCommand(
         // new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
