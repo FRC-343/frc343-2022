@@ -51,7 +51,7 @@ public class AimCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(m_vision.getTx()) < 1.0 && m_hood.isAimed());
+    return (Math.abs(m_vision.getTx()) < 1.0 && m_hood.isAimed()); //TODO Why is this < 1.0 when above it is > 2.0
   }
 
 }
