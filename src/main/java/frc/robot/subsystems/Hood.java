@@ -3,6 +3,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,6 +16,8 @@ public class Hood extends SubsystemBase {
     private final DigitalInput m_hoodBack = new DigitalInput(22);
     private final DigitalInput m_hoodFront = new DigitalInput(9);
     private final Spark m_hoodMotor = new Spark(6);
+
+    private final CANSparkMax m_top = new CANSparkMax(29, MotorType.kBrushless);
 
     private boolean m_aimed = false; // if shooter is currently aimed
     private double m_target = 0.0; // where it needs to be aiming
