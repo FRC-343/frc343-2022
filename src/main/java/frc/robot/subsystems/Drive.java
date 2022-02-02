@@ -4,7 +4,11 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup; 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -32,6 +36,11 @@ public class Drive extends SubsystemBase {
     private final Spark m_leftFollower = new Spark(3);
     private final Spark m_rightMaster = new Spark(0);
     private final Spark m_rightFollower = new Spark(2);
+
+    private final CANSparkMax m_lmast = new CANSparkMax(24, MotorType.kBrushless);
+    private final CANSparkMax m_lFoll = new CANSparkMax(25, MotorType.kBrushless);
+    private final CANSparkMax m_rmast = new CANSparkMax(26, MotorType.kBrushless);
+    private final CANSparkMax m_rFoll = new CANSparkMax(28, MotorType.kBrushless);
 
     private final Encoder m_leftEncoder = new Encoder(2, 3);
     private final Encoder m_rightEncoder = new Encoder(0, 1);
