@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 
  //  private final Wheel m_wheel = new Wheel();
    private final Hopper m_hopper = new Hopper();
-   //private final Intake m_intake = new Intake();
+   private final Intake m_intake = new Intake();
 
 
   private final XboxController m_controller = new XboxController(1);

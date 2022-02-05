@@ -1,0 +1,24 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "Compressor[1]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Drive/Drive Stopping Sensor Thingy on wheel Thingy": "Digital Input",
+      "/LiveWindow/Drive/Gyro Drive Thingy": "Gyro",
+      "/LiveWindow/Drive/Left Drive PID Controller Thingy": "PIDController",
+      "/LiveWindow/Drive/Right Drive PID Controller Thingy": "PIDController",
+      "/LiveWindow/Hopper": "Subsystem",
+      "/LiveWindow/Hopper/Hopper Cell Detector": "Digital Input",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/SmartDashboard/Auto_Choice": "String Chooser"
+    }
+  }
+}
