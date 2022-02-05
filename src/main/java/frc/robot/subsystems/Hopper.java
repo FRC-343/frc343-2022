@@ -16,7 +16,6 @@ public class Hopper extends SubsystemBase {
     private final Spark m_kicker = new Spark(4);
 
     private final CANSparkMax m_hoop = new CANSparkMax(24, MotorType.kBrushless);
-    private final CANSparkMax m_kick = new CANSparkMax(34, MotorType.kBrushless);
 
     private final DigitalInput m_cellDetector = new DigitalInput(8);
     private final Debouncer m_cellDetectorDebouncer = new Debouncer();
