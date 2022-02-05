@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+// import com.revrobotics.CANSparkMax;
+// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Climbing extends SubsystemBase {
   private final Spark m_winch = new Spark(11);
 
-  private final CANSparkMax m_cable = new CANSparkMax(28, MotorType.kBrushless);
+  // private final CANSparkMax m_cable = new CANSparkMax(28, MotorType.kBrushless);
   
   private final DigitalInput m_isBottom = new DigitalInput(12);
   private final DigitalInput m_isTop = new DigitalInput(13);

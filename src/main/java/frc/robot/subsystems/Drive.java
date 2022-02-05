@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+// import com.revrobotics.CANSparkMax;
+// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -37,10 +37,10 @@ public class Drive extends SubsystemBase {
     private final Spark m_rightMaster = new Spark(0);
     private final Spark m_rightFollower = new Spark(2);
 
-    private final CANSparkMax m_lmast = new CANSparkMax(24, MotorType.kBrushless);
-    private final CANSparkMax m_lFoll = new CANSparkMax(25, MotorType.kBrushless);
-    private final CANSparkMax m_rmast = new CANSparkMax(26, MotorType.kBrushless);
-    private final CANSparkMax m_rFoll = new CANSparkMax(28, MotorType.kBrushless);
+    // private final CANSparkMax m_lmast = new CANSparkMax(24, MotorType.kBrushless);
+    // private final CANSparkMax m_lFoll = new CANSparkMax(25, MotorType.kBrushless);
+    // private final CANSparkMax m_rmast = new CANSparkMax(26, MotorType.kBrushless);
+    // private final CANSparkMax m_rFoll = new CANSparkMax(28, MotorType.kBrushless);
 
     private final Encoder m_leftEncoder = new Encoder(2, 3);
     private final Encoder m_rightEncoder = new Encoder(0, 1);
@@ -61,7 +61,7 @@ public class Drive extends SubsystemBase {
     private final DigitalInput m_stopSensor = new DigitalInput(15);
 
     private DifferentialDriveOdometry m_odometry;
-
+    
     private boolean m_PIDEnabled = false;
     private double m_maxOutput = 10.0;
     private DifferentialDriveWheelSpeeds m_wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(0.0, 0.0, 0.0));

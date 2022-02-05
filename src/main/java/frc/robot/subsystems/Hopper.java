@@ -3,8 +3,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+// import com.revrobotics.CANSparkMax;
+// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,8 +15,8 @@ public class Hopper extends SubsystemBase {
     private final Spark m_hopper = new Spark(9);
     private final Spark m_kicker = new Spark(4);
 
-    private final CANSparkMax m_hoooper = new CANSparkMax(22, MotorType.kBrushless);
-    private final CANSparkMax m_kick = new CANSparkMax(29, MotorType.kBrushless);
+    // private final CANSparkMax m_hoooper = new CANSparkMax(22, MotorType.kBrushless);
+    // private final CANSparkMax m_kick = new CANSparkMax(29, MotorType.kBrushless);
 
     private final DigitalInput m_cellDetector = new DigitalInput(8);
     private final Debouncer m_cellDetectorDebouncer = new Debouncer();
