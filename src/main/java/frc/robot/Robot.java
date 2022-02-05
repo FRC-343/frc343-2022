@@ -27,14 +27,14 @@ public class Robot extends TimedRobot {
   public static final double kMinTargetCommand = -0.35;
 
   private final Drive m_drive = new Drive();
-  // private final Hood m_hood = new Hood();
-  // private final Shooter m_shooter = new Shooter();
-  // private final Vision m_vision = new Vision();
-  // private final Climbing m_climbing = new Climbing();
+   //private final Hood m_hood = new Hood();
+   //private final Shooter m_shooter = new Shooter();
+   //private final Vision m_vision = new Vision();
+   //private final Climbing m_climbing = new Climbing();
 
-  // private final Wheel m_wheel = new Wheel();
-  // private final Hopper m_hopper = new Hopper();
-  // private final Intake m_intake = new Intake();
+ //  private final Wheel m_wheel = new Wheel();
+   private final Hopper m_hopper = new Hopper();
+   //private final Intake m_intake = new Intake();
 
 
   private final XboxController m_controller = new XboxController(1);
@@ -68,22 +68,22 @@ public class Robot extends TimedRobot {
 // 
     // m_hood.setDefaultCommand(
         // new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
-// 
-    // new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
-      // m_hopper.setHopper(-0.6);
-      // m_hopper.setKicker(0.24);
-    // }, m_hopper)).whenReleased(new RunCommand(() -> {
-      // m_hopper.setHopper(0);
-      // m_hopper.setKicker(0);
-    // }, m_hopper));
-// 
-    // new JoystickButton(m_controller, XboxController.Button.kB.value).whenPressed(new RunCommand(() -> {
-      // m_hopper.setHopper(0.6);
-      // m_hopper.setKicker(-0.24);
-    // }, m_hopper)).whenReleased(new RunCommand(() -> {
-      // m_hopper.setHopper(0);
-      // m_hopper.setKicker(0);
-    // }, m_hopper));
+ 
+    new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
+      m_hopper.setHopper(-0.6);
+       m_hopper.setKicker(0.24);
+     }, m_hopper)).whenReleased(new RunCommand(() -> {
+      m_hopper.setHopper(0);
+       m_hopper.setKicker(0);
+     }, m_hopper));
+ 
+     new JoystickButton(m_controller, XboxController.Button.kB.value).whenPressed(new RunCommand(() -> {
+       m_hopper.setHopper(0.6);
+       m_hopper.setKicker(-0.24);
+     }, m_hopper)).whenReleased(new RunCommand(() -> {
+       m_hopper.setHopper(0);
+       m_hopper.setKicker(0);
+     }, m_hopper));
 // 
     // new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
       // m_intake.setIntake(-0.3);
