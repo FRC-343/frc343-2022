@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -15,7 +17,7 @@ public class Climbing extends SubsystemBase {
   private final Spark m_winch = new Spark(11);
   private final DigitalInput m_isBottom = new DigitalInput(12);
   private final DigitalInput m_isTop = new DigitalInput(13);
-  private final DoubleSolenoid m_ratchetLift = new DoubleSolenoid(1, null, 2, 3);
+  private final DoubleSolenoid m_ratchetLift = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 3);
 
   private final CANSparkMax m_climb = new CANSparkMax(28, MotorType.kBrushless);
 
