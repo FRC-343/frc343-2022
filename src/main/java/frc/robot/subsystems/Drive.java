@@ -37,7 +37,10 @@ public class Drive extends SubsystemBase {
     private final Spark m_rightMaster = new Spark(0);
     private final Spark m_rightFollower = new Spark(2);
 
-    private final CANSparkMax m_move = new CANSparkMax(26, MotorType.kBrushless);
+    private final CANSparkMax m_movel = new CANSparkMax(26, MotorType.kBrushless);
+    private final CANSparkMax m_mover = new CANSparkMax(30, MotorType.kBrushless);
+    private final CANSparkMax m_movef = new CANSparkMax(31, MotorType.kBrushless);
+    private final CANSparkMax m_moveb = new CANSparkMax(32, MotorType.kBrushless);
 
     private final Encoder m_leftEncoder = new Encoder(2, 3);
     private final Encoder m_rightEncoder = new Encoder(0, 1);
