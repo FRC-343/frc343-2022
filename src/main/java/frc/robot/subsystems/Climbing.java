@@ -19,7 +19,7 @@ public class Climbing extends SubsystemBase {
   private final DigitalInput m_isTop = new DigitalInput(13);
   private final DoubleSolenoid m_ratchetLift = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 3);
 
-  private final CANSparkMax m_climb = new CANSparkMax(28, MotorType.kBrushless);
+  // private final CANSparkMax m_climb = new CANSparkMax(28, MotorType.kBrushless);
 
   public Climbing() {
     m_winch.setInverted(true);

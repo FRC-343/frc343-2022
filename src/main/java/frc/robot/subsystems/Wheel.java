@@ -1,26 +1,28 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.ColorSensorV3;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ColorMatchResult;
-import com.revrobotics.CANSparkMax;
+ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorMatch;
 
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
+
 public class Wheel extends SubsystemBase {
     private final Spark m_wheel = new Spark(10);
     private final DoubleSolenoid m_wheelLift = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 6, 7);
 
-    private final CANSparkMax m_spinningthing = new CANSparkMax(23, MotorType.kBrushless);
+     private final CANSparkMax m_tire =  new CANSparkMax(23, MotorType.kBrushless);
 
     private final ColorSensorV3 m_color = new ColorSensorV3(I2C.Port.kOnboard);
 
@@ -39,6 +41,8 @@ public class Wheel extends SubsystemBase {
 
         SendableRegistry.setSubsystem(m_wheel, this.getClass().getSimpleName());
         SendableRegistry.setName(m_wheel, "Wheel Spinner Motor");
+
+        
 
         SendableRegistry.setSubsystem(m_wheelLift, this.getClass().getSimpleName());
         SendableRegistry.setName(m_wheelLift, "Wheel Spinner Lift");

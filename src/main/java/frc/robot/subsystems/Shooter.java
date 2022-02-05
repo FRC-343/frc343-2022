@@ -15,9 +15,9 @@ import edu.wpi.first.util.sendable.SendableRegistry;
 public class Shooter extends SubsystemBase {
     private static final double kShootGarbage = 150.0; // rev per sec, for irregular values
 
-    private final Spark m_shooter = new Spark(5);
+    private final Spark m_shooter = new Spark(2);
 
-    private final CANSparkMax m_shot = new CANSparkMax(20, MotorType.kBrushless);
+    // private final CANSparkMax m_shot = new CANSparkMax(20, MotorType.kBrushless);
 
     private final Encoder m_shooterEncoder = new Encoder(6, 7);
 

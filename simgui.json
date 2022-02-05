@@ -11,13 +11,21 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Climbing/Bottom climber limit switch": "Digital Input",
+      "/LiveWindow/Climbing/Top climber limit switch": "Digital Input",
       "/LiveWindow/Drive/Drive Stopping Sensor Thingy on wheel Thingy": "Digital Input",
       "/LiveWindow/Drive/Gyro Drive Thingy": "Gyro",
       "/LiveWindow/Drive/Left Drive PID Controller Thingy": "PIDController",
       "/LiveWindow/Drive/Right Drive PID Controller Thingy": "PIDController",
+      "/LiveWindow/Hood": "Subsystem",
+      "/LiveWindow/Hood/Hood Back Limit": "Digital Input",
       "/LiveWindow/Hopper": "Subsystem",
       "/LiveWindow/Hopper/Hopper Cell Detector": "Digital Input",
+      "/LiveWindow/Shooter/Shooter PIDController": "PIDController",
+      "/LiveWindow/Ungrouped/Hood Front Limit": "Digital Input",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Vision": "Subsystem",
+      "/LiveWindow/Wheel": "Subsystem",
       "/SmartDashboard/Auto_Choice": "String Chooser"
     }
   }
