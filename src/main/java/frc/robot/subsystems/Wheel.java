@@ -6,6 +6,8 @@ import com.revrobotics.ColorMatchResult;
 // import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorMatch;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -16,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Wheel extends SubsystemBase {
     private final Spark m_wheel = new Spark(10);
-    private final DoubleSolenoid m_wheelLift = new DoubleSolenoid(1, null, 6, 7);
+    private final DoubleSolenoid m_wheelLift = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 6, 7);
 
     // private final CANSparkMax m_tire = new CANSparkMax(30, MotorType.kBrushless);
 
