@@ -17,6 +17,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
+import com.revrobotics.CANSparkMax;
+
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;;
+
 public class Robot extends TimedRobot {
   public static final double kMaxJoySpeed = 3.0; // meters per sec
   public static final double kMaxJoyTurn = 5.0; // radians per sec
@@ -25,6 +29,8 @@ public class Robot extends TimedRobot {
 
   public static final double kTargetP = -0.055;
   public static final double kMinTargetCommand = -0.35;
+
+  private final CANSparkMax m_test = new CANSparkMax(12, MotorType.kBrushless);
 
   private final Drive m_drive = new Drive();
    private final Hood m_hood = new Hood();
@@ -175,6 +181,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+  if(m_controller.getBackButton() == true ){
+  m_test.set(.5);
+  } else {
+    m_test.set(0);
+  }
   }
 
   @Override
@@ -184,6 +195,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-
+   
   }
 }

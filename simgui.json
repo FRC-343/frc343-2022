@@ -1,7 +1,17 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "Compressor[1]": {
+      "ADXRS450[0]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [12]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [23]": {
         "header": {
           "open": true
         }
@@ -11,6 +21,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Climbing": "Subsystem",
       "/LiveWindow/Climbing/Bottom climber limit switch": "Digital Input",
       "/LiveWindow/Climbing/Top climber limit switch": "Digital Input",
       "/LiveWindow/Drive/Drive Stopping Sensor Thingy on wheel Thingy": "Digital Input",
@@ -21,12 +32,28 @@
       "/LiveWindow/Hood/Hood Back Limit": "Digital Input",
       "/LiveWindow/Hopper": "Subsystem",
       "/LiveWindow/Hopper/Hopper Cell Detector": "Digital Input",
+      "/LiveWindow/Intake": "Subsystem",
+      "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Shooter/Shooter PIDController": "PIDController",
       "/LiveWindow/Ungrouped/Hood Front Limit": "Digital Input",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Vision": "Subsystem",
       "/LiveWindow/Wheel": "Subsystem",
       "/SmartDashboard/Auto_Choice": "String Chooser"
+    }
+  },
+  "NetworkTables": {
+    "FMSInfo": {
+      "open": true
+    },
+    "LiveWindow": {
+      "Drive": {
+        "Left Drive Encoder Thingy": {
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
     }
   }
 }
