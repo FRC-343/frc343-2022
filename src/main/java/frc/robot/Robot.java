@@ -97,11 +97,17 @@ public class Robot extends TimedRobot {
        m_intake.setIntake(0);
      }, m_intake));
 // 
+    //  new JoystickButton(m_controller, XboxController.Button.kBack.value).whenPressed(new RunCommand(() -> {
+      //  m_test.set(0.5);
+    //  }, m_test)).whenReleased(new RunCommand(() -> {
+      //  m_test.set(0);
+    // }, m_test));
+
      new JoystickButton(m_controller, XboxController.Button.kStart.value).whenPressed(new RunCommand(() -> {
-       m_wheel.setWheel(0.6);
-     }, m_wheel)).whenReleased(new RunCommand(() -> {
-       m_wheel.setWheel(0);
-     }, m_wheel));
+      m_wheel.setWheel(0.6);
+    }, m_wheel)).whenReleased(new RunCommand(() -> {
+      m_wheel.setWheel(0);
+    }, m_wheel));
 // 
      new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
      new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
