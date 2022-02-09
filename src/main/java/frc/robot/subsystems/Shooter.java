@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+// import com.revrobotics.CANSparkMax;
+// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -17,7 +17,7 @@ public class Shooter extends SubsystemBase {
 
     private final Spark m_shooter = new Spark(7);
 
-     private final CANSparkMax m_shot = new CANSparkMax(20, MotorType.kBrushless);
+    //  private final CANSparkMax m_shot = new CANSparkMax(20, MotorType.kBrushless);
 
     private final Encoder m_shooterEncoder = new Encoder(6, 7);
 

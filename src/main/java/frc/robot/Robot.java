@@ -17,10 +17,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
-import com.revrobotics.CANSparkMax;
-
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;;
-
 public class Robot extends TimedRobot {
   public static final double kMaxJoySpeed = 3.0; // meters per sec
   public static final double kMaxJoyTurn = 5.0; // radians per sec
@@ -30,18 +26,15 @@ public class Robot extends TimedRobot {
   public static final double kTargetP = -0.055;
   public static final double kMinTargetCommand = -0.35;
 
-  private final CANSparkMax m_test = new CANSparkMax(12, MotorType.kBrushless);
-
   private final Drive m_drive = new Drive();
-   private final Hood m_hood = new Hood();
-   private final Shooter m_shooter = new Shooter();
-   private final Vision m_vision = new Vision();
-   private final Climbing m_climbing = new Climbing();
+  private final Hood m_hood = new Hood();
+  private final Shooter m_shooter = new Shooter();
+  private final Vision m_vision = new Vision();
+  private final Climbing m_climbing = new Climbing();
 
-   private final Wheel m_wheel = new Wheel();
-   private final Hopper m_hopper = new Hopper();
-   private final Intake m_intake = new Intake();
-
+  private final Wheel m_wheel = new Wheel();
+  private final Hopper m_hopper = new Hopper();
+  private final Intake m_intake = new Intake();
 
   private final XboxController m_controller = new XboxController(1);
   private final Joystick m_stick = new Joystick(0);
@@ -50,12 +43,13 @@ public class Robot extends TimedRobot {
   private final SendableChooser<CommandBase> m_autoChooser = new SendableChooser<CommandBase>();
 
   public Robot() {
-     m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
-     m_autoChooser.addOption("5CCW", new CCW5ball2022(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
-     m_autoChooser.addOption("3CCW", new CCW3ball2022(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
-    // m_autoChooser.addOption("BIAS", new JustBackItUpAndShoot(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
+    m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
+    m_autoChooser.addOption("5CCW", new CCW5ball2022(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
+    m_autoChooser.addOption("3CCW", new CCW3ball2022(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
+    // m_autoChooser.addOption("BIAS", new JustBackItUpAndShoot(m_drive, m_intake,
+    // m_hopper, m_vision, m_hood, m_shooter));
     // m_auto = m_autoChooser.getSelected();
-    
+
   }
 
   /**
@@ -66,60 +60,64 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     SmartDashboard.putData("Auto_Choice", m_autoChooser);
 
-     m_climbing.setDefaultCommand(new RunCommand(
-         () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()), m_climbing));
- 
+    m_climbing.setDefaultCommand(new RunCommand(
+        () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()), m_climbing));
+
     m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed * MiscMath.deadband(-m_stick.getY()),
         kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
 
-     m_hood.setDefaultCommand(
-         new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
- 
+    m_hood.setDefaultCommand(
+        new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
+
     new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
       m_hopper.setHopper(-0.6);
-       m_hopper.setKicker(0.24);
-     }, m_hopper)).whenReleased(new RunCommand(() -> {
+      m_hopper.setKicker(0.24);
+    }, m_hopper)).whenReleased(new RunCommand(() -> {
       m_hopper.setHopper(0);
-       m_hopper.setKicker(0);
-     }, m_hopper));
- 
-     new JoystickButton(m_controller, XboxController.Button.kB.value).whenPressed(new RunCommand(() -> {
-       m_hopper.setHopper(0.6);
-       m_hopper.setKicker(-0.24);
-     }, m_hopper)).whenReleased(new RunCommand(() -> {
-       m_hopper.setHopper(0);
-       m_hopper.setKicker(0);
-     }, m_hopper));
+      m_hopper.setKicker(0);
+    }, m_hopper));
 
-     new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
-       m_intake.setIntake(-0.3);
-     }, m_intake)).whenReleased(new RunCommand(() -> {
-       m_intake.setIntake(0);
-     }, m_intake));
+    new JoystickButton(m_controller, XboxController.Button.kB.value).whenPressed(new RunCommand(() -> {
+      m_hopper.setHopper(0.6);
+      m_hopper.setKicker(-0.24);
+    }, m_hopper)).whenReleased(new RunCommand(() -> {
+      m_hopper.setHopper(0);
+      m_hopper.setKicker(0);
+    }, m_hopper));
 
-     new JoystickButton(m_controller, XboxController.Button.kStart.value).whenPressed(new RunCommand(() -> {
-       m_wheel.setWheel(0.6);
-     }, m_wheel)).whenReleased(new RunCommand(() -> {
-       m_wheel.setWheel(0);
-     }, m_wheel));
+    new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
+      m_intake.setIntake(-0.3);
+    }, m_intake)).whenReleased(new RunCommand(() -> {
+      m_intake.setIntake(0);
+    }, m_intake));
 
-     new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
-     new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
-     new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_drive));
+    new JoystickButton(m_controller, XboxController.Button.kStart.value).whenPressed(new RunCommand(() -> {
+      m_wheel.setWheel(0.6);
+    }, m_wheel)).whenReleased(new RunCommand(() -> {
+      m_wheel.setWheel(0);
+    }, m_wheel));
 
-     new JoystickButton(m_controller, XboxController.Button.kX.value)
-         .whenPressed(new InstantCommand(m_wheel::raiseOrLower, m_wheel));
+    new JoystickButton(m_controller, XboxController.Button.kBack.value).whenPressed(new RunCommand(() -> {
+      m_wheel.setTestMoter2(.5);
+    }, m_wheel)).whenReleased(new RunCommand(() -> {
+      m_wheel.setTestMoter2(0.0);
+    }, m_wheel));
 
-     new JoystickButton(m_stick, 6).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
-     new JoystickButton(m_stick, 7).whenPressed(new InstantCommand(m_climbing::disEngage, m_climbing));
-     
-     new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value).whenHeld(
-         new ShootCommand(m_shooter, m_hopper, () -> m_controller.getRightTriggerAxis() > 0.2));
+    new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
+    new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
+    new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_drive));
 
-     new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
-         .whenHeld(new IntakeCommand(m_intake, m_hopper, false));
+    new JoystickButton(m_controller, XboxController.Button.kX.value)
+        .whenPressed(new InstantCommand(m_wheel::raiseOrLower, m_wheel));
 
+    new JoystickButton(m_stick, 6).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
+    new JoystickButton(m_stick, 7).whenPressed(new InstantCommand(m_climbing::disEngage, m_climbing));
 
+    new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value).whenHeld(
+        new ShootCommand(m_shooter, m_hopper, () -> m_controller.getRightTriggerAxis() > 0.2));
+
+    new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
+        .whenHeld(new IntakeCommand(m_intake, m_hopper, false));
 
   }
 
@@ -183,11 +181,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-  if(m_controller.getBackButton() == true ){
-  m_test.set(.5);
-  } else {
-    m_test.set(0);
-  }
+    // if(m_controller.getBackButton() == true ){
+    // m_test.set(.5);
+    // } else {
+    // m_test.set(0);
+    // }
   }
 
   @Override
@@ -197,6 +195,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-   
+
   }
 }
