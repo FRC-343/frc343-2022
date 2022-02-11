@@ -65,8 +65,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    m_test3 = new CANSparkMax(3, MotorType.kBrushless);
-    m_test3.restoreFactoryDefaults();
+    // m_test3 = new CANSparkMax(3, MotorType.kBrushless);
 
     SmartDashboard.putData("Auto_Choice", m_autoChooser);
 
@@ -107,12 +106,12 @@ public class Robot extends TimedRobot {
       m_wheel.setWheel(0);
     }, m_wheel));
 
-    // new JoystickButton(m_controller,
-    // XboxController.Button.kBack.value).whenPressed(new RunCommand(() -> {
-    // m_wheel.setTestMoter2(.1);
-    // }, m_wheel)).whenReleased(new RunCommand(() -> {
-    // m_wheel.setTestMoter2(0.0);
-    // }, m_wheel));
+     new JoystickButton(m_controller,
+     XboxController.Button.kBack.value).whenPressed(new RunCommand(() -> {
+     m_wheel.setTestMoter2(.5);
+     }, m_wheel)).whenReleased(new RunCommand(() -> {
+     m_wheel.setTestMoter2(0.0);
+     }, m_wheel));
 
     new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
     new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
@@ -192,12 +191,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if (m_controller.getBackButton() == true) {
-      m_test3.set(.1);
-    } else {
-      m_test3.set(0);
-    }
-  }
+  //   if (m_controller.getBackButton() == true) {
+  //     m_test3.set(.1);
+  //   } else {
+  //     m_test3.set(0);
+  //   }
+   }
 
   @Override
   public void testInit() {

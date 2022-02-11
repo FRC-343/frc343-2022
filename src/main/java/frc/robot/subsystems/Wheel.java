@@ -19,7 +19,7 @@ public class Wheel extends SubsystemBase {
     private final Spark m_wheel = new Spark(10);
     private final DoubleSolenoid m_wheelLift = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 6, 7);
 
-    // private final CANSparkMax m_test2;
+     private final CANSparkMax m_test2;
 
     private final ColorSensorV3 m_color = new ColorSensorV3(I2C.Port.kOnboard);
 
@@ -32,7 +32,7 @@ public class Wheel extends SubsystemBase {
 
     public Wheel() {
         
-        // m_test2 = new CANSparkMax(3, MotorType.kBrushless);
+         m_test2 = new CANSparkMax(3, MotorType.kBrushless);
         // m_test2.restoreFactoryDefaults();
 
         m_colorMatcher.addColorMatch(kRed);
@@ -87,8 +87,8 @@ public class Wheel extends SubsystemBase {
         m_wheel.set(speed);
     }
 
-    // public void setTestMoter2(double speed) {
-    //     m_test2.set(speed);
-    // }
+     public void setTestMoter2(double speed) {
+         m_test2.set(speed);
+     }
 
 }
