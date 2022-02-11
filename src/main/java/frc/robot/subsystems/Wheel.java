@@ -19,7 +19,7 @@ public class Wheel extends SubsystemBase {
     private final Spark m_wheel = new Spark(10);
     private final DoubleSolenoid m_wheelLift = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 6, 7);
 
-     private final CANSparkMax m_test2;
+    private final CANSparkMax m_test2;
 
     private final ColorSensorV3 m_color = new ColorSensorV3(I2C.Port.kOnboard);
 
@@ -31,9 +31,7 @@ public class Wheel extends SubsystemBase {
     private static final Color kYellow = new Color(0.320068, 0.558105, 0.122070);
 
     public Wheel() {
-        
-         m_test2 = new CANSparkMax(3, MotorType.kBrushless);
-        // m_test2.restoreFactoryDefaults();
+        m_test2 = new CANSparkMax(3, MotorType.kBrushless);
 
         m_colorMatcher.addColorMatch(kRed);
         m_colorMatcher.addColorMatch(kGreen);
@@ -42,11 +40,10 @@ public class Wheel extends SubsystemBase {
 
         SendableRegistry.setSubsystem(m_wheel, this.getClass().getSimpleName());
         SendableRegistry.setName(m_wheel, "Wheel Spinner Motor");
-        
+
         SendableRegistry.setSubsystem(m_wheelLift, this.getClass().getSimpleName());
         SendableRegistry.setName(m_wheelLift, "Wheel Spinner Lift");
     }
-
 
     @Override
     public void periodic() {
@@ -65,7 +62,6 @@ public class Wheel extends SubsystemBase {
             SmartDashboard.putString("color_detected", "None Colors there be");
         }
     }
-
 
     public void raise() {
         m_wheelLift.set(DoubleSolenoid.Value.kReverse);
@@ -87,8 +83,8 @@ public class Wheel extends SubsystemBase {
         m_wheel.set(speed);
     }
 
-     public void setTestMoter2(double speed) {
-         m_test2.set(speed);
-     }
+    public void setTestMoter2(double speed) {
+        m_test2.set(speed);
+    }
 
 }
