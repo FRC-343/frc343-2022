@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.CANSparkMax;
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Wheel extends SubsystemBase {
     private final Spark m_wheel = new Spark(10);
     private final DoubleSolenoid m_wheelLift = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 6, 7);
+    private final RelativeEncoder m_test2Encoder;
 
     private final CANSparkMax m_test2;
 
@@ -32,6 +35,8 @@ public class Wheel extends SubsystemBase {
 
     public Wheel() {
         m_test2 = new CANSparkMax(3, MotorType.kBrushless);
+        m_test2Encoder = m_test2.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+        
 
         m_colorMatcher.addColorMatch(kRed);
         m_colorMatcher.addColorMatch(kGreen);

@@ -60,8 +60,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    // m_test3 = new CANSparkMax(3, MotorType.kBrushless);
-
     SmartDashboard.putData("Auto_Choice", m_autoChooser);
 
     m_climbing.setDefaultCommand(new RunCommand(
@@ -102,7 +100,7 @@ public class Robot extends TimedRobot {
     }, m_wheel));
 
     new JoystickButton(m_controller, XboxController.Button.kBack.value).whenPressed(new RunCommand(() -> {
-      m_wheel.setTestMoter2(.5);
+      m_wheel.setTestMoter2(1.0);
     }, m_wheel)).whenReleased(new RunCommand(() -> {
       m_wheel.setTestMoter2(0.0);
     }, m_wheel));
