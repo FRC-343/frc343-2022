@@ -47,9 +47,10 @@ public class Robot extends TimedRobot {
     m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
     m_autoChooser.addOption("5CCW", new CCW5ball2022(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
     m_autoChooser.addOption("3CCW", new CCW3ball2022(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
-    m_autoChooser.addOption("BIAS", new JustBackItUpAndShoot(m_drive, m_intake, m_hopper, m_vision, m_hood, m_shooter));
-    m_auto = m_autoChooser.getSelected();
-    
+    // m_autoChooser.addOption("BIAS", new JustBackItUpAndShoot(m_drive, m_intake,
+    // m_hopper, m_vision, m_hood, m_shooter));
+    // m_auto = m_autoChooser.getSelected();
+
   }
 
   /**

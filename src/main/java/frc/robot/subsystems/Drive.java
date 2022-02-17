@@ -39,11 +39,6 @@ public class Drive extends SubsystemBase {
 
     // private final CANSparkMax m_move = new CANSparkMax(26, MotorType.kBrushless);
 
-    // private final CANSparkMax m_lmast = new CANSparkMax(24, MotorType.kBrushless);
-    // private final CANSparkMax m_lFoll = new CANSparkMax(25, MotorType.kBrushless);
-    // private final CANSparkMax m_rmast = new CANSparkMax(26, MotorType.kBrushless);
-    // private final CANSparkMax m_rFoll = new CANSparkMax(28, MotorType.kBrushless);
-
     private final Encoder m_leftEncoder = new Encoder(2, 3);
     private final Encoder m_rightEncoder = new Encoder(0, 1);
 
@@ -60,10 +55,10 @@ public class Drive extends SubsystemBase {
     private final SimpleMotorFeedforward m_leftFeedforward = new SimpleMotorFeedforward(2.55, 2.84, 0.237);
     private final SimpleMotorFeedforward m_rightFeedforward = new SimpleMotorFeedforward(2.58, 2.69, 0.0718);
 
-    private final DigitalInput m_stopSensor = new DigitalInput(15);
+    private final DigitalInput m_stopSensor = new DigitalInput(15);// help
 
     private DifferentialDriveOdometry m_odometry;
-    
+
     private boolean m_PIDEnabled = false;
     private double m_maxOutput = 10.0;
     private DifferentialDriveWheelSpeeds m_wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(0.0, 0.0, 0.0));
