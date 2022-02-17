@@ -5,6 +5,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 import frc.robot.utils.MiscMath;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -36,7 +37,6 @@ public class Robot extends TimedRobot {
   private final Hopper m_hopper = new Hopper();
   private final Intake m_intake = new Intake();
 
-
   private final XboxController m_controller = new XboxController(1);
   private final Joystick m_stick = new Joystick(0);
 
@@ -58,6 +58,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
     SmartDashboard.putData("Auto_Choice", m_autoChooser);
 
     m_climbing.setDefaultCommand(new RunCommand(
@@ -97,6 +98,12 @@ public class Robot extends TimedRobot {
       m_wheel.setWheel(0);
     }, m_wheel));
 
+    new JoystickButton(m_controller, XboxController.Button.kBack.value).whenPressed(new RunCommand(() -> {
+      m_wheel.setTestMoter2(1.0);
+    }, m_wheel)).whenReleased(new RunCommand(() -> {
+      m_wheel.setTestMoter2(0.0);
+    }, m_wheel));
+
     new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
     new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
     new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_drive));
@@ -106,7 +113,7 @@ public class Robot extends TimedRobot {
 
     new JoystickButton(m_stick, 6).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
     new JoystickButton(m_stick, 7).whenPressed(new InstantCommand(m_climbing::disEngage, m_climbing));
-    
+
     new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value).whenHeld(
         new ShootCommand(m_shooter, m_hopper, () -> m_controller.getRightTriggerAxis() > 0.2));
 
