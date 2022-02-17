@@ -7,6 +7,7 @@ import frc.robot.subsystems.*;
 import frc.robot.utils.MiscMath;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
+import edu.wpi.first.wpilibj.Compressor;
+
 public class Robot extends TimedRobot {
   public static final double kMaxJoySpeed = 3.0; // meters per sec
   public static final double kMaxJoyTurn = 5.0; // radians per sec
@@ -26,6 +29,8 @@ public class Robot extends TimedRobot {
 
   public static final double kTargetP = -0.055;
   public static final double kMinTargetCommand = -0.35;
+
+  private static final Compressor Pressy = new Compressor(0, PneumaticsModuleType.CTREPCM);
 
   private final Drive m_drive = new Drive();
   private final Hood m_hood = new Hood();
@@ -61,6 +66,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     SmartDashboard.putData("Auto_Choice", m_autoChooser);
+
+     Pressy.enableDigital();
+
 
     m_climbing.setDefaultCommand(new RunCommand(
         () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()), m_climbing));
@@ -183,6 +191,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
+    
+
   }
 
   @Override
