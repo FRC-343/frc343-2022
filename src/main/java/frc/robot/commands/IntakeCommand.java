@@ -8,7 +8,7 @@ public class IntakeCommand extends CommandBase {
     private final Intake m_intake;
     private final Hopper m_hopper;
 
-    public IntakeCommand(Intake intake, Hopper hooooooooooooooooooooOooooopper, boolean noHopper) {
+    public IntakeCommand(Intake intake, Hopper hooooooooooooooooooooOooooopper) {
         m_intake = intake;
         m_hopper = hooooooooooooooooooooOooooopper;
         addRequirements(m_intake, m_hopper);

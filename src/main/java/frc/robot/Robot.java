@@ -69,7 +69,6 @@ public class Robot extends TimedRobot {
 
      Pressy.enableDigital();
 
-
     m_climbing.setDefaultCommand(new RunCommand(
         () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()), m_climbing));
 
@@ -127,7 +126,7 @@ public class Robot extends TimedRobot {
         new ShootCommand(m_shooter, m_hopper, () -> m_controller.getRightTriggerAxis() > 0.2));
 
     new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
-        .whenHeld(new IntakeCommand(m_intake, m_hopper, false));
+        .whenHeld(new IntakeCommand(m_intake, m_hopper));
 
   }
 

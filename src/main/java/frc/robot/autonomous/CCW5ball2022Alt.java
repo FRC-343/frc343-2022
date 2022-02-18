@@ -24,9 +24,9 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
-public class CCW5ball2022 extends SequentialCommandGroup {
+public class CCW5ball2022Alt extends SequentialCommandGroup {
 
-    public CCW5ball2022(Drive drive, Intake intake, Hopper hopper, Vision vision, Hood hood, Shooter shooter) {
+    public CCW5ball2022Alt(Drive drive, Intake intake, Hopper hopper, Vision vision, Hood hood, Shooter shooter) {
         TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
                 drive.getRightFeedforward(),
                 drive.getKinematics(), 11.0);
@@ -51,54 +51,76 @@ public class CCW5ball2022 extends SequentialCommandGroup {
         addCommands(
                 // drop intake
                 new InstantCommand(intake::lower, intake),
-                // fire 1st cargo
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),
-                // pickup trajectory
+                // drive to first cargo below/adove
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
 
                                 TrajectoryGenerator.generateTrajectory(
                                         new Pose2d(0, 0, Rotation2d
                                                 .fromDegrees(270)),
-                                        List.of(
-                                                new Translation2d(-0.72,
-                                                        -1.36),
-                                                new Translation2d(-1.04,
-                                                        -1.16)),
-                                        new Pose2d(-2.72, -0.36,
+                                        List.of(),
+                                        new Pose2d(-0.5, -1.32,
                                                 Rotation2d.fromDegrees(
-                                                        188)),
+                                                        245)),
                                         forwardPickupConfig),
                                 drive),
 
                         new IntakeCommand(intake, hopper)),
-                // fire next two cargo
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),
-                // trajectory to drive to terminal
+                // u turn backwards to the right/left so that turret can fire
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
                                 TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, Rotation2d
-                                                .fromDegrees(188)),
-                                        List.of(new Translation2d(-3.7, -.4)),
-                                        new Pose2d(-3.7, -.4,
+                                        new Pose2d(-0.5, -1.32, Rotation2d
+                                                .fromDegrees(245)),
+                                        List.of(),
+                                        new Pose2d(0.5, -1.0,
                                                 Rotation2d.fromDegrees(
-                                                        205)),
+                                                        180)),
+                                        reversePickupConfig),
+                                drive),
+                        new IntakeCommand(intake, hopper)),
+                //Aim and Fire
+                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),
+                //drive to terminal
+                new ParallelDeadlineGroup(
+                        new TrajectoryCommand(
+                                TrajectoryGenerator.generateTrajectory(
+                                        new Pose2d(0, 0, Rotation2d.fromDegrees(180)),
+                                        List.of(),
+                                        new Pose2d(7.0, .33, Rotation2d.fromDegrees(170)),
                                         forwardPickupConfig),
                                 drive),
                         new IntakeCommand(intake, hopper)),
-
-                // keep intake running while being still for a second
-
-                // drive backwards toward goal
+                // u turn backwards down/up
+                new ParallelDeadlineGroup(
+                        new TrajectoryCommand(
+                                TrajectoryGenerator.generateTrajectory(
+                                        new Pose2d(0, 0, Rotation2d.fromDegrees(170)),
+                                        List.of(new Translation2d(.99, 0)),
+                                        new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
+                                        reversePickupConfig),
+                                drive),
+                        new IntakeCommand(intake, hopper)),
+                //drive closer to the final cargo / hub
                 new TrajectoryCommand(
-                        TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, Rotation2d.fromDegrees(205)),
+                        TrajectoryGenerator.generateTrajectory(new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
                                 List.of(),
-                                new Pose2d(4.32, .16, Rotation2d.fromDegrees(203)),
-                                reversePickupConfig),
+                                new Pose2d(3.3, 0.66, Rotation2d.fromDegrees(22)),
+                                forwardPickupConfig),
                         drive),
-                // fire last 2 cargo for a full five cargo auto
+                // fire 2 cargo 
+                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),
+                //pick up final cargo
+                new ParallelDeadlineGroup(
+                        new TrajectoryCommand(
+                                TrajectoryGenerator.generateTrajectory(
+                                        new Pose2d(0, 0, Rotation2d.fromDegrees(22)),
+                                        List.of(),
+                                        new Pose2d(0.99, 0.66, Rotation2d.fromDegrees(22)),
+                                        forwardPickupConfig),
+                                drive),
+                        new IntakeCommand(intake, hopper)),
+                //fire final cargo
                 new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper));
     }
 }
