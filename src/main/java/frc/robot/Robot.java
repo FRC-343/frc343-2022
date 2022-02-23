@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
   public static final double kMaxJoyTurn = 5.0; // radians per sec
   public static final double kMaxHoodSpeed = 0.5; // ratio
   public static final double kMaxWinchSpeed = 1.0; // ratio
+  public static final double kMaxTurretSpeed = 0.25; // ratio
 
   public static final double kTargetP = -0.055;
   public static final double kMinTargetCommand = -0.35;
@@ -36,10 +37,11 @@ public class Robot extends TimedRobot {
   private final Hood m_hood = new Hood();
   private final Shooter m_shooter = new Shooter();
   private final Vision m_vision = new Vision();
-  private final Climbing m_climbing = new Climbing();
-
+  private final Turret m_turret = new Turret();
   private final Kicker m_kicker = new Kicker();
   private final Intake m_intake = new Intake();
+
+  // private final Climbing m_climbing = new Climbing();
 
   private final XboxController m_controller = new XboxController(1);
   private final Joystick m_stick = new Joystick(0);
@@ -49,8 +51,9 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
-    m_autoChooser.addOption("5CCW", new CCW5ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter));
-    m_autoChooser.addOption("3CCW", new CCW3ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter));
+    m_autoChooser.addOption("5CCW", new CCW5ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
+    m_autoChooser.addOption("5CCWALT", new CCW5ball2022Alt(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
+    m_autoChooser.addOption("3CCW", new CCW3ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
     // m_autoChooser.addOption("BIAS", new JustBackItUpAndShoot(m_drive, m_intake,
     // m_kicker, m_vision, m_hood, m_shooter));
     // m_auto = m_autoChooser.getSelected();
@@ -66,10 +69,11 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Auto_Choice", m_autoChooser);
 
-     Pressy.enableDigital();
+    Pressy.enableDigital(); //compressor has to be enabled manually
 
-    m_climbing.setDefaultCommand(new RunCommand(
-        () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()), m_climbing));
+
+    // m_climbing.setDefaultCommand(new RunCommand(
+    //     () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()), m_climbing));
 
     m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed * MiscMath.deadband(-m_stick.getY()),
         kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
@@ -77,6 +81,7 @@ public class Robot extends TimedRobot {
     m_hood.setDefaultCommand(
         new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
 
+    m_turret.setDefaultCommand(new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightY())));
 
     new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
       m_intake.setIntake(-0.3);
@@ -86,16 +91,11 @@ public class Robot extends TimedRobot {
 
     new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
     new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
-    new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_drive));
+    new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_turret));
 
-    new JoystickButton(m_stick, 6).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
-    new JoystickButton(m_stick, 7).whenPressed(new InstantCommand(m_climbing::disEngage, m_climbing));
+    new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value).whenHeld(new ShootCommand(m_shooter, m_kicker));
 
-    new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value).whenHeld(
-        new ShootCommand(m_shooter, m_kicker, () -> m_controller.getRightTriggerAxis() > 0.2));
-
-    new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
-        .whenHeld(new IntakeCommand(m_intake));
+    new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake));
 
   }
 
@@ -159,8 +159,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-
-    
 
   }
 

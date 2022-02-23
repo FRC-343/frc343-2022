@@ -22,11 +22,12 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class CCW3ball2022 extends SequentialCommandGroup {
 
-  public CCW3ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter) {
+  public CCW3ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter, Turret turret) {
     TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(drive.getRightFeedforward(),
         drive.getKinematics(), 11.0);
 
@@ -42,7 +43,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
         // drop intake
         new InstantCommand(intake::lower, intake),
         // fire 1st cargo
-        new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker),
+        new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
         // pickup trajectory
         new ParallelDeadlineGroup(
             new TrajectoryCommand(TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, Rotation2d.fromDegrees(270)), 
@@ -53,7 +54,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                 new Pose2d(-3.0, .45, Rotation2d.fromDegrees(30)), forwardPickupConfig), drive),
             new IntakeCommand(intake)
        ),
-       new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker)
+       new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker)
     );
   }
 }

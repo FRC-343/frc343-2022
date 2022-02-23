@@ -11,13 +11,14 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class JustBackItUpAndShoot extends SequentialCommandGroup {
   private static final double kBackupDriveDistance = 0.5;
   private static final double kBackupDriveSpeed = -0.6;
 
-  public JustBackItUpAndShoot(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter) {
+  public JustBackItUpAndShoot(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter, Turret turret) {
     // commands in this autonomous
     addCommands(
         // drop intake
@@ -25,6 +26,6 @@ public class JustBackItUpAndShoot extends SequentialCommandGroup {
         // backup
         new DriveDistanceCommand(kBackupDriveDistance, kBackupDriveSpeed, drive),
         // aim
-        new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker));
+        new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker));
   }
 }

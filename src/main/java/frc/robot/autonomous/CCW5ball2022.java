@@ -23,10 +23,11 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Kicker;
+import frc.robot.subsystems.Turret;
 
 public class CCW5ball2022 extends SequentialCommandGroup {
 
-    public CCW5ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter) {
+    public CCW5ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter, Turret turret) {
         TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
                 drive.getRightFeedforward(),
                 drive.getKinematics(), 11.0);
@@ -52,7 +53,7 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                 // drop intake
                 new InstantCommand(intake::lower, intake),
                 // fire 1st cargo
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker),
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
                 // pickup trajectory
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -73,7 +74,7 @@ public class CCW5ball2022 extends SequentialCommandGroup {
 
                         new IntakeCommand(intake)),
                 // fire next two cargo
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker),
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
                 // trajectory to drive to terminal
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -99,6 +100,6 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                                 reversePickupConfig),
                         drive),
                 // fire last 2 cargo for a full five cargo auto
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker));
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker));
     }
 }
