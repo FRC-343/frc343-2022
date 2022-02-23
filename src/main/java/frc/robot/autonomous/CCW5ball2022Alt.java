@@ -19,14 +19,14 @@ import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TrajectoryCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
-import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
 public class CCW5ball2022Alt extends SequentialCommandGroup {
 
-    public CCW5ball2022Alt(Drive drive, Intake intake, Hopper hopper, Vision vision, Hood hood, Shooter shooter) {
+    public CCW5ball2022Alt(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter) {
         TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
                 drive.getRightFeedforward(),
                 drive.getKinematics(), 11.0);
@@ -65,7 +65,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                         forwardPickupConfig),
                                 drive),
 
-                        new IntakeCommand(intake, hopper)),
+                        new IntakeCommand(intake)),
                 // u turn backwards to the right/left so that turret can fire
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -78,9 +78,9 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                                         180)),
                                         reversePickupConfig),
                                 drive),
-                        new IntakeCommand(intake, hopper)),
+                        new IntakeCommand(intake)),
                 //Aim and Fire
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),
+                new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker),
                 //drive to terminal
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -90,7 +90,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                         new Pose2d(7.0, .33, Rotation2d.fromDegrees(170)),
                                         forwardPickupConfig),
                                 drive),
-                        new IntakeCommand(intake, hopper)),
+                        new IntakeCommand(intake)),
                 // u turn backwards down/up
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -100,7 +100,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                         new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
                                         reversePickupConfig),
                                 drive),
-                        new IntakeCommand(intake, hopper)),
+                        new IntakeCommand(intake)),
                 //drive closer to the final cargo / hub
                 new TrajectoryCommand(
                         TrajectoryGenerator.generateTrajectory(new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
@@ -109,7 +109,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                 forwardPickupConfig),
                         drive),
                 // fire 2 cargo 
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),
+                new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker),
                 //pick up final cargo
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -119,8 +119,8 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                         new Pose2d(0.99, 0.66, Rotation2d.fromDegrees(22)),
                                         forwardPickupConfig),
                                 drive),
-                        new IntakeCommand(intake, hopper)),
+                        new IntakeCommand(intake)),
                 //fire final cargo
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper));
+                new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker));
     }
 }

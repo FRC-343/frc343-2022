@@ -19,14 +19,14 @@ import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TrajectoryCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
-import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Kicker;
 
 public class CCW5ball2022 extends SequentialCommandGroup {
 
-    public CCW5ball2022(Drive drive, Intake intake, Hopper hopper, Vision vision, Hood hood, Shooter shooter) {
+    public CCW5ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter) {
         TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
                 drive.getRightFeedforward(),
                 drive.getKinematics(), 11.0);
@@ -52,7 +52,7 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                 // drop intake
                 new InstantCommand(intake::lower, intake),
                 // fire 1st cargo
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),
+                new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker),
                 // pickup trajectory
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -71,9 +71,9 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                                         forwardPickupConfig),
                                 drive),
 
-                        new IntakeCommand(intake, hopper)),
+                        new IntakeCommand(intake)),
                 // fire next two cargo
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper),
+                new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker),
                 // trajectory to drive to terminal
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -86,7 +86,7 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                                                         205)),
                                         forwardPickupConfig),
                                 drive),
-                        new IntakeCommand(intake, hopper)),
+                        new IntakeCommand(intake)),
 
                 // keep intake running while being still for a second
 
@@ -99,6 +99,6 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                                 reversePickupConfig),
                         drive),
                 // fire last 2 cargo for a full five cargo auto
-                new AimCommand(vision, hood, drive), new ShootCommand(shooter, hopper));
+                new AimCommand(vision, hood, drive), new ShootCommand(shooter, kicker));
     }
 }
