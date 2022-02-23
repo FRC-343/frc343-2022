@@ -15,7 +15,7 @@ public class Hood extends SubsystemBase {
     private final Encoder m_hoodEncoder = new Encoder(4, 5);
     private final DigitalInput m_hoodBack = new DigitalInput(22);
     private final DigitalInput m_hoodFront = new DigitalInput(9);
-     private final Spark m_hoodMotor = new Spark(3);
+    private final Spark m_hoodMotor = new Spark(3);
 
     // private final CANSparkMax m_top = new CANSparkMax(29, MotorType.kBrushless);
 

@@ -12,7 +12,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.util.sendable.SendableRegistry;
 
 
-public class Shooter extends SubsystemBase {
+public class Shooter extends SubsystemBase { //TODO create 2 CanSparkMax objects with encoders for new shooter wheels, make sure encoders are in rev/sec
     private static final double kShootGarbage = 150.0; // rev per sec, for irregular values
 
     private final Spark m_shooter = new Spark(7);

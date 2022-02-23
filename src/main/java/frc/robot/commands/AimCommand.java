@@ -34,7 +34,7 @@ public class AimCommand extends CommandBase {
     double angle_error = m_vision.getTy();
 
     if (Math.abs(heading_error) > 2.0) {
-      m_drive.drive(0, kTargetP * heading_error + kTargetD * (heading_error-prev_heading_error));
+      m_drive.drive(0, kTargetP * heading_error + kTargetD * (heading_error-prev_heading_error)); //TODO Motor Not Drive
     }
 
     prev_heading_error = heading_error;
@@ -45,7 +45,7 @@ public class AimCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_hood.move(0.0);
-    m_drive.drive(0.0, 0.0);
+    m_drive.drive(0.0, 0.0); //TODO Motor not drive
   }
 
   // Returns true when the command should end.

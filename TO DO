@@ -1,2 +1,27 @@
 Have people know hoe to calebrate limelight
 Have diffrent auton selectable in dashboard
+
+
+
+//Josh for Wednesday
+
+Shooter
+    CanSparkMax for both shooter wheels
+        -encoders
+            --proper units needed rev/sec 
+
+Turret
+    subsystem
+    replace in aim command
+    encoder
+    limit switches
+    joystick
+    presets from buttons
+
+Turn hopper subsystem into kicker subsystem
+
+Add color sensor back and add to shooter logic
+
+mess with options regarding shooting while aiming
+    switch around buttons so one button fires when speed is ready
+        other button fires immidiatly after/while aiming

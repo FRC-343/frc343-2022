@@ -31,19 +31,16 @@ public class ShootCommand extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override
+  @Override //TODO fix kicker logic
   public void execute() {
     m_shooter.shoot(kShootSpeed);
     if (m_whenToShoot.getAsBoolean()) {
       m_hopper.setKicker(-1.0);
       if (m_shooter.getRate() > kShootReadySpeed) {
-        m_hopper.setHopper(0.65);
       } else {
-        m_hopper.setHopper(0);
       }
     } else {
       m_hopper.setKicker(0);
-      m_hopper.setHopper(0);
     }
   }
 
@@ -52,7 +49,6 @@ public class ShootCommand extends CommandBase {
   public void end(boolean interrupted) {
     m_shooter.shoot(0);
     m_hopper.setKicker(0);
-    m_hopper.setHopper(0);
   }
 
   // Returns true when the command should end.
