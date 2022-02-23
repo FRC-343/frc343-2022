@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 
@@ -13,11 +14,19 @@ public class ShootCommand extends CommandBase {
 
   private final Shooter m_shooter;
   private final Kicker m_kicker;
+  private final Hood m_hood;
+  private final boolean m_waitForAim;
 
-  public ShootCommand(Shooter shooter, Kicker kicker) {
+  public ShootCommand(Shooter shooter, Kicker kicker, Hood hood, boolean waitForAim) {
     m_shooter = shooter;
     m_kicker = kicker;
-    addRequirements(m_shooter, m_kicker);
+    m_hood = hood;
+    m_waitForAim = waitForAim;
+    addRequirements(m_shooter, m_kicker, m_hood);
+  }
+
+  public ShootCommand(Shooter shooter, Kicker kicker, Hood hood) {
+    this(shooter, kicker, hood, false); // defaults to false if not given, shooter will fire even if not aimed
   }
 
   // Called when the command is initially scheduled.
@@ -28,12 +37,23 @@ public class ShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
-    if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-        && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
-      m_kicker.setKicker(-1.0);
-    } else {
-      m_kicker.setKicker(0);
+    if (m_waitForAim) { // checks to see if aimed before firing
+      m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
+      if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
+          && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed && m_hood.isAimed()) {
+        m_kicker.setKicker(-1.0);
+      } else {
+        m_kicker.setKicker(0);
+      }
+    } else { // fire even if not aiming
+
+      m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
+      if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
+          && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
+        m_kicker.setKicker(-1.0);
+      } else {
+        m_kicker.setKicker(0);
+      }
     }
 
   }

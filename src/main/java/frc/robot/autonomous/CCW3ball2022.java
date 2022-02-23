@@ -43,7 +43,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
         // drop intake
         new InstantCommand(intake::lower, intake),
         // fire 1st cargo
-        new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
+        new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
         // pickup trajectory
         new ParallelDeadlineGroup(
             new TrajectoryCommand(TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, Rotation2d.fromDegrees(270)), 
@@ -54,7 +54,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                 new Pose2d(-3.0, .45, Rotation2d.fromDegrees(30)), forwardPickupConfig), drive),
             new IntakeCommand(intake)
        ),
-       new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker)
+       new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood)
     );
   }
 }

@@ -53,7 +53,7 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                 // drop intake
                 new InstantCommand(intake::lower, intake),
                 // fire 1st cargo
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
                 // pickup trajectory
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -74,7 +74,7 @@ public class CCW5ball2022 extends SequentialCommandGroup {
 
                         new IntakeCommand(intake)),
                 // fire next two cargo
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
                 // trajectory to drive to terminal
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -100,6 +100,6 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                                 reversePickupConfig),
                         drive),
                 // fire last 2 cargo for a full five cargo auto
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker));
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood));
     }
 }

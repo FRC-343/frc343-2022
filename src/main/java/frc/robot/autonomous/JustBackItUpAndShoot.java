@@ -26,6 +26,6 @@ public class JustBackItUpAndShoot extends SequentialCommandGroup {
         // backup
         new DriveDistanceCommand(kBackupDriveDistance, kBackupDriveSpeed, drive),
         // aim
-        new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker));
+        new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood));
   }
 }
