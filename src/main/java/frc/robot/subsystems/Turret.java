@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
 
-    private final Spark m_turret = new Spark(100);
+    private final Spark m_turret = new Spark(5);
     private final Encoder m_turretEncoder = new Encoder(98, 99);
     private final DigitalInput m_isLeft = new DigitalInput(100); // has completely turned counter clockwise
     private final DigitalInput m_isRight = new DigitalInput(101); // has completely turned clockwise

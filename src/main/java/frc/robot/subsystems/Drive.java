@@ -34,8 +34,8 @@ public class Drive extends SubsystemBase {
 
     private final Spark m_leftMaster = new Spark(0);
     private final Spark m_leftFollower = new Spark(1);
-    private final Spark m_rightMaster = new Spark(5);
-    private final Spark m_rightFollower = new Spark(6);
+    private final Spark m_rightMaster = new Spark(2);
+    private final Spark m_rightFollower = new Spark(3);
 
     // private final CANSparkMax m_move = new CANSparkMax(26, MotorType.kBrushless);
 

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
     private final DoubleSolenoid m_intakeLift = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 0);
-    private final Spark m_intake = new Spark(2);
+    private final Spark m_intake = new Spark(6);
 
     public Intake() {
         m_intake.setInverted(true);
