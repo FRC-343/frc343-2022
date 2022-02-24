@@ -11,11 +11,15 @@ Add color sensor back and add to shooter logic
 
 // things messed up
 
-aimshootcommand: parrallel both can't use hood
+aimshootcommand: parrallel both can't use hood 
+    -solution: make an isAimed method static so you can access it without a object
 
-trajectories are too close
+trajectories are too close, 
+    -solution: figure out how to test trajectories
 
 shooter encoders = bad
+    -read more docs
 
 drive = backwards somehow ish
+    -gl caden
 
