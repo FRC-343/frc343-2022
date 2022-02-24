@@ -37,31 +37,31 @@ public class ShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_waitForAim) { // checks to see if aimed before firing
-      m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
-      if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-          && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed && m_hood.isAimed()) {
-        m_kicker.setKicker(-1.0);
-      } else {
-        m_kicker.setKicker(0);
-      }
-    } else { // fire even if not aiming
+    // if (m_waitForAim) { // checks to see if aimed before firing
+    //   m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
+    //   if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
+    //       && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed && m_hood.isAimed()) {
+    //     m_kicker.setKicker(-1.0);
+    //   } else {
+    //     m_kicker.setKicker(0);
+    //   }
+    // } else { // fire even if not aiming
 
-      m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
-      if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-          && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
-        m_kicker.setKicker(-1.0);
-      } else {
-        m_kicker.setKicker(0);
-      }
-    }
+    //   m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
+    //   if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
+    //       && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
+    //     m_kicker.setKicker(-1.0);
+    //   } else {
+    //     m_kicker.setKicker(0);
+    //   }
+    // }
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.shoot(0);
+    // m_shooter.shoot(0);
     m_kicker.setKicker(0);
   }
 

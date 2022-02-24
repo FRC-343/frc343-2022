@@ -53,74 +53,74 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                 // drop intake
                 new InstantCommand(intake::lower, intake),
                 // drive to first cargo below/adove
-                new ParallelDeadlineGroup(
-                        new TrajectoryCommand(
+                // new ParallelDeadlineGroup(
+                //         new TrajectoryCommand(
 
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, Rotation2d
-                                                .fromDegrees(270)),
-                                        List.of(),
-                                        new Pose2d(-0.5, -1.32,
-                                                Rotation2d.fromDegrees(
-                                                        245)),
-                                        forwardPickupConfig),
-                                drive),
+                //                 TrajectoryGenerator.generateTrajectory(
+                //                         new Pose2d(0, 0, Rotation2d
+                //                                 .fromDegrees(270)),
+                //                         List.of(),
+                //                         new Pose2d(-0.5, -1.32,
+                //                                 Rotation2d.fromDegrees(
+                //                                         245)),
+                //                         forwardPickupConfig),
+                //                 drive),
 
-                        new IntakeCommand(intake)),
-                // u turn backwards to the right/left so that turret can fire
-                new ParallelDeadlineGroup(
-                        new TrajectoryCommand(
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(-0.5, -1.32, Rotation2d
-                                                .fromDegrees(245)),
-                                        List.of(),
-                                        new Pose2d(0.5, -1.0,
-                                                Rotation2d.fromDegrees(
-                                                        180)),
-                                        reversePickupConfig),
-                                drive),
-                        new IntakeCommand(intake)),
-                //Aim and Fire
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
-                //drive to terminal
-                new ParallelDeadlineGroup(
-                        new TrajectoryCommand(
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, Rotation2d.fromDegrees(180)),
-                                        List.of(),
-                                        new Pose2d(7.0, .33, Rotation2d.fromDegrees(170)),
-                                        forwardPickupConfig),
-                                drive),
-                        new IntakeCommand(intake)),
-                // u turn backwards down/up
-                new ParallelDeadlineGroup(
-                        new TrajectoryCommand(
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, Rotation2d.fromDegrees(170)),
-                                        List.of(new Translation2d(.99, 0)),
-                                        new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
-                                        reversePickupConfig),
-                                drive),
-                        new IntakeCommand(intake)),
-                //drive closer to the final cargo / hub
-                new TrajectoryCommand(
-                        TrajectoryGenerator.generateTrajectory(new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
-                                List.of(),
-                                new Pose2d(3.3, 0.66, Rotation2d.fromDegrees(22)),
-                                forwardPickupConfig),
-                        drive),
-                // fire 2 cargo 
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
-                //pick up final cargo
-                new ParallelDeadlineGroup(
-                        new TrajectoryCommand(
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, Rotation2d.fromDegrees(22)),
-                                        List.of(),
-                                        new Pose2d(0.99, 0.66, Rotation2d.fromDegrees(22)),
-                                        forwardPickupConfig),
-                                drive),
-                        new IntakeCommand(intake)),
+                //         new IntakeCommand(intake)),
+                // // u turn backwards to the right/left so that turret can fire
+                // new ParallelDeadlineGroup(
+                //         new TrajectoryCommand(
+                //                 TrajectoryGenerator.generateTrajectory(
+                //                         new Pose2d(-0.5, -1.32, Rotation2d
+                //                                 .fromDegrees(245)),
+                //                         List.of(),
+                //                         new Pose2d(0.5, -1.0,
+                //                                 Rotation2d.fromDegrees(
+                //                                         180)),
+                //                         reversePickupConfig),
+                //                 drive),
+                //         new IntakeCommand(intake)),
+                // //Aim and Fire
+                // new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
+                // //drive to terminal
+                // new ParallelDeadlineGroup(
+                //         new TrajectoryCommand(
+                //                 TrajectoryGenerator.generateTrajectory(
+                //                         new Pose2d(0, 0, Rotation2d.fromDegrees(180)),
+                //                         List.of(),
+                //                         new Pose2d(7.0, .33, Rotation2d.fromDegrees(170)),
+                //                         forwardPickupConfig),
+                //                 drive),
+                //         new IntakeCommand(intake)),
+                // // u turn backwards down/up
+                // new ParallelDeadlineGroup(
+                //         new TrajectoryCommand(
+                //                 TrajectoryGenerator.generateTrajectory(
+                //                         new Pose2d(0, 0, Rotation2d.fromDegrees(170)),
+                //                         List.of(new Translation2d(.99, 0)),
+                //                         new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
+                //                         reversePickupConfig),
+                //                 drive),
+                //         new IntakeCommand(intake)),
+                // //drive closer to the final cargo / hub
+                // new TrajectoryCommand(
+                //         TrajectoryGenerator.generateTrajectory(new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
+                //                 List.of(),
+                //                 new Pose2d(3.3, 0.66, Rotation2d.fromDegrees(22)),
+                //                 forwardPickupConfig),
+                //         drive),
+                // // fire 2 cargo 
+                // new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
+                // //pick up final cargo
+                // new ParallelDeadlineGroup(
+                //         new TrajectoryCommand(
+                //                 TrajectoryGenerator.generateTrajectory(
+                //                         new Pose2d(0, 0, Rotation2d.fromDegrees(22)),
+                //                         List.of(),
+                //                         new Pose2d(0.99, 0.66, Rotation2d.fromDegrees(22)),
+                //                         forwardPickupConfig),
+                //                 drive),
+                //         new IntakeCommand(intake)),
                 //fire final cargo
                 new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood));
     }

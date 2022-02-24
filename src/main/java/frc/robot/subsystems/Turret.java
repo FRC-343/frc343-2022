@@ -21,6 +21,10 @@ public class Turret extends SubsystemBase {
     private double m_target = 0.0;
 
     public Turret() {
+        
+        m_turret.setInverted(true);
+        m_turretEncoder.setReverseDirection(true);
+        
         SendableRegistry.setSubsystem(m_turret, this.getClass().getSimpleName());
         SendableRegistry.setName(m_turret, "turret motor");
 

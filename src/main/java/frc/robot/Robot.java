@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
   public static final double kMaxJoyTurn = 5.0; // radians per sec
   public static final double kMaxHoodSpeed = 1.0; // ratio
   public static final double kMaxWinchSpeed = 1.0; // ratio
-  public static final double kMaxTurretSpeed = 0.25; // ratio
+  public static final double kMaxTurretSpeed = 0.5; // ratio
 
   public static final double kTargetP = -0.055;
   public static final double kMinTargetCommand = -0.35;
@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
     m_hood.setDefaultCommand(
         new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
 
-    m_turret.setDefaultCommand(new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX())));
+    m_turret.setDefaultCommand(new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
 
     new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
       m_intake.setIntake(-0.3);

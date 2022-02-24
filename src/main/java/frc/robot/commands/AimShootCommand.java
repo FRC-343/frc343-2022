@@ -11,9 +11,9 @@ import frc.robot.subsystems.Vision;
 public class AimShootCommand extends SequentialCommandGroup {
 
     public AimShootCommand(Vision vision, Hood hood, Turret turret, Shooter shooter, Kicker kicker) {
-        addCommands(new ParallelCommandGroup(
-                new AimCommand(vision, hood, turret),
-                new ShootCommand(shooter, kicker, hood, true)));
+        addCommands(//new ParallelCommandGroup(
+                new AimCommand(vision, hood, turret));
+                // new ShootCommand(shooter, kicker, hood, true)));
     }
 
 }

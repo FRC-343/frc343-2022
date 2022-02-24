@@ -55,50 +55,50 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                 // fire 1st cargo
                 new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
                 // pickup trajectory
-                new ParallelDeadlineGroup(
-                        new TrajectoryCommand(
+                // new ParallelDeadlineGroup(
+                //         new TrajectoryCommand(
 
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, Rotation2d
-                                                .fromDegrees(270)),
-                                        List.of(
-                                                new Translation2d(-0.72,
-                                                        -1.36),
-                                                new Translation2d(-1.04,
-                                                        -1.16)),
-                                        new Pose2d(-2.72, -0.36,
-                                                Rotation2d.fromDegrees(
-                                                        188)),
-                                        forwardPickupConfig),
-                                drive),
+                //                 TrajectoryGenerator.generateTrajectory(
+                //                         new Pose2d(0, 0, Rotation2d
+                //                                 .fromDegrees(270)),
+                //                         List.of(
+                //                                 new Translation2d(-0.72,
+                //                                         -1.36),
+                //                                 new Translation2d(-1.04,
+                //                                         -1.16)),
+                //                         new Pose2d(-2.72, -0.36,
+                //                                 Rotation2d.fromDegrees(
+                //                                         188)),
+                //                         forwardPickupConfig),
+                //                 drive),
 
-                        new IntakeCommand(intake)),
-                // fire next two cargo
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
-                // trajectory to drive to terminal
-                new ParallelDeadlineGroup(
-                        new TrajectoryCommand(
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, Rotation2d
-                                                .fromDegrees(188)),
-                                        List.of(new Translation2d(-3.7, -.4)),
-                                        new Pose2d(-3.7, -.4,
-                                                Rotation2d.fromDegrees(
-                                                        205)),
-                                        forwardPickupConfig),
-                                drive),
-                        new IntakeCommand(intake)),
+                //         new IntakeCommand(intake)),
+                // // fire next two cargo
+                // new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood),
+                // // trajectory to drive to terminal
+                // new ParallelDeadlineGroup(
+                //         new TrajectoryCommand(
+                //                 TrajectoryGenerator.generateTrajectory(
+                //                         new Pose2d(0, 0, Rotation2d
+                //                                 .fromDegrees(188)),
+                //                         List.of(new Translation2d(-3.7, -.4)),
+                //                         new Pose2d(-3.7, -.4,
+                //                                 Rotation2d.fromDegrees(
+                //                                         205)),
+                //                         forwardPickupConfig),
+                //                 drive),
+                //         new IntakeCommand(intake)),
 
-                // keep intake running while being still for a second
+                // // keep intake running while being still for a second
 
-                // drive backwards toward goal
-                new TrajectoryCommand(
-                        TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, Rotation2d.fromDegrees(205)),
-                                List.of(),
-                                new Pose2d(4.32, .16, Rotation2d.fromDegrees(203)),
-                                reversePickupConfig),
-                        drive),
+                // // drive backwards toward goal
+                // new TrajectoryCommand(
+                //         TrajectoryGenerator.generateTrajectory(
+                //                 new Pose2d(0, 0, Rotation2d.fromDegrees(205)),
+                //                 List.of(),
+                //                 new Pose2d(4.32, .16, Rotation2d.fromDegrees(203)),
+                //                 reversePickupConfig),
+                //         drive),
                 // fire last 2 cargo for a full five cargo auto
                 new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, hood));
     }

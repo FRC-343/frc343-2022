@@ -74,10 +74,12 @@ public class Drive extends SubsystemBase {
 
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
-        m_leftGroup.setInverted(false);
-        m_rightGroup.setInverted(true);
+         m_leftFollower.setInverted(true);
+         m_rightFollower.setInverted(true);
+        // m_leftGroup.setInverted(false);
+        // m_rightGroup.setInverted(true);
         m_leftEncoder.setReverseDirection(false);
-        m_rightEncoder.setReverseDirection(true);
+        m_rightEncoder.setReverseDirection(false);
 
         SendableRegistry.setSubsystem(m_leftMaster, this.getClass().getSimpleName());
         SendableRegistry.setName(m_leftMaster, "Left Master Drive Motor Thingy");

@@ -5,3 +5,17 @@ Turret
     presets from buttons
 
 Add color sensor back and add to shooter logic
+
+
+
+
+// things messed up
+
+aimshootcommand: parrallel both can't use hood
+
+trajectories are too close
+
+shooter encoders = bad
+
+drive = backwards somehow ish
+
