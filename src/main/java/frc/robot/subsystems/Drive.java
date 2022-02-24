@@ -37,8 +37,6 @@ public class Drive extends SubsystemBase {
     private final Spark m_rightMaster = new Spark(2);
     private final Spark m_rightFollower = new Spark(3);
 
-    // private final CANSparkMax m_move = new CANSparkMax(26, MotorType.kBrushless);
-
     private final Encoder m_leftEncoder = new Encoder(10, 11);
     private final Encoder m_rightEncoder = new Encoder(12, 13);
 
@@ -55,8 +53,6 @@ public class Drive extends SubsystemBase {
     private final SimpleMotorFeedforward m_leftFeedforward = new SimpleMotorFeedforward(2.55, 2.84, 0.237);
     private final SimpleMotorFeedforward m_rightFeedforward = new SimpleMotorFeedforward(2.58, 2.69, 0.0718);
 
-    private final DigitalInput m_stopSensor = new DigitalInput(15);// help
-
     private DifferentialDriveOdometry m_odometry;
 
     private boolean m_PIDEnabled = false;
@@ -71,11 +67,12 @@ public class Drive extends SubsystemBase {
         m_rightEncoder.setDistancePerPulse(2 * Math.PI * kWheelRadius / kEncoderResolution);
 
         resetEncoders();
+        // m_gyro.reset(); //TODO test this once things are working
 
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
-         // m_leftFollower.setInverted(true);
-          m_rightFollower.setInverted(true);
+        // m_leftFollower.setInverted(true);
+        m_rightFollower.setInverted(true);
         // m_leftGroup.setInverted(false);
         // m_rightGroup.setInverted(true);
         // m_leftEncoder.setReverseDirection(true);
@@ -108,8 +105,6 @@ public class Drive extends SubsystemBase {
         SendableRegistry.setSubsystem(m_rightPIDController, this.getClass().getSimpleName());
         SendableRegistry.setName(m_rightPIDController, "Right Drive PID Controller Thingy");
 
-        SendableRegistry.setSubsystem(m_stopSensor, this.getClass().getSimpleName());
-        SendableRegistry.setName(m_stopSensor, "Drive Stopping Sensor Thingy on wheel Thingy");
     }
 
     public PIDController getLeftPIDController() {
@@ -215,7 +210,7 @@ public class Drive extends SubsystemBase {
     }
 
     public void drive(double xSpeed, double rot) {
-        if (xSpeed > 0.0 && !m_stopSensor.get()) {
+        if (xSpeed > 0.0) {
             m_wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(0.0, 0.0, 0.0));
         } else {
             m_wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
