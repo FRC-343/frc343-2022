@@ -6,11 +6,11 @@ import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 
 public class ShootCommand extends CommandBase {
-  private static final double kTopShootSpeed = 110.00; // rev per sec 125.0
-  private static final double kTopShootReadySpeed = 100.0; // rev per sec
+  private static final double kTopShootSpeed = 80.00; // rev per sec 125.0
+  private static final double kTopShootReadySpeed = 70.0; // rev per sec
 
-  private static final double kBottomShootSpeed = 110.00; // rev per sec 125.0
-  private static final double kBottomShootReadySpeed = 100.0; // rev per sec
+  private static final double kBottomShootSpeed = 80.00; // rev per sec 125.0
+  private static final double kBottomShootReadySpeed = 70.0; // rev per sec
 
   private final Shooter m_shooter;
   private final Kicker m_kicker;

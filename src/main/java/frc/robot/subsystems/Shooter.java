@@ -28,7 +28,7 @@ public class Shooter extends SubsystemBase {
     private double m_topSpeed = 0.0;
 
     public Shooter() {
-        m_bottomShooter.setInverted(true);
+        m_bottomShooter.setInverted(false);
         m_bottomShooterEncoder.setVelocityConversionFactor(60); //vel deffaults to RPM, this turns it to Rev/sec
 
         m_topShooter.setInverted(true);
