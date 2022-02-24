@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Turret extends SubsystemBase {
 
     private final Spark m_turret = new Spark(5);
-    private final Encoder m_turretEncoder = new Encoder(98, 99);
-    private final DigitalInput m_isLeft = new DigitalInput(100); // has completely turned counter clockwise
-    private final DigitalInput m_isRight = new DigitalInput(101); // has completely turned clockwise
+    private final Encoder m_turretEncoder = new Encoder(0, 1);
+    private final DigitalInput m_isLeft = new DigitalInput(6); // has completely turned counter clockwise
+    private final DigitalInput m_isRight = new DigitalInput(7); // has completely turned clockwise
 
     private double m_speed = 0.0;
     private boolean m_aiming = false; // aiming is just used for getting to a preset angle ish

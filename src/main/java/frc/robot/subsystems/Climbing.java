@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climbing extends SubsystemBase {
-  private final Spark m_winch = new Spark(7);
+  private final Spark m_winch = new Spark(8);
   private final DigitalInput m_isBottom = new DigitalInput(12);
   private final DigitalInput m_isTop = new DigitalInput(13);
   private final DoubleSolenoid m_ratchetLift = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 3);

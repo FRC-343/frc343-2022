@@ -39,8 +39,8 @@ public class Drive extends SubsystemBase {
 
     // private final CANSparkMax m_move = new CANSparkMax(26, MotorType.kBrushless);
 
-    private final Encoder m_leftEncoder = new Encoder(2, 3);
-    private final Encoder m_rightEncoder = new Encoder(0, 1);
+    private final Encoder m_leftEncoder = new Encoder(10, 11);
+    private final Encoder m_rightEncoder = new Encoder(12, 13);
 
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
