@@ -21,8 +21,8 @@ public class Hood extends SubsystemBase {
     private boolean m_zeroing = false; // resetting hood
 
     public Hood() {
-        m_hoodMotor.setInverted(true); //I think either the hood should be inverted or the encoder should be but not both
-        m_hoodEncoder.setReverseDirection(false); // it failed when both false and both true, so try true-false and false-true
+        m_hoodMotor.setInverted(false); //I think either the hood should be inverted or the encoder should be but not both
+        m_hoodEncoder.setReverseDirection(true); // it failed when both false and both true, so try true-false and false-true
 
         SendableRegistry.setSubsystem(m_hoodEncoder, this.getClass().getSimpleName());
         SendableRegistry.setName(m_hoodEncoder, "Hood Encoder");
