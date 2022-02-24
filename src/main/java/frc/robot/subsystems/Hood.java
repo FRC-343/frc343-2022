@@ -21,8 +21,8 @@ public class Hood extends SubsystemBase {
     private boolean m_zeroing = false; // resetting hood
 
     public Hood() {
-        m_hoodMotor.setInverted(true);
-        m_hoodEncoder.setReverseDirection(true);
+        m_hoodMotor.setInverted(true); //I think either the hood should be inverted or the encoder should be but not both
+        m_hoodEncoder.setReverseDirection(false); // it failed when both false and both true, so try true-false and false-true
 
         SendableRegistry.setSubsystem(m_hoodEncoder, this.getClass().getSimpleName());
         SendableRegistry.setName(m_hoodEncoder, "Hood Encoder");
@@ -47,7 +47,7 @@ public class Hood extends SubsystemBase {
 
     public static boolean isAimed() { // this needs to be static because shootcommand needs to access it without it
                                       // being given the m_hood object. because in aimshootcommand, only one command
-                                      // (aimcommand) can have access to the hood object
+                                      // (aimcommand) can have access to the hood object, ask josh for more details
         return m_aimed;
     }
 
