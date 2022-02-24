@@ -51,7 +51,6 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
-    m_autoChooser.addOption("5CCW", new CCW5ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
     m_autoChooser.addOption("5CCWALT", new CCW5ball2022Alt(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
     m_autoChooser.addOption("3CCW", new CCW3ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
     // m_autoChooser.addOption("BIAS", new JustBackItUpAndShoot(m_drive, m_intake,
@@ -93,7 +92,7 @@ public class Robot extends TimedRobot {
     new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
     new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_turret));
 
-    new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value).whenHeld(new ShootCommand(m_shooter, m_kicker, m_hood));
+    new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value).whenHeld(new ShootCommand(m_shooter, m_kicker));
     new JoystickButton(m_controller, XboxController.Button.kRightBumper.value).whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker));
 
     new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake));

@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hood extends SubsystemBase {
     private final Encoder m_hoodEncoder = new Encoder(4, 5);
-    private final DigitalInput m_hoodBack = new DigitalInput(2); //2 = bottom = back
+    private final DigitalInput m_hoodBack = new DigitalInput(2); // 2 = bottom = back
     private final DigitalInput m_hoodFront = new DigitalInput(3);
     private final Spark m_hoodMotor = new Spark(7);
 
-    private boolean m_aimed = false; // if shooter is currently aimed
+    private static boolean m_aimed = false; // if shooter is currently aimed
     private double m_target = 0.0; // where it needs to be aiming
     private double m_speed = 0.0; // manual control
     private boolean m_aiming = false; // if currently aiming (for automatic)
@@ -45,7 +45,9 @@ public class Hood extends SubsystemBase {
         }
     }
 
-    public boolean isAimed() {
+    public static boolean isAimed() { // this needs to be static because shootcommand needs to access it without it
+                                      // being given the m_hood object. because in aimshootcommand, only one command
+                                      // (aimcommand) can have access to the hood object
         return m_aimed;
     }
 
