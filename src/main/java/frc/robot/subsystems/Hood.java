@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hood extends SubsystemBase {
     private final Encoder m_hoodEncoder = new Encoder(4, 5);
-    private final DigitalInput m_hoodBack = new DigitalInput(3); // 2 = bottom = back
-    private final DigitalInput m_hoodFront = new DigitalInput(2);
+    private final DigitalInput m_hoodBack = new DigitalInput(2); // 2 = bottom = back
+    private final DigitalInput m_hoodFront = new DigitalInput(3);
     private final Spark m_hoodMotor = new Spark(7);
 
     private static boolean m_aimed = false; // if shooter is currently aimed
