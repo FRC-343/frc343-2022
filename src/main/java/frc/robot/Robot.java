@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
         // MiscMath.deadband(-m_stick.getY()),
         // kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
         m_drive.setDefaultCommand(new RunCommand(
-                () -> m_drive.setVoltages(4*MiscMath.deadband(-m_stick.getY()+m_stick.getX()), 4*MiscMath.deadband(-m_stick.getY()-m_stick.getX())),
+                () -> m_drive.setVoltages(12*MiscMath.deadband(-m_stick.getY()+m_stick.getX()), 12*MiscMath.deadband(-m_stick.getY()-m_stick.getX())),
                 m_drive));
 
         m_hood.setDefaultCommand(
