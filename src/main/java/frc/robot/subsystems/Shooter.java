@@ -57,24 +57,29 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (m_bottomSpeed > 0.01) {
-            double shooterFeedforward = m_shooterFeedforward.calculate(m_bottomSpeed);
-            double shooterPIDOutput = m_shooterPIDController.calculate(getBottomShooterRPS(), m_bottomSpeed);
-            double shooterOutput = shooterFeedforward + shooterPIDOutput;
+        // if (m_bottomSpeed > 0.01) {
+        //     double shooterFeedforward = m_shooterFeedforward.calculate(m_bottomSpeed);
+        //     double shooterPIDOutput = m_shooterPIDController.calculate(getBottomShooterRPS(), m_bottomSpeed);
+        //     double shooterOutput = shooterFeedforward + shooterPIDOutput;
 
-            m_bottomShooter.setVoltage(shooterOutput);
-        } else {
-            m_bottomShooter.setVoltage(0.0);
-        }
+        //     m_bottomShooter.setVoltage(shooterOutput);
+        // } else {
+        //     m_bottomShooter.setVoltage(0.0);
+        // }
 
-        if (m_topSpeed > 0.01) {
-            double shooterFeedforward = m_shooterFeedforward.calculate(m_topSpeed);
-            double shooterPIDOutput = m_shooterPIDController.calculate(getTopShooterRPS(), m_topSpeed);
-            double shooterOutput = shooterFeedforward + shooterPIDOutput;
+        // if (m_topSpeed > 0.01) {
+        //     double shooterFeedforward = m_shooterFeedforward.calculate(m_topSpeed);
+        //     double shooterPIDOutput = m_shooterPIDController.calculate(getTopShooterRPS(), m_topSpeed);
+        //     double shooterOutput = shooterFeedforward + shooterPIDOutput;
 
-            m_topShooter.setVoltage(shooterOutput);
-        } else {
-            m_topShooter.setVoltage(0.0);
-        }
+        //     m_topShooter.setVoltage(shooterOutput);
+        // } else {
+        //     m_topShooter.setVoltage(0.0);
+        // }
+    }
+
+    public void set(double topSpeed, double bottomSpeed) {
+        m_topShooter.set(topSpeed);
+        m_bottomShooter.set(bottomSpeed);
     }
 }

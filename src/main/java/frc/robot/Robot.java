@@ -89,6 +89,9 @@ public class Robot extends TimedRobot {
         m_turret.setDefaultCommand(
                 new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
 
+        m_shooter.setDefaultCommand(
+                new RunCommand(() -> m_shooter.set(0.6, 0.6), m_shooter));
+
         new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
             m_intake.setIntake(-0.3);
         }, m_intake)).whenReleased(new RunCommand(() -> {

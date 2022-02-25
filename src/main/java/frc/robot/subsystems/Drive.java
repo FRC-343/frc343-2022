@@ -70,9 +70,9 @@ public class Drive extends SubsystemBase {
 
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
-        // m_leftGroup.setInverted(true);
-          m_rightGroup.setInverted(true);
-        m_leftEncoder.setReverseDirection(false);
+        // m_leftGroup.setInverted(false);
+        m_rightGroup.setInverted(true);
+        // m_leftEncoder.setReverseDirection(false);
         m_rightEncoder.setReverseDirection(true);
 
         SendableRegistry.setSubsystem(m_leftMaster, this.getClass().getSimpleName());
@@ -232,10 +232,10 @@ public class Drive extends SubsystemBase {
             double leftOutput = leftPIDOutput + leftFeedforward;
             double rightOutput = rightPIDOutput + rightFeedforward;
 
-            setVoltages(leftOutput, rightOutput);
+            // setVoltages(leftOutput, rightOutput);
 
-            // m_leftGroup.setVoltage(leftOutput);
-            // m_rightGroup.setVoltage(rightOutput);
+            m_leftGroup.setVoltage(leftOutput);
+            m_rightGroup.setVoltage(rightOutput);
         }
 
         // Update the odometry in the periodic block
