@@ -1,16 +1,24 @@
-Have people know hoe to calebrate limelight
-Have diffrent auton selectable in dashboard
+intakeTimeCommand set speed to be the same as intakeCommand
+
+uninvert bottom shooter
+
+if above didn't work, add a method and button to quickly test shooter bottom wheel by itself by just setting it to .5 voltage
+
+shooter bottom wheel fix
+
+limelight targetting formula
+
+
+//After scrimage 
+
+PID for drive back
 
 Turret
     presets from buttons
 
+Have diffrent auton selectable in dashboard, before round starts
+
 Add color sensor back and add to shooter logic
 
 
-
-
-// things messed up
-
-drive = backwards somehow ish
-    -gl caden
-
+Have people know hoe to calebrate limelight (what does this mean?)
