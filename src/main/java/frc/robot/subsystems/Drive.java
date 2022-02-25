@@ -71,7 +71,7 @@ public class Drive extends SubsystemBase {
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
         // m_leftGroup.setInverted(true);
-        //  m_rightGroup.setInverted(true);
+          m_rightGroup.setInverted(true);
         m_leftEncoder.setReverseDirection(false);
         m_rightEncoder.setReverseDirection(true);
 
