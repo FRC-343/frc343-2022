@@ -66,16 +66,14 @@ public class Drive extends SubsystemBase {
         m_rightEncoder.setDistancePerPulse(2 * Math.PI * kWheelRadius / kEncoderResolution);
 
         resetEncoders();
-         m_gyro.reset(); //TODO test this once things are working
+        m_gyro.reset(); // TODO test this once things are working
 
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
-        // m_leftFollower.setInverted(true);
-        //m_rightFollower.setInverted(true);
-        // m_leftGroup.setInverted(false);
-         m_rightGroup.setInverted(true);
-        // m_leftEncoder.setReverseDirection(true);
-         m_rightEncoder.setReverseDirection(true);
+        // m_leftGroup.setInverted(true);
+        //  m_rightGroup.setInverted(true);
+        m_leftEncoder.setReverseDirection(false);
+        m_rightEncoder.setReverseDirection(true);
 
         SendableRegistry.setSubsystem(m_leftMaster, this.getClass().getSimpleName());
         SendableRegistry.setName(m_leftMaster, "Left Master Drive Motor Thingy");
@@ -209,11 +207,9 @@ public class Drive extends SubsystemBase {
     }
 
     public void drive(double xSpeed, double rot) {
-        if (xSpeed > 0.0) {
-            m_wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(0.0, 0.0, 0.0));
-        } else {
-            m_wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
-        }
+
+        m_wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
+
         m_PIDEnabled = true;
     }
 
@@ -236,8 +232,10 @@ public class Drive extends SubsystemBase {
             double leftOutput = leftPIDOutput + leftFeedforward;
             double rightOutput = rightPIDOutput + rightFeedforward;
 
-            m_leftGroup.setVoltage(leftOutput);
-            m_rightGroup.setVoltage(rightOutput);
+            setVoltages(leftOutput, rightOutput);
+
+            // m_leftGroup.setVoltage(leftOutput);
+            // m_rightGroup.setVoltage(rightOutput);
         }
 
         // Update the odometry in the periodic block
