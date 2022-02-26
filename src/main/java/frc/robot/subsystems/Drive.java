@@ -27,7 +27,7 @@ public class Drive extends SubsystemBase {
 
     private static final double kTrackWidth = 0.568; // meters
     private static final double kWheelRadius = 0.0762; // meters
-    private static final int kEncoderResolution = 256;
+    private static final int kEncoderResolution = 2048;
 
     private static final boolean kGyroReversed = true;
 

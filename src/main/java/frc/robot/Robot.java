@@ -80,7 +80,8 @@ public class Robot extends TimedRobot {
         // MiscMath.deadband(-m_stick.getY()),
         // kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
         m_drive.setDefaultCommand(new RunCommand(
-                () -> m_drive.setVoltages(12*MiscMath.deadband(-m_stick.getY()+m_stick.getX()), 12*MiscMath.deadband(-m_stick.getY()-m_stick.getX())),
+                () -> m_drive.setVoltages(12 * MiscMath.deadband(-m_stick.getY() + m_stick.getX()),
+                        12 * MiscMath.deadband(-m_stick.getY() - m_stick.getX())),
                 m_drive));
 
         m_hood.setDefaultCommand(
@@ -90,7 +91,15 @@ public class Robot extends TimedRobot {
                 new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
 
         m_shooter.setDefaultCommand(
-                new RunCommand(() -> m_shooter.set(0.6, 0.6), m_shooter));
+                new RunCommand(() -> m_shooter.set(0.35 * m_controller.getRightTriggerAxis(),
+                        0.70 * m_controller.getRightTriggerAxis()), m_shooter));
+
+
+        new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
+            m_kicker.setKicker(-1.0);
+        }, m_kicker)).whenReleased(new RunCommand(() -> {
+            m_kicker.setKicker(0.0);
+        }, m_kicker));
 
         new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
             m_intake.setIntake(-0.3);
