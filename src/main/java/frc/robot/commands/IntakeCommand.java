@@ -38,6 +38,7 @@ public class IntakeCommand extends CommandBase {
     public void end(boolean interrupted) {
         m_intake.setIntake(0);
         m_kicker.setKicker(0);
+        m_intake.raise();
     }
 
     // Returns true when the command should end.
