@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
                 .whenHeld(new ShootCommand(m_shooter, m_kicker));
 
         // new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value)
-        //         .whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker));
+        //         .whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker, false));
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker));
 

@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MiscMath;
 
 public class Drive extends SubsystemBase {
-    public static final double kMaxSpeed = 1.4; // meters per second
-    public static final double kMaxAcceleration = 1; // meters per second squared
+    public static final double kMaxSpeed = 6.0; // meters per second
+    public static final double kMaxAcceleration = 4.0; // meters per second squared
     public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
     private static final double kTrackWidth = 0.568; // meters
@@ -146,7 +146,8 @@ public class Drive extends SubsystemBase {
      * Sets the max output of the drive. Useful for scaling the drive to drive more
      * slowly.
      *
-     * @param maxOutput the maximum output to which the drive will be constrained
+     * @param maxOutput
+     *            the maximum output to which the drive will be constrained
      */
     public void setMaxOutput(double maxOutput) {
         m_maxOutput = maxOutput;
@@ -168,7 +169,8 @@ public class Drive extends SubsystemBase {
     /**
      * Resets the odometry to the specified pose.
      *
-     * @param pose The pose to which to set the odometry.
+     * @param pose
+     *            The pose to which to set the odometry.
      */
     public void resetOdometry(Pose2d pose) {
         resetEncoders();

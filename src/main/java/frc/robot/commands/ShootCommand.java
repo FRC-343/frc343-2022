@@ -7,22 +7,24 @@ import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 
 public class ShootCommand extends CommandBase {
-    private static final double kTopShootSpeed = 40; //36.00; // rev per sec
-    private static final double kTopShootReadySpeed = 35;//= 32.0; // rev per sec
+    private static final double kTopShootSpeed = 40; // 36.00; // rev per sec
+    private static final double kTopShootReadySpeed = 35;// = 32.0; // rev per sec
 
     private static final double kBottomShootSpeed = 80; // rev per sec
     private static final double kBottomShootReadySpeed = 70; // rev per sec
 
     private final Shooter m_shooter;
     private final Kicker m_kicker;
-    private final boolean m_waitForAim;
-    private Timer t; 
+    private final boolean m_waitForAim; // for multitasking
+    private final boolean m_stopAfterTime; // for auto
+    private Timer t;
     private final double time;
 
-    public ShootCommand(Shooter shooter, Kicker kicker, boolean waitForAim) {
+    public ShootCommand(Shooter shooter, Kicker kicker, boolean waitForAim, boolean stopAfterTime) {
         m_shooter = shooter;
         m_kicker = kicker;
         m_waitForAim = waitForAim;
+        m_stopAfterTime = stopAfterTime;
         addRequirements(m_shooter, m_kicker);
 
         t = new Timer();
@@ -30,7 +32,8 @@ public class ShootCommand extends CommandBase {
     }
 
     public ShootCommand(Shooter shooter, Kicker kicker) {
-        this(shooter, kicker, false); // defaults to false if not given, shooter will fire even if not aimed
+        this(shooter, kicker, false, false); // defaults to false if not given, shooter will fire even if not aimed
+        //last parameter = false so that it will keep the shooter running until let go of trigger
     }
 
     // Called when the command is initially scheduled.
@@ -77,7 +80,11 @@ public class ShootCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        if (m_stopAfterTime) {
         return t.get() >= time;
+        } else {
+            return false;
+        }
 
         // return false;
     }
