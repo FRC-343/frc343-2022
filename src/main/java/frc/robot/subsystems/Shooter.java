@@ -81,6 +81,8 @@ public class Shooter extends SubsystemBase {
     public void set(double topSpeed, double bottomSpeed) {
         m_topShooter.set(topSpeed);
         m_bottomShooter.set(bottomSpeed);
-        // System.out.println("top speed = " + getTopShooterRPS()); System.out.println("bottom speed = " + getBottomShooterRPS());
+        System.out.println("top speed = " + getTopShooterRPS());
+        System.out.println("bottom speed = " + getBottomShooterRPS());
+        System.out.println("done");
     }
 }

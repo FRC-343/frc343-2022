@@ -7,11 +7,11 @@ import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 
 public class ShootCommand extends CommandBase {
-    private static final double kTopShootSpeed = 39.00; // rev per sec 125.0
-    private static final double kTopShootReadySpeed = 33.0; // rev per sec
+    private static final double kTopShootSpeed = 40; //36.00; // rev per sec
+    private static final double kTopShootReadySpeed = 35;//= 32.0; // rev per sec
 
-    private static final double kBottomShootSpeed = 78.00; // rev per sec 125.0
-    private static final double kBottomShootReadySpeed = 67.0; // rev per sec
+    private static final double kBottomShootSpeed = 80; // rev per sec
+    private static final double kBottomShootReadySpeed = 70; // rev per sec
 
     private final Shooter m_shooter;
     private final Kicker m_kicker;
@@ -71,6 +71,7 @@ public class ShootCommand extends CommandBase {
         m_shooter.shoot(0);
         m_kicker.setKicker(0);
         t.reset();
+        System.out.println("done");
     }
 
     // Returns true when the command should end.
