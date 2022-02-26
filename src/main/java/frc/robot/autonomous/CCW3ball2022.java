@@ -52,7 +52,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                         new Translation2d(-3.2, -.20)
                         ),
                 new Pose2d(-3.0, .45, Rotation2d.fromDegrees(30)), forwardPickupConfig), drive),
-            new IntakeCommand(intake)
+            new IntakeCommand(intake, kicker)
        ),
        new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker)
     );

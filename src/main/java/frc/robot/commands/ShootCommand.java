@@ -39,7 +39,7 @@ public class ShootCommand extends CommandBase {
       m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
       if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
           && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed && Hood.isAimed()) {
-        m_kicker.setKicker(-1.0);
+        m_kicker.setKicker(1.0);
       } else {
         m_kicker.setKicker(0);
       }
@@ -48,7 +48,7 @@ public class ShootCommand extends CommandBase {
       m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
       if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
           && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
-        m_kicker.setKicker(-1.0);
+        m_kicker.setKicker(1.0);
       } else {
         m_kicker.setKicker(0);
       }

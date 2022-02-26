@@ -1,18 +1,15 @@
-shooter bottom wheel fix
+PID for drive back
+
+PID for shooter
 
 limelight targetting formula
-
-
-//After scrimage 
-
-PID for drive back
 
 Turret
     presets from buttons
 
 Have diffrent auton selectable in dashboard, before round starts
 
-Add color sensor back and add to shooter logic
+Add color sensor back and add to shooter logic, allowing to spit out cargo of the wrong color
 
 
 Have people know hoe to calebrate limelight (what does this mean?)

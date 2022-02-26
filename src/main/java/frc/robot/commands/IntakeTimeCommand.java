@@ -2,15 +2,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Kicker;
 import edu.wpi.first.wpilibj.Timer;
 
 public class IntakeTimeCommand extends CommandBase {
     private final Intake m_intake;
+    private final Kicker m_kicker;
     private final double time;
     private Timer t;
 
-    public IntakeTimeCommand(Intake intake, double time) {
+    public IntakeTimeCommand(Intake intake, Kicker kicker, double time) { // this command is mostly just for auto and testing
         m_intake = intake;
+        m_kicker = kicker;
         this.time = time;
         addRequirements(m_intake);
 
@@ -28,6 +31,9 @@ public class IntakeTimeCommand extends CommandBase {
     @Override
     public void execute() {
         m_intake.setIntake(0.8);
+        if (m_intake.getCellDetector()) { // if no ball is in chamber run the kicker so it goes into chanber, leaving
+            m_kicker.setKicker(1.0); // room for the 2nd ball in the hopper
+        }
     }
 
     // Called once the command ends or is interrupted.

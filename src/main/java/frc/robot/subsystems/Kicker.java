@@ -14,6 +14,7 @@ public class Kicker extends SubsystemBase {
     // private final Debouncer m_cellDetectorDebouncer = new Debouncer();
 
     public Kicker() {
+        m_kicker.setInverted(true);
 
         SendableRegistry.setSubsystem(m_kicker, this.getClass().getSimpleName());
         SendableRegistry.setName(m_kicker, "Kicker Motor");

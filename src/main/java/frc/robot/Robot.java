@@ -79,6 +79,7 @@ public class Robot extends TimedRobot {
         // m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed *
         // MiscMath.deadband(-m_stick.getY()),
         // kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
+
         m_drive.setDefaultCommand(new RunCommand(
                 () -> m_drive.setVoltages(12 * MiscMath.deadband(-m_stick.getY() + m_stick.getX()),
                         12 * MiscMath.deadband(-m_stick.getY() - m_stick.getX())),
@@ -94,9 +95,8 @@ public class Robot extends TimedRobot {
                 new RunCommand(() -> m_shooter.set(0.35 * m_controller.getRightTriggerAxis(),
                         0.70 * m_controller.getRightTriggerAxis()), m_shooter));
 
-
         new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
-            m_kicker.setKicker(-1.0);
+            m_kicker.setKicker(1.0);
         }, m_kicker)).whenReleased(new RunCommand(() -> {
             m_kicker.setKicker(0.0);
         }, m_kicker));
@@ -116,7 +116,7 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_controller, XboxController.Button.kRightBumper.value)
                 .whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker));
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake));
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker));
 
     }
 

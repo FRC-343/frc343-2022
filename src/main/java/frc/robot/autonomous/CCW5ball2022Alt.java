@@ -66,7 +66,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                         forwardPickupConfig),
                                 drive),
 
-                        new IntakeCommand(intake)),
+                        new IntakeCommand(intake, kicker)),
                 // u turn backwards to the right/left so that turret can fire
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -79,7 +79,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                                         180)),
                                         reversePickupConfig),
                                 drive),
-                        new IntakeCommand(intake)),
+                        new IntakeCommand(intake, kicker)),
                 //Aim and Fire
                 new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
                 //drive to terminal
@@ -91,7 +91,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                         new Pose2d(7.0, .33, Rotation2d.fromDegrees(170)),
                                         forwardPickupConfig),
                                 drive),
-                        new IntakeCommand(intake)),
+                        new IntakeCommand(intake, kicker)),
                 // u turn backwards down/up
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -101,7 +101,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                         new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
                                         reversePickupConfig),
                                 drive),
-                        new IntakeCommand(intake)),
+                        new IntakeCommand(intake, kicker)),
                 //drive closer to the final cargo / hub
                 new TrajectoryCommand(
                         TrajectoryGenerator.generateTrajectory(new Pose2d(-0.99, -0.66, Rotation2d.fromDegrees(22)),
@@ -120,7 +120,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                         new Pose2d(0.99, 0.66, Rotation2d.fromDegrees(22)),
                                         forwardPickupConfig),
                                 drive),
-                        new IntakeCommand(intake)),
+                        new IntakeCommand(intake, kicker)),
                 //fire final cargo
                 new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker));
     }
