@@ -25,9 +25,12 @@ public class IntakeCommand extends CommandBase {
     public void execute() {
         m_intake.setIntake(0.80);
 
-        if (m_intake.getCellDetector()) { // if no ball is in chamber run the kicker so it goes into chanber, leaving
+        if (!m_intake.getCellDetector()) { // if no ball is in chamber run the kicker so it goes into chanber, leaving
             m_kicker.setKicker(1.0); // room for the 2nd ball in the hopper
+        } else {
+            m_kicker.setKicker(0.0);
         }
+
     }
 
     // Called once the command ends or is interrupted.

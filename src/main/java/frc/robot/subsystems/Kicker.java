@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-// import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -10,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Kicker extends SubsystemBase {
     private final Spark m_kicker = new Spark(4);
 
-    // private final DigitalInput m_cellDetector = new DigitalInput(8);
     // private final Debouncer m_cellDetectorDebouncer = new Debouncer();
 
     public Kicker() {

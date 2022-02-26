@@ -81,7 +81,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                 drive),
                         new IntakeCommand(intake, kicker)),
                 //Aim and Fire
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
+                /*new AimCommand(vision, hood, turret),*/ new ShootCommand(shooter, kicker),
                 //drive to terminal
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -110,7 +110,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                 forwardPickupConfig),
                         drive),
                 // fire 2 cargo 
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
+                /*new AimCommand(vision, hood, turret),*/ new ShootCommand(shooter, kicker),
                 //pick up final cargo
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -122,6 +122,6 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                 drive),
                         new IntakeCommand(intake, kicker)),
                 //fire final cargo
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker));
+                /*new AimCommand(vision, hood, turret),*/ new ShootCommand(shooter, kicker));
     }
 }

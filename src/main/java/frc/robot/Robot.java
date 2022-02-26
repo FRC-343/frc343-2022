@@ -76,14 +76,15 @@ public class Robot extends TimedRobot {
         // () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()),
         // m_climbing));
 
-        // m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed *
-        // MiscMath.deadband(-m_stick.getY()),
-        // kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
+        m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed *
+                MiscMath.deadband(-m_stick.getY()),
+                kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
 
-        m_drive.setDefaultCommand(new RunCommand(
-                () -> m_drive.setVoltages(12 * MiscMath.deadband(-m_stick.getY() + m_stick.getX()),
-                        12 * MiscMath.deadband(-m_stick.getY() - m_stick.getX())),
-                m_drive));
+        // m_drive.setDefaultCommand(new RunCommand(
+        // () -> m_drive.setVoltages(12 * MiscMath.deadband(-m_stick.getY() +
+        // m_stick.getX()),
+        // 12 * MiscMath.deadband(-m_stick.getY() - m_stick.getX())),
+        // m_drive));
 
         m_hood.setDefaultCommand(
                 new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
@@ -101,6 +102,12 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
+        new JoystickButton(m_controller, XboxController.Button.kB.value).whenPressed(new RunCommand(() -> {
+            m_kicker.setKicker(-1.0);
+        }, m_kicker)).whenReleased(new RunCommand(() -> {
+            m_kicker.setKicker(0.0);
+        }, m_kicker));
+
         new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
             m_intake.setIntake(-0.3);
         }, m_intake)).whenReleased(new RunCommand(() -> {
@@ -111,10 +118,11 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
         new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_turret));
 
-        new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value)
-                .whenHeld(new ShootCommand(m_shooter, m_kicker));
         new JoystickButton(m_controller, XboxController.Button.kRightBumper.value)
-                .whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker));
+                .whenHeld(new ShootCommand(m_shooter, m_kicker));
+
+        // new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value)
+        //         .whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker));
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker));
 

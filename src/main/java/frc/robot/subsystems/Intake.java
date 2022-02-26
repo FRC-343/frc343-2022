@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
     private final DoubleSolenoid m_intakeLift = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 0);
     private final Spark m_intake = new Spark(6);
-    private final DigitalInput m_cellDetector = new DigitalInput(100);
+    private final DigitalInput m_cellDetector = new DigitalInput(14);
 
     public Intake() {
         m_intake.setInverted(true);
@@ -21,6 +21,9 @@ public class Intake extends SubsystemBase {
 
         SendableRegistry.setSubsystem(m_intakeLift, this.getClass().getSimpleName());
         SendableRegistry.setName(m_intakeLift, "Intake Lift");
+
+        SendableRegistry.setSubsystem(m_cellDetector, this.getClass().getSimpleName());
+        SendableRegistry.setName(m_cellDetector, "cell detector for shooter/intake");
     }
 
     public void raise() {
