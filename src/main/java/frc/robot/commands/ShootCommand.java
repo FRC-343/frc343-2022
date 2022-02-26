@@ -8,15 +8,15 @@ import frc.robot.subsystems.Shooter;
 
 public class ShootCommand extends CommandBase {
     private static final double kTopShootSpeed = 39.00; // rev per sec 125.0
-    private static final double kTopShootReadySpeed = 34.0; // rev per sec
+    private static final double kTopShootReadySpeed = 33.0; // rev per sec
 
-    private static final double kBottomShootSpeed = 70.00; // rev per sec 125.0
-    private static final double kBottomShootReadySpeed = 68.0; // rev per sec
+    private static final double kBottomShootSpeed = 78.00; // rev per sec 125.0
+    private static final double kBottomShootReadySpeed = 67.0; // rev per sec
 
     private final Shooter m_shooter;
     private final Kicker m_kicker;
     private final boolean m_waitForAim;
-    private Timer t;
+    private Timer t; 
     private final double time;
 
     public ShootCommand(Shooter shooter, Kicker kicker, boolean waitForAim) {
@@ -36,6 +36,7 @@ public class ShootCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        t.start();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -69,6 +70,7 @@ public class ShootCommand extends CommandBase {
     public void end(boolean interrupted) {
         m_shooter.shoot(0);
         m_kicker.setKicker(0);
+        t.reset();
     }
 
     // Returns true when the command should end.

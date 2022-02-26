@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MiscMath;
 
 public class Drive extends SubsystemBase {
-    public static final double kMaxSpeed = 6; // meters per second
-    public static final double kMaxAcceleration = 4.0; // meters per second squared
+    public static final double kMaxSpeed = 1.4; // meters per second
+    public static final double kMaxAcceleration = 1; // meters per second squared
     public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
     private static final double kTrackWidth = 0.568; // meters

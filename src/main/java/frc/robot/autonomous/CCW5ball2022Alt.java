@@ -33,16 +33,16 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                 drive.getKinematics(), 11.0);
 
         // Create config for trajectory
-        TrajectoryConfig forwardPickupConfig = new TrajectoryConfig(Drive.kMaxSpeed / 4,
-                Drive.kMaxAcceleration / 4)
+        TrajectoryConfig forwardPickupConfig = new TrajectoryConfig(/*Drive.kMaxSpeed,
+                Drive.kMaxAcceleration*/.5, .5)
                         // Add kinematics to ensure max speed is actually obeyed
                         .setKinematics(drive.getKinematics())
                         // Apply the voltage constraint
                         .addConstraint(voltageConstraint);
 
         // Create config for trajectory
-        TrajectoryConfig reversePickupConfig = new TrajectoryConfig(Drive.kMaxSpeed / 4,
-                Drive.kMaxAcceleration / 4)
+        TrajectoryConfig reversePickupConfig = new TrajectoryConfig(/*Drive.kMaxSpeed,
+                Drive.kMaxAcceleration*/ .5, .5)
                         // Add kinematics to ensure max speed is actually obeyed
                         .setKinematics(drive.getKinematics())
                         // Apply the voltage constraint
@@ -58,7 +58,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
 
                                 TrajectoryGenerator.generateTrajectory(
                                         new Pose2d(0, 0, Rotation2d
-                                                .fromDegrees(270)),
+                                                .fromDegrees(245)),
                                         List.of(),
                                         new Pose2d(-0.5, -1.32,
                                                 Rotation2d.fromDegrees(
