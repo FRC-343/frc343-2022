@@ -31,7 +31,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
             new DriveDistanceCommand(kDriveDistance, kDriveSpeed, drive, 0.0, false),
             new IntakeCommand(intake, kicker)),
         // rotate
-        new DriveDistanceCommand(0, 1, drive, 100, true),
+        new DriveDistanceCommand(0, 0, drive, 100, true),
         // aim
         new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker));
   }

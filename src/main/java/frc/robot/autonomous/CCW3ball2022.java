@@ -26,35 +26,58 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class CCW3ball2022 extends SequentialCommandGroup {
+    private final double maxSpeed;
+    private final double maxAcceleration;
 
-  public CCW3ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter, Turret turret) {
-    TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(drive.getRightFeedforward(),
-        drive.getKinematics(), 11.0);
+    public CCW3ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
+            Turret turret) {
 
-    // Create config for trajectory
-    TrajectoryConfig forwardPickupConfig = new TrajectoryConfig(Drive.kMaxSpeed/4, Drive.kMaxAcceleration/4)
-        // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(drive.getKinematics())
-        // Apply the voltage constraint
-        .addConstraint(voltageConstraint);
+        maxSpeed = Drive.kMaxSpeed / 4;
+        maxAcceleration = Drive.kMaxAcceleration / 4;
 
-    // commands in this autonomous
-    addCommands(
-        // drop intake
-        new InstantCommand(intake::lower, intake),
-        // fire 1st cargo
-        new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
-        // pickup trajectory
-        new ParallelDeadlineGroup(
-            new TrajectoryCommand(TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, Rotation2d.fromDegrees(270)), 
-                List.of(new Translation2d(-0.67, -1.33), 
-                        new Translation2d(-1.11, -0.89),   
-                        new Translation2d(-3.2, -.20)
-                        ),
-                new Pose2d(-3.0, .45, Rotation2d.fromDegrees(30)), forwardPickupConfig), drive),
-            new IntakeCommand(intake, kicker)
-       ),
-       new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker)
-    );
-  }
+        TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(drive.getRightFeedforward(),
+                drive.getKinematics(), 11.0);
+
+        // Create config for trajectory
+        TrajectoryConfig forwardPickupConfig = new TrajectoryConfig(maxSpeed, maxAcceleration)
+                // Add kinematics to ensure max speed is actually obeyed
+                .setKinematics(drive.getKinematics())
+                // Apply the voltage constraint
+                .addConstraint(voltageConstraint);
+
+        // Create config for trajectory
+        TrajectoryConfig reversePickupConfig = new TrajectoryConfig(maxSpeed, maxAcceleration)
+                // Add kinematics to ensure max speed is actually obeyed
+                .setKinematics(drive.getKinematics())
+                // Apply the voltage constraint
+                .addConstraint(voltageConstraint).setReversed(true);
+
+        // commands in this autonomous
+        addCommands(
+                // pickup trajectory 1st ball
+                new ParallelDeadlineGroup(
+                        new TrajectoryCommand(
+                                TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(1.5 * Math.PI)), // 270 degrees
+                                        List.of(),
+                                        new Pose2d(-0.7, -1.0, new Rotation2d(.96)), forwardPickupConfig), // 55 Degrees
+                                drive),
+                        new IntakeCommand(intake, kicker)),
+                // rotate towards second ball
+                new TrajectoryCommand(
+                        TrajectoryGenerator.generateTrajectory(new Pose2d(-0.7, -1.0, new Rotation2d(.96)), List.of(),
+                                new Pose2d(-0.7, -1.0, new Rotation2d(.4)), forwardPickupConfig), // change to reverse if not work
+                        drive),
+                // fire 2
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
+                //go to second ball
+                new ParallelDeadlineGroup(
+                        new TrajectoryCommand(
+                                TrajectoryGenerator.generateTrajectory(new Pose2d(0.0, 0.0, new Rotation2d(.4)), // 23 degrees
+                                        List.of(),
+                                        new Pose2d(-2.6, 1.1, new Rotation2d(.4)), forwardPickupConfig), // 23 Degrees
+                                drive),
+                        new IntakeCommand(intake, kicker)),
+                //fire last ball
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker));
+    }
 }
