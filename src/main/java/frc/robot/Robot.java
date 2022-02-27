@@ -72,30 +72,34 @@ public class Robot extends TimedRobot {
 
         Pressy.enableDigital(); // compressor has to be enabled manually
 
-        // m_climbing.setDefaultCommand(new RunCommand(
-        // () -> m_climbing.setWinch(-kMaxWinchSpeed * m_controller.getRightY()),
-        // m_climbing));
-
+        // Joystick
         m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed *
                 MiscMath.deadband(-m_stick.getY()),
                 kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
 
-        // m_drive.setDefaultCommand(new RunCommand(
-        // () -> m_drive.setVoltages(12 * MiscMath.deadband(-m_stick.getY() +
-        // m_stick.getX()),
-        // 12 * MiscMath.deadband(-m_stick.getY() - m_stick.getX())),
-        // m_drive));
+        // Joystick buttons
+        new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_turret));
+        new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
+        new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
 
+        // Controller joysticks
         m_hood.setDefaultCommand(
                 new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
 
         m_turret.setDefaultCommand(
                 new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
 
+        // Controller Triggers/Bumpers
         m_shooter.setDefaultCommand(
                 new RunCommand(() -> m_shooter.set(0.35 * m_controller.getRightTriggerAxis(),
                         0.70 * m_controller.getRightTriggerAxis()), m_shooter));
 
+        new JoystickButton(m_controller, XboxController.Button.kRightBumper.value)
+                .whenHeld(new ShootCommand(m_shooter, m_kicker));
+
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker));
+
+        // Controller Buttons
         new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
             m_kicker.setKicker(1.0);
         }, m_kicker)).whenReleased(new RunCommand(() -> {
@@ -113,18 +117,6 @@ public class Robot extends TimedRobot {
         }, m_intake)).whenReleased(new RunCommand(() -> {
             m_intake.setIntake(0);
         }, m_intake));
-
-        new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
-        new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
-        new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_turret));
-
-        new JoystickButton(m_controller, XboxController.Button.kRightBumper.value)
-                .whenHeld(new ShootCommand(m_shooter, m_kicker));
-
-        // new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value)
-        //         .whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker, false));
-
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker));
 
     }
 
