@@ -58,6 +58,7 @@ public class ShootCommand extends CommandBase {
             m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
             if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
                     && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
+                // Timer.delay(.5);
                 m_kicker.setKicker(1.0);
             } else {
                 m_kicker.setKicker(0);

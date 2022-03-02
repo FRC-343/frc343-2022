@@ -14,7 +14,7 @@ public class Hood extends SubsystemBase {
     private final DigitalInput m_hoodFront = new DigitalInput(3);
     private final Spark m_hoodMotor = new Spark(7);
 
-    private final double kMaxHoodEncoderValue = 4500;
+    private final double kMaxHoodEncoderValue = 4500; //TODO change here also
     private final double kMaxHoodEncoderRate = 1700;
 
     private static boolean m_aimed = false; // if shooter is currently aimed
@@ -64,8 +64,8 @@ public class Hood extends SubsystemBase {
     public void periodic() {
         if (m_aiming) {
 
-            if (m_hoodEncoder.getRate() > kMaxHoodEncoderRate || m_hoodEncoder.getRate() < (-1 * kMaxHoodEncoderRate)|| m_hoodEncoder.getDistance() > kMaxHoodEncoderValue
-                    || m_hoodEncoder.getDistance() < -222) {
+            if (m_hoodEncoder.getRate() > kMaxHoodEncoderRate || m_hoodEncoder.getRate() < -kMaxHoodEncoderRate|| m_hoodEncoder.getDistance() > kMaxHoodEncoderValue
+                    || m_hoodEncoder.getDistance() < -222) { //TODO change these values
                 System.err.println("Hood encoder sent garbage values, zeroing again...");
                 m_zeroing = true;
             }
