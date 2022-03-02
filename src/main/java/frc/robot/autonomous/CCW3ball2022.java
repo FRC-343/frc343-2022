@@ -61,10 +61,10 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                                 drive),
                         new IntakeCommand(intake, kicker)),
                 // rotate towards second ball
-                new TrajectoryCommand(
-                        TrajectoryGenerator.generateTrajectory(new Pose2d(0.0, 0.0, new Rotation2d(.96)), List.of(),
-                                new Pose2d(0.0, 0.0, new Rotation2d(.4)), forwardPickupConfig), // change to reverse if not work
-                        drive),
+                // new TrajectoryCommand(
+                //         TrajectoryGenerator.generateTrajectory(new Pose2d(0.0, 0.0, new Rotation2d(.96)), List.of(),
+                //                 new Pose2d(0.0, 0.0, new Rotation2d(.4)), forwardPickupConfig), // change to reverse if not work
+                //         drive),
                 // fire 2
                 new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker),
                 //go to second ball

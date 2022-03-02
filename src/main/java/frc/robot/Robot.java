@@ -55,9 +55,9 @@ public class Robot extends TimedRobot {
                 new CCW5ball2022Alt(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_autoChooser.addOption("3CCW",
                 new CCW3ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
-        // m_autoChooser.addOption("BIAS", new JustBackItUpAndShoot(m_drive, m_intake,
-        // m_kicker, m_vision, m_hood, m_shooter));
-        // m_auto = m_autoChooser.getSelected();
+        m_autoChooser.addOption("2BA",
+                new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret) );
+        m_auto = m_autoChooser.getSelected();
 
     }
 
@@ -153,6 +153,8 @@ public class Robot extends TimedRobot {
         if (m_auto != null) {
             m_auto.schedule();
         }
+
+        m_drive.zeroHeading();
 
     }
 
