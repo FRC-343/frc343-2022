@@ -16,7 +16,7 @@ public class AimCommand extends CommandBase {
     private final Turret m_turret;
 
     private final double kTurretPrecision = 1.0; 
-    private final double kTurretSpeed = .5;
+    private final double kTurretSpeed = .7;
 
     public AimCommand(Vision vision, Hood hooooooooood, Turret turret) {
         m_vision = vision;
