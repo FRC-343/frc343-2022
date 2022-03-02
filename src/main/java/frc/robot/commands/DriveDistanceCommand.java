@@ -32,14 +32,14 @@ public class DriveDistanceCommand extends CommandBase {
     public void initialize() {
         m_startPose = m_drive.getPose();
 
-        m_drive.drive(m_speed, 0);
+        // m_drive.drive(m_speed, 0);
         kStartHeading = m_drive.getHeading();
     }
 
     @Override
     public void execute() {
         if (m_toSpin) {
-            m_drive.drive(m_speed, 1);
+            m_drive.drive(0, m_speed);
 
         } else {
             m_drive.drive(m_speed, 0);

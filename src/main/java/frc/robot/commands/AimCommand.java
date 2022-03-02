@@ -2,15 +2,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-// import frc.robot.subsystems.Drive;
-
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class AimCommand extends CommandBase {
     // private static final double kTargetP = -0.125;
-    // private static final double kTargetD = -1.0;
+    // private static final double kTargetD = -1.0; 
+    // private static double prev_heading_error = 0.0;
 
     private final Vision m_vision;
     private final Hood m_hood;
@@ -18,9 +17,6 @@ public class AimCommand extends CommandBase {
 
     private final double kTurretPrecision = 1.0; 
     private final double kTurretSpeed = .5;
-
-    // private final Drive m_drive;
-    // private static double prev_heading_error = 0.0;
 
     public AimCommand(Vision vision, Hood hooooooooood, Turret turret) {
         m_vision = vision;
@@ -38,7 +34,6 @@ public class AimCommand extends CommandBase {
     @Override
     public void execute() {
         double heading_error = m_vision.getTx();
-        double angle_error = m_vision.getTy();
 
         // if (Math.abs(heading_error) > 2.0) {
         // m_drive.drive(0, kTargetP * heading_error + kTargetD *
@@ -55,7 +50,7 @@ public class AimCommand extends CommandBase {
             m_turret.spin(0.0);
         }
 
-        // m_hood.aim(angle_error); 
+        // m_hood.aim(m_vision.getTy()); 
     }
 
     // Called once the command ends or is interrupted.
