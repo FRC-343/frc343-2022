@@ -13,8 +13,8 @@ public class Vision extends SubsystemBase {
     private final NetworkTableEntry ty = table.getEntry("ty");
 
     public Vision() {
-        SmartDashboard.putNumber("tx", tx.getDouble(0));
-        SmartDashboard.putNumber("ty", ty.getDouble(0));
+        // SmartDashboard.putNumber("tx", tx.getDouble(0));
+        // SmartDashboard.putNumber("ty", ty.getDouble(0));
     }
     
 

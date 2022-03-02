@@ -44,10 +44,10 @@ public class AimCommand extends CommandBase {
 
         // prev_heading_error = heading_error;
 
-        if (heading_error > 2.0) {
-            m_turret.spin(.3);
-        } else if (heading_error < -2.0) {
-            m_turret.spin(-.3);
+        if (heading_error > 1.0) {
+            m_turret.spin(.5);
+        } else if (heading_error < -1.0) {
+            m_turret.spin(-.5);
         } else {
             m_turret.spin(0.0);
         }

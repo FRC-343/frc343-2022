@@ -1,13 +1,13 @@
-PID for drive back
-
-PID for shooter
+limelight pipeline improve
 
 limelight targetting formula
 
+auto working
+
+
+
 Turret
     presets from buttons
-
-Have diffrent auton selectable in dashboard, before round starts
 
 Add color sensor back and add to shooter logic, allowing to spit out cargo of the wrong color
 
