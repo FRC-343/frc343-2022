@@ -11,10 +11,13 @@ public class Vision extends SubsystemBase {
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     private final NetworkTableEntry tx = table.getEntry("tx");
     private final NetworkTableEntry ty = table.getEntry("ty");
+    
+
 
     public Vision() {
         SmartDashboard.putNumber("tx", tx.getDouble(0));
         SmartDashboard.putNumber("ty", ty.getDouble(0));
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("<ledMode>").setNumber(1);
     }
     
 
