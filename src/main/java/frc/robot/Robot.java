@@ -81,6 +81,12 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_turret));
         new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
+        
+        //Other Joystick Buttons
+        new JoystickButton(m_stick, 5).whenHeld(new PresetTurretCommand(m_turret, 62.5)); //Test and change buttons to actually be good
+        new JoystickButton(m_stick, 6).whenHeld(new PresetTurretCommand(m_turret, 125));
+        new JoystickButton(m_stick, 7).whenHeld(new PresetTurretCommand(m_turret, 187.5));
+
 
         // Controller joysticks
         m_hood.setDefaultCommand(

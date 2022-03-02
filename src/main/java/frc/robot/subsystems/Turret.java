@@ -15,9 +15,9 @@ public class Turret extends SubsystemBase {
     private final DigitalInput m_isRight = new DigitalInput(7); // has completely turned clockwise
 
     private double m_speed = 0.0;
-    private boolean m_aiming = false; // aiming is just used for getting to a preset angle ish
+    private boolean m_aiming = false; // aiming is just used for getting to a preset angle
     private boolean m_aimed = false; // same
-    private boolean m_zeroing = false;
+    private boolean m_zeroing = false; //reseting to get good encoder values
     private double m_target = 0.0;
 
     public Turret() {
@@ -36,6 +36,14 @@ public class Turret extends SubsystemBase {
 
         SendableRegistry.setSubsystem(m_isRight, this.getClass().getSimpleName());
         SendableRegistry.setName(m_isRight, "Turret right (cw) limit switich");
+    }
+
+    public void stop() {
+        m_turret.set(0.0);
+    }
+
+    public boolean isAimed() {
+        return m_aimed;
     }
 
     public void spin(double speed) {

@@ -16,6 +16,9 @@ public class AimCommand extends CommandBase {
     private final Hood m_hood;
     private final Turret m_turret;
 
+    private final double kTurretPrecision = 1.0; 
+    private final double kTurretSpeed = .5;
+
     // private final Drive m_drive;
     // private static double prev_heading_error = 0.0;
 
@@ -44,15 +47,15 @@ public class AimCommand extends CommandBase {
 
         // prev_heading_error = heading_error;
 
-        if (heading_error > 1.0) {
-            m_turret.spin(.5);
-        } else if (heading_error < -1.0) {
-            m_turret.spin(-.5);
+        if (heading_error > kTurretPrecision) {
+            m_turret.spin(kTurretSpeed);
+        } else if (heading_error < -kTurretPrecision) {
+            m_turret.spin(-kTurretSpeed);
         } else {
             m_turret.spin(0.0);
         }
 
-        // m_hood.aim(angle_error);
+        // m_hood.aim(angle_error); 
     }
 
     // Called once the command ends or is interrupted.
@@ -65,7 +68,7 @@ public class AimCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (Math.abs(m_vision.getTx()) < 1.0 && Hood.isAimed());
+        return (Math.abs(m_vision.getTx()) < kTurretPrecision && Hood.isAimed());
     }
 
 }
