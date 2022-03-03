@@ -83,19 +83,18 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
 
-        // // Other Joystick Buttons (turret Presets)
-        // new JoystickButton(m_stick, 5).whenHeld(new PresetTurretCommand(m_turret, 62.5)); // Test and change buttons to actually be good
-        // new JoystickButton(m_stick, 6).whenHeld(new PresetTurretCommand(m_turret, 125));
-        // new JoystickButton(m_stick, 7).whenHeld(new PresetTurretCommand(m_turret, 187.5));
+        // Other Joystick Buttons (turret Presets)
+        new JoystickButton(m_stick, 5).whenHeld(new PresetTurretCommand(m_turret, 62.5)); // Test and change buttons to actually be good
+        new JoystickButton(m_stick, 6).whenHeld(new PresetTurretCommand(m_turret, 125));
+        new JoystickButton(m_stick, 7).whenHeld(new PresetTurretCommand(m_turret, 187.5));
 
         // Controller joysticks
         m_hood.setDefaultCommand(
                 new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
 
-         m_turret.setDefaultCommand(
-                new RunCommand(() ->m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
-             
-            
+        m_turret.setDefaultCommand(
+                new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
+
         // Controller Triggers/Bumpers
         m_shooter.setDefaultCommand(
                 new RunCommand(() -> m_shooter.set(0.35 * m_controller.getRightTriggerAxis(),
@@ -121,6 +120,15 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
+<<<<<<< HEAD
+=======
+        new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
+            m_intake.setIntake(-0.3);
+        }, m_intake)).whenReleased(new RunCommand(() -> {
+            m_intake.setIntake(0);
+        }, m_intake));
+
+>>>>>>> parent of 1275409 (turret code is very broken)
     }
 
     /**

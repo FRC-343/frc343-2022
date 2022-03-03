@@ -73,9 +73,9 @@ public class Turret extends SubsystemBase {
                 m_turret.set(-1.0);
             }
         } else if (isPositiveSpeed) {
-            if (m_turretEncoder.get() < 230) {
+            if (m_turretEncoder.get() > 230) {
                 m_turret.set(.2);
-            } else if (m_turretEncoder.get() < 200) {
+            } else if (m_turretEncoder.get() > 200) {
                 m_turret.set(.5);
             } else { // not close to right limit switch
                 m_turret.set(1.0);
