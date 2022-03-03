@@ -104,9 +104,11 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_controller, XboxController.Button.kRightBumper.value)
                 .whenHeld(new ShootCommand(m_shooter, m_kicker));
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker));
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, .8));
 
         // Controller Buttons
+        new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, -.3));
+
         new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
             m_kicker.setKicker(1.0);
         }, m_kicker)).whenReleased(new RunCommand(() -> {
@@ -118,14 +120,6 @@ public class Robot extends TimedRobot {
         }, m_kicker)).whenReleased(new RunCommand(() -> {
             m_kicker.setKicker(0.0);
         }, m_kicker));
-
-        new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
-            m_intake.setIntake(-0.3);
-            m_intake.lower();
-        }, m_intake)).whenReleased(new RunCommand(() -> {
-            m_intake.setIntake(0);
-            m_intake.raise();
-        }, m_intake));
 
     }
 
