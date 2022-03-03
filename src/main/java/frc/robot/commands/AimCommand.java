@@ -18,6 +18,8 @@ public class AimCommand extends CommandBase {
     private final double kTurretPrecision = 1.0; 
     private final double kTurretSpeed = .5;
 
+    public static double kShooterSpeedFromAim = -1.0;
+
     public AimCommand(Vision vision, Hood hooooooooood, Turret turret) {
         m_vision = vision;
         m_hood = hooooooooood;
@@ -28,6 +30,8 @@ public class AimCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        double x = m_vision.getTy();
+        kShooterSpeedFromAim = 2*x*x + 2*x + x + 10; //TODO speed formuala
     }
 
     // Called every time the scheduler runs while the command is scheduled.

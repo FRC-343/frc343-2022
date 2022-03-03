@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
     private final Kicker m_kicker = new Kicker();
     private final Intake m_intake = new Intake();
 
-    // private final Climbing m_climbing = new Climbing();
+    private final Climbing m_climbing = new Climbing();
 
     private final XboxController m_controller = new XboxController(1);
     private final Joystick m_stick = new Joystick(0);
@@ -80,8 +80,12 @@ public class Robot extends TimedRobot {
 
         // Joystick buttons
         new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_turret));
+
         new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
+
+        new JoystickButton(m_stick, 7).whenPressed(new InstantCommand(m_climbing::disEngage, m_climbing));
+        new JoystickButton(m_stick, 8).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
 
         // Other Joystick Buttons (turret Presets)
         new JoystickButton(m_stick, 5).whenHeld(new PresetTurretCommand(m_turret, 62.5)); // Test and change buttons to actually be good
@@ -96,12 +100,20 @@ public class Robot extends TimedRobot {
                 new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
 
         // Controller Triggers/Bumpers
-        m_shooter.setDefaultCommand(
-                new RunCommand(() -> m_shooter.set(0.35 * m_controller.getRightTriggerAxis(),
-                        0.70 * m_controller.getRightTriggerAxis()), m_shooter));
 
-        new JoystickButton(m_controller, XboxController.Button.kRightBumper.value)
-                .whenHeld(new ShootCommand(m_shooter, m_kicker));
+        // m_shooter.setDefaultCommand(
+        // new RunCommand(() -> m_shooter.set(0.35 * m_controller.getRightTriggerAxis(),
+        // 0.70 * m_controller.getRightTriggerAxis()), m_shooter));
+
+        // new JoystickButton(m_controller, XboxController.Button.kRightBumper.value)
+        // .whenHeld(new ShootCommand(m_shooter, m_kicker));
+
+        new Button(() -> m_controller.getRightTriggerAxis() > 0.2).whenHeld(new RunCommand(() -> { //basic shooter
+            m_shooter.set(.35, .70);
+        }, m_shooter));
+
+        new Button(() -> m_controller.getRightBumper()).whenHeld(new ShootCommand(m_shooter, m_kicker, 70)); //shooter with PIDs and auto kicker
+        new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker, false)); //same as above plus aiming
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, .8));
 
@@ -119,6 +131,12 @@ public class Robot extends TimedRobot {
         }, m_kicker)).whenReleased(new RunCommand(() -> {
             m_kicker.setKicker(0.0);
         }, m_kicker));
+
+        new JoystickButton(m_controller, XboxController.Button.kStart.value) // low goal
+                .whenHeld(new ShootCommand(m_shooter, m_kicker, 21));
+
+        new JoystickButton(m_controller, XboxController.Button.kBack.value)
+                .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
 
     }
 

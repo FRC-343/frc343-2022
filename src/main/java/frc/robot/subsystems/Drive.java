@@ -66,7 +66,7 @@ public class Drive extends SubsystemBase {
         m_rightEncoder.setDistancePerPulse(2 * Math.PI * kWheelRadius / kEncoderResolution);
 
         resetEncoders();
-        m_gyro.reset(); // TODO test this once things are working
+        m_gyro.reset();
 
         m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 

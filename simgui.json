@@ -51,6 +51,7 @@
       "/LiveWindow/Hopper/Kicker Motor": "Motor Controller",
       "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/Intake/Intake Motor": "Motor Controller",
+      "/LiveWindow/Intake/cell detector for shooter/intake": "Digital Input",
       "/LiveWindow/Kicker": "Subsystem",
       "/LiveWindow/Kicker/Kicker Motor": "Motor Controller",
       "/LiveWindow/Shooter": "Subsystem",
