@@ -120,15 +120,6 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
-<<<<<<< HEAD
-=======
-        new JoystickButton(m_controller, XboxController.Button.kY.value).whenPressed(new RunCommand(() -> {
-            m_intake.setIntake(-0.3);
-        }, m_intake)).whenReleased(new RunCommand(() -> {
-            m_intake.setIntake(0);
-        }, m_intake));
-
->>>>>>> parent of 1275409 (turret code is very broken)
     }
 
     /**
