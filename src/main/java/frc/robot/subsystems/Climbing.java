@@ -24,7 +24,7 @@ public class Climbing extends SubsystemBase {
     // SendableRegistry.setSubsystem(m_isTop, this.getClass().getSimpleName());
     // SendableRegistry.setName(m_isTop, "Top climber limit switch");
     SendableRegistry.setSubsystem(m_climber, this.getClass().getSimpleName());
-    SendableRegistry.setName(m_climber, "Ratchet for climbing witch");
+    SendableRegistry.setName(m_climber, "climbing pnumatics");
   }
 
   // public void setWinch(double speed) {

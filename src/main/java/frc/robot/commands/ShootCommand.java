@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.AimCommand;
 
 public class ShootCommand extends CommandBase {
     private static double kTopShootSpeed;
