@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.AimCommand;
-import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.DriveTurnCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
