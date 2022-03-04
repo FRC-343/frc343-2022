@@ -188,6 +188,8 @@ public class Robot extends TimedRobot {
         if (m_auto != null) {
             m_auto.cancel();
         }
+
+        m_drive.zeroHeading();
     }
 
     /**

@@ -188,6 +188,7 @@ public class Drive extends SubsystemBase {
      * @return the robot's heading in degrees, from -180 to 180
      */
     public double getHeading() {
+        //return m_gyro.getRotation2d().getDegrees();
         return Math.IEEEremainder(m_gyro.getAngle(), 360) * (kGyroReversed ? -1.0 : 1.0);
     }
 
