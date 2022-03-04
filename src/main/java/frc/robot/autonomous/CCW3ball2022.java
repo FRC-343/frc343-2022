@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.DriveDistanceCommand;
+import frc.robot.commands.DriveTurnCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TrajectoryCommand;
@@ -64,7 +65,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                                 drive),
                         new IntakeCommand(intake, kicker)),
                 // rotate towards second ball
-                new DriveDistanceCommand(0, 1, drive, 100, true),
+                new DriveTurnCommand(80, 1, drive),
                 // fire 2
                 new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, false, true, 0.0),
                 // go to second ball

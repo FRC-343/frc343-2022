@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.DriveDistanceCommand;
+import frc.robot.commands.DriveTurnCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.Drive;
@@ -17,7 +18,7 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class TwoBallAuto extends SequentialCommandGroup {
-  private static final double kDriveDistance = 1.3;
+  private static final double kDriveDistance = 2.0;
   private static final double kDriveSpeed = 1;
 
   public TwoBallAuto(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
@@ -28,10 +29,10 @@ public class TwoBallAuto extends SequentialCommandGroup {
         new InstantCommand(intake::lower, intake),
         // drive and intake
         new ParallelDeadlineGroup(
-            new DriveDistanceCommand(kDriveDistance, kDriveSpeed, drive, 0.0, false),
+            new DriveDistanceCommand(kDriveDistance, kDriveSpeed, drive),
             new IntakeCommand(intake, kicker)),
         // rotate
-        new DriveDistanceCommand(0, kDriveSpeed, drive, 100, true),
+        new DriveTurnCommand(100, kDriveSpeed, drive),
         // aim
         new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, false, true, 0.0));
   }
