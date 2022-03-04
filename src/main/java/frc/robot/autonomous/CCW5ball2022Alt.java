@@ -12,8 +12,7 @@ import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-// import frc.robot.commands.AimCommand;
+import frc.robot.commands.AimCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TrajectoryCommand;
@@ -81,7 +80,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                 drive),
                         new IntakeCommand(intake, kicker)),
                 //Aim and Fire
-                /*new AimCommand(vision, hood, turret),*/ new ShootCommand(shooter, kicker),
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, false, true, 0.0),
                 //drive to terminal
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -110,7 +109,7 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                 forwardPickupConfig),
                         drive),
                 // fire 2 cargo 
-                /*new AimCommand(vision, hood, turret),*/ new ShootCommand(shooter, kicker),
+                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, false, true, 0.0),
                 //pick up final cargo
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -122,6 +121,6 @@ public class CCW5ball2022Alt extends SequentialCommandGroup {
                                 drive),
                         new IntakeCommand(intake, kicker)),
                 //fire final cargo
-                /*new AimCommand(vision, hood, turret),*/ new ShootCommand(shooter, kicker));
+                /*new AimCommand(vision, hood, turret),*/ new ShootCommand(shooter, kicker, false, true, 0.0));
     }
 }

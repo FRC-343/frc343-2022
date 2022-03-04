@@ -21,7 +21,7 @@ public class ShootCommand extends CommandBase {
     private final double time;
 
     public ShootCommand(Shooter shooter, Kicker kicker, boolean waitForAim, boolean stopAfterTime,
-            double bottomReadySpeed) {
+            double speed) {
         m_shooter = shooter;
         m_kicker = kicker;
 
@@ -29,31 +29,22 @@ public class ShootCommand extends CommandBase {
 
         m_waitForAim = waitForAim;
         m_stopAfterTime = stopAfterTime;
-        if (bottomReadySpeed > 0.0) {
-            kBottomShootReadySpeed = bottomReadySpeed; //use the AimCommand.kShooterSpeedFromAim unless it is negative then use default
+
+        if (speed > 0.0) { //try using value first
+            kBottomShootReadySpeed = speed;
+        } else if (AimCommand.kShooterSpeedFromAim > 0.0) { //try using aiming value next
+            kBottomShootReadySpeed = AimCommand.kShooterSpeedFromAim;
         } else {
             kBottomShootReadySpeed = 70;
         }
+
         kBottomShootSpeed = kBottomShootReadySpeed * (8.0 / 7); // bottom speed = 1/7 more than bottom ready speed, 80 rps
         kTopShootReadySpeed = kBottomShootReadySpeed / 2.0; // top ready speed = 1/2 of bottom ready speed, 35 rps
         kTopShootSpeed = kTopShootReadySpeed * (8.0 / 7); // top speed = 1/7 more than top ready speed, 40 rps
 
         t = new Timer();
-        time = 3;
+        time = 2.0;
     }
-
-    public ShootCommand(Shooter shooter, Kicker kicker, boolean waitForAim, boolean stopAfterTime) { // this takes the shooter speed from AimCommand
-        this(shooter, kicker, waitForAim, stopAfterTime, AimCommand.kShooterSpeedFromAim);
-    }
-
-    public ShootCommand(Shooter shooter, Kicker kicker, double speed) { // this defaults the waitForAim, and stopAfterTime
-        this(shooter, kicker, false, false, speed);
-    }
-
-    public ShootCommand(Shooter shooter, Kicker kicker) { // this defaults everything
-        this(shooter, kicker, false, false, AimCommand.kShooterSpeedFromAim); // defaults to false if not given, shooter will fire even if not aimed
-        // 2nd to last parameter = false so that it will keep the shooter running until let go of trigger
-    } // last paramater is speed which defaults to 70rps for bottom shooter
 
     // Called when the command is initially scheduled.
     @Override

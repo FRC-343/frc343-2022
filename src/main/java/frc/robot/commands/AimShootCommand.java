@@ -14,7 +14,7 @@ public class AimShootCommand extends SequentialCommandGroup {
             boolean stopForTime) {
         addCommands(new ParallelCommandGroup(
                 new AimCommand(vision, hood, turret),
-                new ShootCommand(shooter, kicker, true, stopForTime)));
+                new ShootCommand(shooter, kicker, true, stopForTime, 0.0)));
     }
 
 }
