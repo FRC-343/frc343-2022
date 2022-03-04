@@ -10,45 +10,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climbing extends SubsystemBase {
-  // private final Spark m_winch = new Spark(8);
-  // private final DigitalInput m_isBottom = new DigitalInput(12);
-  // private final DigitalInput m_isTop = new DigitalInput(13);
-  private final DoubleSolenoid m_climber = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 3); //TODO change values
+  private final DoubleSolenoid m_climber = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 2); //TODO flip values
 
   public Climbing() {
-    // m_winch.setInverted(true);
-    // SendableRegistry.setSubsystem(m_winch, this.getClass().getSimpleName());
-    // SendableRegistry.setName(m_winch, "Winch Motor");
-    // SendableRegistry.setSubsystem(m_isBottom, this.getClass().getSimpleName());
-    // SendableRegistry.setName(m_isBottom, "Bottom climber limit switch");
-    // SendableRegistry.setSubsystem(m_isTop, this.getClass().getSimpleName());
-    // SendableRegistry.setName(m_isTop, "Top climber limit switch");
     SendableRegistry.setSubsystem(m_climber, this.getClass().getSimpleName());
     SendableRegistry.setName(m_climber, "climbing pnumatics");
   }
 
-  // public void setWinch(double speed) {
-  //   if (m_isBottom.get() || m_ratchetLift.get() == DoubleSolenoid.Value.kForward) {
-  //     if (speed < 0) {
-  //       m_winch.set(0.0);
-  //     } else {
-  //       m_winch.set(speed);
-  //     }
-  //   } else if (m_isTop.get()) {
-  //     if (speed > 0) {
-  //       m_winch.set(0.0);
-  //     } else {
-  //       m_winch.set(speed);
-  //     }
-  //   } else {
-  //     m_winch.set(speed);
-  //   }
-
-  // }
-
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Ratchet State", m_climber.get() == DoubleSolenoid.Value.kForward);
+    SmartDashboard.putBoolean("climber pnumatics State", m_climber.get() == DoubleSolenoid.Value.kForward);
   }
 
   public void disEngage() {

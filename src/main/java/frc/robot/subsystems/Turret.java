@@ -71,13 +71,13 @@ public class Turret extends SubsystemBase {
             }
 
             if (m_zeroing) { // reseting for proper measurement
-                m_turret.set(-.5);
+                m_turret.set(-.3);
             } else {
                 if (m_isRight.get()) { // went all the way to the right, so try again
                     m_zeroing = true;
                     m_turret.set(0.0);
-                } else if (m_turretEncoder.getDistance() < m_target) { // going towards target cw
-                    m_turret.set(.5);
+                } else if (m_turretEncoder.get() < m_target) { // going towards target cw, previously was .getDistance()
+                    m_turret.set(.3);
                 } else {
                     m_turret.set(0.0);
                     m_aimed = true;
