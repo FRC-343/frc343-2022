@@ -1,8 +1,7 @@
 package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import frc.robot.commands.SimpleDriveCommand;
+import frc.robot.commands.driveCommands.SimpleDriveCommand;
 import frc.robot.subsystems.Drive;
 
 public class MoveAuto extends SequentialCommandGroup {

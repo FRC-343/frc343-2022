@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.AimCommand;
-import frc.robot.commands.DriveDistanceCommand;
-import frc.robot.commands.DriveTurnCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.driveCommands.DriveDistanceCommand;
+import frc.robot.commands.driveCommands.DriveTurnCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Kicker;
