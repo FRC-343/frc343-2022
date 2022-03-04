@@ -31,5 +31,6 @@ public class Kicker extends SubsystemBase {
 
     public void setKicker(double speed) {
         m_kicker.set(speed);
+        System.out.println("Kicker is doing something");
     }
 }

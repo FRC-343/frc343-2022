@@ -30,9 +30,9 @@ public class ShootCommand extends CommandBase {
         m_waitForAim = waitForAim;
         m_stopAfterTime = stopAfterTime;
 
-        if (speed > 0.0) { //try using value first
+        if (speed > 0.0) { // try using value first
             kBottomShootReadySpeed = speed;
-        } else if (AimCommand.kShooterSpeedFromAim > 0.0) { //try using aiming value next
+        } else if (AimCommand.kShooterSpeedFromAim > 0.0) { // try using aiming value next
             kBottomShootReadySpeed = AimCommand.kShooterSpeedFromAim;
         } else {
             kBottomShootReadySpeed = 70;
@@ -70,12 +70,13 @@ public class ShootCommand extends CommandBase {
                     && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
                 // Timer.delay(.5);
                 m_kicker.setKicker(1.0);
+
+                System.out.println(
+                        "t = " + m_shooter.getTopShooterRPS() + "\n b = " + m_shooter.getBottomShooterRPS());
             } else {
                 m_kicker.setKicker(0);
             }
         }
-
-        System.out.println("top = " + m_shooter.getTopShooterRPS() + "\n bottom = " + m_shooter.getBottomShooterRPS());
 
     }
 
