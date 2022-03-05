@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
 
 public class ShootCommand extends CommandBase {
     private static double kTopShootSpeed;
@@ -16,31 +15,29 @@ public class ShootCommand extends CommandBase {
 
     private final Shooter m_shooter;
     private final Kicker m_kicker;
-    private final Vision m_vision;
     private final boolean m_waitForAim; // for multitasking
     private final boolean m_stopAfterTime; // for auto
     private final boolean m_lowGoal;
     private Timer t;
     private final double time;
 
-    public ShootCommand(Shooter shooter, Kicker kicker, Vision vision, boolean waitForAim, boolean stopAfterTime,
+    public ShootCommand(Shooter shooter, Kicker kicker, boolean waitForAim, boolean stopAfterTime,
             boolean lowGoal) {
         m_shooter = shooter;
         m_kicker = kicker;
-        m_vision = vision;
 
-        addRequirements(m_shooter, m_kicker, m_vision);
+        addRequirements(m_shooter, m_kicker);
 
         m_waitForAim = waitForAim;
         m_stopAfterTime = stopAfterTime;
         m_lowGoal = lowGoal;
 
         t = new Timer();
-        time = 2.0;
+        time = 3.0;
     }
 
-    public ShootCommand(Shooter shooter, Kicker kicker, Vision vision, boolean waitForAim, boolean stopAfterTime) {
-        this(shooter, kicker, vision, waitForAim, stopAfterTime, false);
+    public ShootCommand(Shooter shooter, Kicker kicker, boolean waitForAim, boolean stopAfterTime) {
+        this(shooter, kicker, waitForAim, stopAfterTime, false);
     }
 
     // Called when the command is initially scheduled.
@@ -74,7 +71,7 @@ public class ShootCommand extends CommandBase {
         if (m_waitForAim) { // checks to see if aimed before firing
             m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
             if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-                    && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed && Hood.isAimed() && m_vision.isAimed(2.0)) {
+                    && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed && Hood.isAimed()) {
                 m_kicker.setKicker(1.0);
             } else {
                 m_kicker.setKicker(0);

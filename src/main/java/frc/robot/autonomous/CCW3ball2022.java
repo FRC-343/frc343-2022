@@ -32,7 +32,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
     public CCW3ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
             Turret turret) {
 
-        maxSpeed = Drive.kMaxSpeed / 4;
+        maxSpeed = Drive.kMaxSpeed / 8;
         maxAcceleration = Drive.kMaxAcceleration / 4;
 
         TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
@@ -53,8 +53,8 @@ public class CCW3ball2022 extends SequentialCommandGroup {
         // commands in this autonomous
         addCommands(
                 // pickup trajectory 1st ball
-                new ParallelDeadlineGroup(
-                        new SequentialCommandGroup(
+                // new ParallelDeadlineGroup(
+                        // new SequentialCommandGroup(
                                 new ParallelDeadlineGroup(
                                         new TrajectoryCommand(
                                                 TrajectoryGenerator.generateTrajectory(
@@ -67,11 +67,11 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                                                 drive),
                                         new IntakeCommand(intake, kicker)),
                                 // rotate towards second ball
-                                new DriveTurnCommand(-90, -1, drive)), // turn 90 degrees cw
-                        new PresetTurretCommand(turret, 200)),
+                                new DriveTurnCommand(90, -1, drive),//) // turn 90 degrees cw
+                        // new PresetTurretCommand(turret, 50)),
                 // fire 2
                 new AimCommand(vision, hood, turret),
-                new ShootCommand(shooter, kicker, vision, false, true),
+                new ShootCommand(shooter, kicker, false, true),
                 // go to second ball
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -86,6 +86,6 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                         new IntakeCommand(intake, kicker)),
                 // fire last ball
                 new AimCommand(vision, hood, turret),
-                new ShootCommand(shooter, kicker, vision, false, true));
+                new ShootCommand(shooter, kicker, false, true));
     }
 }

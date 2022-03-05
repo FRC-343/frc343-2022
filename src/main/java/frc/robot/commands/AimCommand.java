@@ -30,12 +30,6 @@ public class AimCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        double x = m_vision.getTy();
-        if (x < 20 && x > -5) {
-            kShooterSpeedFromAim = 70;
-        } else { //if (x <= -5 && x > -12) {
-            kShooterSpeedFromAim = 75;
-        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -51,9 +45,9 @@ public class AimCommand extends CommandBase {
 
         // prev_heading_error = heading_error;
 
-        kTurretSpeed = Math.abs(heading_error) / 15.0; //equivilent to a PID, goes proportionally slower the closer you are
-        if (kTurretSpeed > .3) { //increase these to 5 if it doesn't break
-            kTurretSpeed = .3;
+        kTurretSpeed = Math.abs(heading_error) / 20.0; //equivilent to a PID, goes proportionally slower the closer you are
+        if (kTurretSpeed > .4) { //increase these to 5 if it doesn't break
+            kTurretSpeed = .4;
         }
 
         if (heading_error > kTurretPrecision) {
@@ -77,6 +71,12 @@ public class AimCommand extends CommandBase {
     public void end(boolean interrupted) {
         m_hood.move(0.0);
         m_turret.spin(0.0);
+        double x = m_vision.getTy();
+        if (x < 20 && x > -5) {
+            kShooterSpeedFromAim = 70;
+        } else { //if (x <= -5 && x > -12) {
+            kShooterSpeedFromAim = 75;
+        }
     }
 
     // Returns true when the command should end.

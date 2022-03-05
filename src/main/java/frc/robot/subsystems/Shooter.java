@@ -37,8 +37,6 @@ public class Shooter extends SubsystemBase {
         SendableRegistry.setSubsystem(m_shooterPIDController, this.getClass().getSimpleName());
         SendableRegistry.setName(m_shooterPIDController, "Shooter PIDController");
 
-        SmartDashboard.putNumber("Bottom shooter RPS", getBottomShooterRPS());
-        SmartDashboard.putNumber("Top shooter RPS", getTopShooterRPS());
     }
 
     public double getBottomShooterRPS() {
@@ -79,6 +77,8 @@ public class Shooter extends SubsystemBase {
         } else {
             m_topShooter.setVoltage(0.0);
         }
+        SmartDashboard.putNumber("Bottom shooter RPS", getBottomShooterRPS());
+        SmartDashboard.putNumber("Top shooter RPS", getTopShooterRPS());
     }
 
     public void set(double topSpeed, double bottomSpeed) {
