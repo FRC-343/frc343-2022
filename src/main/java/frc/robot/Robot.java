@@ -101,15 +101,10 @@ public class Robot extends TimedRobot {
 
         // Controller Triggers/Bumpers
 
-            // new Button(() -> m_controller.getRightBumper()).whenHeld(new RunCommand(() -> { // shooter w/o PIDS
-            // m_shooter.set(.15, .2);
-            // }, m_shooter));
-
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
                 .whenHeld(new ShootCommand(m_shooter, m_kicker, false, false)); // shooter with PIDs and auto kicker
         new Button(() -> m_controller.getRightBumper())
                 .whenHeld(new ShootCommand(m_shooter, m_kicker, false, false, true)); // above with low goal
-            // new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker, false)); //same plus aiming
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, .8));
 
@@ -130,6 +125,10 @@ public class Robot extends TimedRobot {
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
+
+        new Button(() -> m_controller.getRightBumper()).whenHeld(new RunCommand(() -> { // shooter w/o PIDS
+            m_shooter.set(1.0, 1.0);
+        }, m_shooter));
 
     }
 

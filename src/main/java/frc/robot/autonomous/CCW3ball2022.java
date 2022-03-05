@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.PresetTurretCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.driveCommands.DriveTurnCommand;
 import frc.robot.commands.driveCommands.TrajectoryCommand;
@@ -46,29 +45,21 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                 // Apply the voltage constraint
                 .addConstraint(voltageConstraint);
 
-        // TrajectoryConfig reversePickupConfig = new TrajectoryConfig(maxSpeed, maxAcceleration)
-        // .setKinematics(drive.getKinematics())
-        // .addConstraint(voltageConstraint).setReversed(true);
-
         // commands in this autonomous
         addCommands(
-                // pickup trajectory 1st ball
-                // new ParallelDeadlineGroup(
-                        // new SequentialCommandGroup(
-                                new ParallelDeadlineGroup(
-                                        new TrajectoryCommand(
-                                                TrajectoryGenerator.generateTrajectory(
-                                                        new Pose2d(0, 0, new Rotation2d(
-                                                                0)),
-                                                        List.of(),
-                                                        new Pose2d(1.1, 0.0,
-                                                                new Rotation2d(0)),
-                                                        forwardPickupConfig), // 55 Degrees
-                                                drive),
-                                        new IntakeCommand(intake, kicker)),
-                                // rotate towards second ball
-                                new DriveTurnCommand(90, -1, drive),//) // turn 90 degrees cw
-                        // new PresetTurretCommand(turret, 50)),
+                new ParallelDeadlineGroup(
+                        new TrajectoryCommand(
+                                TrajectoryGenerator.generateTrajectory(
+                                        new Pose2d(0, 0, new Rotation2d(
+                                                0)),
+                                        List.of(),
+                                        new Pose2d(1.1, 0.0,
+                                                new Rotation2d(0)),
+                                        forwardPickupConfig), // 55 Degrees
+                                drive),
+                        new IntakeCommand(intake, kicker)),
+                // rotate towards second ball
+                new DriveTurnCommand(90, -1, drive), // ) // turn 90 degrees cw
                 // fire 2
                 new AimCommand(vision, hood, turret),
                 new ShootCommand(shooter, kicker, false, true),
@@ -77,10 +68,11 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                         new TrajectoryCommand(
                                 TrajectoryGenerator.generateTrajectory(
                                         new Pose2d(0.0, 0.0,
-                                                new Rotation2d(Math.PI / 2)), // 90 degrees, possibly make negative or 3/2 PI
+                                                new Rotation2d(Math.PI
+                                                        / 2)), // 90 degrees, possibly make negative or 3/2 PI
                                         List.of(),
                                         new Pose2d(-1.0, -2.5,
-                                                new Rotation2d(2.63)), //135 degees 
+                                                new Rotation2d(2.63)), // 135 degees
                                         forwardPickupConfig),
                                 drive),
                         new IntakeCommand(intake, kicker)),
