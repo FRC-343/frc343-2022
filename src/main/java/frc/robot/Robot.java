@@ -102,12 +102,16 @@ public class Robot extends TimedRobot {
 
         // Controller Triggers/Bumpers
 
-        new Button(() -> m_controller.getRightBumper()).whenHeld(new RunCommand(() -> { //low goal shooter w/o PIDS
-            m_shooter.set(.15, .2); 
-        }, m_shooter));
+            // new Button(() -> m_controller.getRightBumper()).whenHeld(new RunCommand(() -> { // shooter w/o PIDS
+            // m_shooter.set(.15, .2);
+            // }, m_shooter));
 
-        new Button(() -> m_controller.getRightTriggerAxis() > 0.2).whenHeld(new ShootCommand(m_shooter, m_kicker, m_vision, false, false)); //shooter with PIDs and auto kicker
-        // new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker, false)); //same as above plus aiming
+        new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
+                .whenHeld(new ShootCommand(m_shooter, m_kicker, m_vision, false, false)); // shooter with PIDs and auto kicker
+        new Button(() -> m_controller.getRightBumper())
+                .whenHeld(new ShootCommand(m_shooter, m_kicker, m_vision, false, false, true)); // above with low goal
+            // new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker, false)); //same as above plus
+            // aiming
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, .8));
 
@@ -195,13 +199,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        if (Hood.isAimed()) {
-            m_controller.setRumble(RumbleType.kLeftRumble, 1);
-        }
-
-        if (m_turret.isAimed()) {
-            m_controller.setRumble(RumbleType.kRightRumble, 1);
-        }
 
     }
 

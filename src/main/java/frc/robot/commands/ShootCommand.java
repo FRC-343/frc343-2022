@@ -19,10 +19,12 @@ public class ShootCommand extends CommandBase {
     private final Vision m_vision;
     private final boolean m_waitForAim; // for multitasking
     private final boolean m_stopAfterTime; // for auto
+    private final boolean m_lowGoal;
     private Timer t;
     private final double time;
 
-    public ShootCommand(Shooter shooter, Kicker kicker, Vision vision, boolean waitForAim, boolean stopAfterTime) {
+    public ShootCommand(Shooter shooter, Kicker kicker, Vision vision, boolean waitForAim, boolean stopAfterTime,
+            boolean lowGoal) {
         m_shooter = shooter;
         m_kicker = kicker;
         m_vision = vision;
@@ -31,29 +33,38 @@ public class ShootCommand extends CommandBase {
 
         m_waitForAim = waitForAim;
         m_stopAfterTime = stopAfterTime;
+        m_lowGoal = lowGoal;
 
-        if (AimCommand.kShooterSpeedFromAim > 0.0) { // try using aiming value next
-            kBottomShootReadySpeed = AimCommand.kShooterSpeedFromAim;
-        } else {
-            kBottomShootReadySpeed = 70;
+        t = new Timer();
+        time = 2.0;
+    }
+
+    public ShootCommand(Shooter shooter, Kicker kicker, Vision vision, boolean waitForAim, boolean stopAfterTime) {
+        this(shooter, kicker, vision, waitForAim, stopAfterTime, false);
+    }
+
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        if (!m_lowGoal) {
+            if (AimCommand.kShooterSpeedFromAim > 0.0) { // try using aiming value next
+                kBottomShootReadySpeed = AimCommand.kShooterSpeedFromAim;
+            } else {
+                kBottomShootReadySpeed = 70;
+            }
+        } else { //lowGoal
+            kBottomShootReadySpeed = 21;
         }
 
-        if (kBottomShootReadySpeed == 70) {
+        if (kBottomShootReadySpeed <= 70) {
             kBottomShootSpeed = kBottomShootReadySpeed * (8.0 / 7); // bottom speed = 1/7 more than bottom ready speed, 80 rps
-        } else { 
+        } else { //kBottomShootReadySpeed > 70
             kBottomShootSpeed = kBottomShootReadySpeed * 1.2; // higher value so the ready speed will reach the speed it is aiming for
         }
 
         kTopShootReadySpeed = kBottomShootReadySpeed / 2.0; // top ready speed = 1/2 of bottom ready speed, 35 rps
         kTopShootSpeed = kTopShootReadySpeed * (8.0 / 7); // top speed = 1/7 more than top ready speed, 40 rps
 
-        t = new Timer();
-        time = 2.0;
-    }
-
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
         t.start();
     }
 
@@ -63,7 +74,7 @@ public class ShootCommand extends CommandBase {
         if (m_waitForAim) { // checks to see if aimed before firing
             m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
             if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-                    && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed && Hood.isAimed() && m_vision.isAimed()) {
+                    && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed && Hood.isAimed() && m_vision.isAimed(2.0)) {
                 m_kicker.setKicker(1.0);
             } else {
                 m_kicker.setKicker(0);
