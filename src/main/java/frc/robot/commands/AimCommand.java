@@ -7,9 +7,6 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class AimCommand extends CommandBase {
-    // private static final double kTargetP = -0.125;
-    // private static final double kTargetD = -1.0; 
-    // private static double prev_heading_error = 0.0;
 
     private final Vision m_vision;
     private final Hood m_hood;
@@ -37,13 +34,6 @@ public class AimCommand extends CommandBase {
     public void execute() {
         double heading_error = m_vision.getTx();
         double x = m_vision.getTy();
-
-        // if (Math.abs(heading_error) > 2.0) {
-        // m_drive.drive(0, kTargetP * heading_error + kTargetD *
-        // (heading_error-prev_heading_error));
-        // }
-
-        // prev_heading_error = heading_error;
 
         kTurretSpeed = Math.abs(heading_error) / 20.0; //equivilent to a PID, goes proportionally slower the closer you are
         if (kTurretSpeed > .4) { //increase these to 5 if it doesn't break
@@ -73,13 +63,14 @@ public class AimCommand extends CommandBase {
     public void end(boolean interrupted) {
         m_hood.move(0.0);
         m_turret.spin(0.0);
+
         double x = m_vision.getTy();
+
         if (x < 20 && x > -5) {
             kShooterSpeedFromAim = 70;
         } else { //if (x <= -5 && x > -12) {
             kShooterSpeedFromAim = 75;
         }
-        System.out.println("Done with aiming");
     }
 
     // Returns true when the command should end.

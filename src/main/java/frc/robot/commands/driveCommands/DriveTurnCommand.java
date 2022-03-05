@@ -28,7 +28,7 @@ public class DriveTurnCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_drive.drive(0, m_speed); //this makes us turn ccw if positive
+        m_drive.drive(0, m_speed); // this makes us turn ccw if positive
     }
 
     @Override
@@ -38,7 +38,13 @@ public class DriveTurnCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return m_drive.getPose().minus(m_startPose).getRotation().getDegrees() >= m_rot;
+        if (m_rot > 0.0) {
+            return m_drive.getPose().minus(m_startPose).getRotation().getDegrees() >= m_rot; // works fine when rotating ccw, but rotates 180* when told 90 with negative speed
+        } else if (m_rot < 0.0) {
+            return m_drive.getPose().minus(m_startPose).getRotation().getDegrees() <= m_rot;
+        } else { // m_rot == 0.0
+            return true;
+        }
     }
 
 }
