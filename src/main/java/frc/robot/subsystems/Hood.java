@@ -14,7 +14,7 @@ public class Hood extends SubsystemBase {
     private final DigitalInput m_hoodFront = new DigitalInput(3);
     private final Spark m_hoodMotor = new Spark(7);
 
-    private final double kMaxHoodEncoderValue = 4500; //TODO change here also
+    private final double kMaxHoodEncoderValue = 4000; //TODO change here also
     private final double kMaxHoodEncoderRate = 1700;
 
     private static boolean m_aimed = false; // if shooter is currently aimed
@@ -31,15 +31,15 @@ public class Hood extends SubsystemBase {
         SendableRegistry.setName(m_hoodEncoder, "Hood Encoder");
         SendableRegistry.setSubsystem(m_hoodBack, this.getClass().getSimpleName());
         SendableRegistry.setName(m_hoodBack, "Hood Back Limit");
-        SendableRegistry.setSubsystem(m_hoodBack, this.getClass().getSimpleName());
+        SendableRegistry.setSubsystem(m_hoodFront, this.getClass().getSimpleName());
         SendableRegistry.setName(m_hoodFront, "Hood Front Limit");
         SendableRegistry.setSubsystem(m_hoodMotor, this.getClass().getSimpleName());
         SendableRegistry.setName(m_hoodMotor, "Hood Motor");
 
     }
 
-    public void aim(double angle) {
-        m_target = 4.2425 * angle * angle + 142.56 * angle + 1491.1;
+    public void aim(double target) {
+        m_target = target; 
         SmartDashboard.putNumber("hood_target", m_target);
 
         if (!m_aiming) {
@@ -92,8 +92,8 @@ public class Hood extends SubsystemBase {
         } else {
             if (m_hoodBack.get() && m_speed > 0.0) {
                 m_hoodMotor.set(0.0);
-            } else if (m_hoodFront.get() && m_speed < 0.0) {
                 m_hoodEncoder.reset();
+            } else if (m_hoodFront.get() && m_speed < 0.0) {
                 m_hoodMotor.set(0.0);
             } else {
                 m_hoodMotor.set(m_speed);

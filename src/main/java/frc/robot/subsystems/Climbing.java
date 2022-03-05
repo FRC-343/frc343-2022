@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climbing extends SubsystemBase {
-  private final DoubleSolenoid m_climber = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 3, 2);
+  private final DoubleSolenoid m_climber = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 3, 2);
 
   public Climbing() {
     SendableRegistry.setSubsystem(m_climber, this.getClass().getSimpleName());

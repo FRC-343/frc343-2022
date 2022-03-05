@@ -15,8 +15,8 @@ public class AimCommand extends CommandBase {
     private final Hood m_hood;
     private final Turret m_turret;
 
-    private final double kTurretPrecision = 1.0; 
-    private final double kTurretSpeed = .5;
+    private final double kTurretPrecision = 2.0; 
+    private final double kTurretSpeed = .3;
 
     public static double kShooterSpeedFromAim = -1.0;
 
@@ -31,13 +31,18 @@ public class AimCommand extends CommandBase {
     @Override
     public void initialize() {
         double x = m_vision.getTy();
-        kShooterSpeedFromAim = 2*x*x + 2*x + x + 10; //TODO speed formuala
+        if (x < 20 && x > -5) {
+            kShooterSpeedFromAim = 70;
+        } else { //if (x <= -5 && x > -12) {
+            kShooterSpeedFromAim = 75;
+        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         double heading_error = m_vision.getTx();
+        double x = m_vision.getTy();
 
         // if (Math.abs(heading_error) > 2.0) {
         // m_drive.drive(0, kTargetP * heading_error + kTargetD *
@@ -54,7 +59,12 @@ public class AimCommand extends CommandBase {
             m_turret.spin(0.0);
         }
 
-        // m_hood.aim(m_vision.getTy()); 
+        if (x < 20 && x > -5) {
+            m_hood.aim(4.5725 * x * x - 139.38 * x + 1015.2);
+        } else { //if (x <= -5 && x > -12) {
+            m_hood.aim(9.0476 * x * x + 0.9524 * x + 1008.6);
+        }
+
     }
 
     // Called once the command ends or is interrupted.

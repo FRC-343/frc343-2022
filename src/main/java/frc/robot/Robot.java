@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -85,11 +86,11 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
 
         new JoystickButton(m_stick, 7).whenPressed(new InstantCommand(m_climbing::disEngage, m_climbing));
-        new JoystickButton(m_stick, 8).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
+        new JoystickButton(m_stick, 6).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
 
         // Other Joystick Buttons (turret Presets)
-        new JoystickButton(m_stick, 3).whenHeld(new PresetTurretCommand(m_turret, 63)); // Test and change buttons to actually be good
-        new JoystickButton(m_stick, 4).whenHeld(new PresetTurretCommand(m_turret, 125));
+        new JoystickButton(m_stick, 4).whenHeld(new PresetTurretCommand(m_turret, 63)); // Test and change buttons to actually be good
+        new JoystickButton(m_stick, 3).whenHeld(new PresetTurretCommand(m_turret, 125));
         new JoystickButton(m_stick, 5).whenHeld(new PresetTurretCommand(m_turret, 183));
 
         // Controller joysticks
@@ -125,8 +126,8 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
-        new JoystickButton(m_controller, XboxController.Button.kStart.value) // low goal
-                .whenHeld(new ShootCommand(m_shooter, m_kicker, false, false, 21));
+        // new JoystickButton(m_controller, XboxController.Button.kStart.value) // low goal
+        //         .whenHeld(new ShootCommand(m_shooter, m_kicker, false, false, 21));
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
@@ -197,6 +198,13 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        if (Hood.isAimed()) {
+            m_controller.setRumble(RumbleType.kLeftRumble, 1);
+        }
+
+        if (m_turret.isAimed()) {
+            m_controller.setRumble(RumbleType.kRightRumble, 1);
+        }
 
     }
 

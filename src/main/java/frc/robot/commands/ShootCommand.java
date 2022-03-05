@@ -32,13 +32,13 @@ public class ShootCommand extends CommandBase {
 
         if (speed > 0.0) { // try using value first
             kBottomShootReadySpeed = speed;
-        } else if (AimCommand.kShooterSpeedFromAim > 0.0) { // try using aiming value next
-            kBottomShootReadySpeed = AimCommand.kShooterSpeedFromAim;
+            // } else if (AimCommand.kShooterSpeedFromAim > 0.0) { // try using aiming value next
+            // kBottomShootReadySpeed = AimCommand.kShooterSpeedFromAim;
         } else {
             kBottomShootReadySpeed = 70;
         }
-
-        kBottomShootSpeed = kBottomShootReadySpeed * (8.0 / 7); // bottom speed = 1/7 more than bottom ready speed, 80 rps
+// 1.2 for when not using 70
+        kBottomShootSpeed = kBottomShootReadySpeed * (8.0/7); // bottom speed = 1/7 more than bottom ready speed, 80 rps
         kTopShootReadySpeed = kBottomShootReadySpeed / 2.0; // top ready speed = 1/2 of bottom ready speed, 35 rps
         kTopShootSpeed = kTopShootReadySpeed * (8.0 / 7); // top speed = 1/7 more than top ready speed, 40 rps
 
@@ -71,12 +71,12 @@ public class ShootCommand extends CommandBase {
                 // Timer.delay(.5);
                 m_kicker.setKicker(1.0);
 
-                System.out.println(
-                        "t = " + m_shooter.getTopShooterRPS() + "\n b = " + m_shooter.getBottomShooterRPS());
             } else {
                 m_kicker.setKicker(0);
             }
         }
+        System.out.println(
+                "t = " + m_shooter.getTopShooterRPS() + "\n b = " + m_shooter.getBottomShooterRPS());
 
     }
 

@@ -179,6 +179,10 @@ public class Drive extends SubsystemBase {
         m_gyro.reset();
     }
 
+    public void calibrateGyro() {
+        m_gyro.calibrate();
+    }
+
     /**
      * Returns the heading of the robot.
      *
