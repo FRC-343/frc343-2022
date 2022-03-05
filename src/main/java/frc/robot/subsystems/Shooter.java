@@ -10,10 +10,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.util.sendable.SendableRegistry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Shooter extends SubsystemBase {
-    // private static final double kShootGarbage = 150.0; // rev per sec, for irregular values
 
     private final CANSparkMax m_bottomShooter = new CANSparkMax(1, MotorType.kBrushless);
     private final CANSparkMax m_topShooter = new CANSparkMax(2, MotorType.kBrushless);
@@ -36,6 +36,9 @@ public class Shooter extends SubsystemBase {
 
         SendableRegistry.setSubsystem(m_shooterPIDController, this.getClass().getSimpleName());
         SendableRegistry.setName(m_shooterPIDController, "Shooter PIDController");
+
+        SmartDashboard.putNumber("Bottom shooter RPS", getBottomShooterRPS());
+        SmartDashboard.putNumber("Top shooter RPS", getTopShooterRPS());
     }
 
     public double getBottomShooterRPS() {

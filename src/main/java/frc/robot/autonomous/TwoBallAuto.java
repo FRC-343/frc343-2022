@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.PresetTurretCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.driveCommands.DriveDistanceCommand;
 import frc.robot.commands.driveCommands.DriveTurnCommand;
@@ -30,7 +31,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
         // drive and intake
         new ParallelDeadlineGroup(
             new DriveDistanceCommand(kDriveDistance, kDriveSpeed, drive),
-            new IntakeCommand(intake, kicker)),
+            new IntakeCommand(intake, kicker),
+            new PresetTurretCommand(turret, 30)),
         // rotate
         new DriveTurnCommand(110, kDriveSpeed, drive),
         // aim

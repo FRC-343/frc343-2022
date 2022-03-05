@@ -48,6 +48,10 @@ public class Hood extends SubsystemBase {
         }
     }
 
+    public void stop() {
+        m_hoodMotor.set(0.0);
+    }
+
     public static boolean isAimed() { // this needs to be static because shootcommand needs to access it without it
                                       // being given the m_hood object. because in aimshootcommand, only one command
                                       // (aimcommand) can have access to the hood object, ask josh for more details

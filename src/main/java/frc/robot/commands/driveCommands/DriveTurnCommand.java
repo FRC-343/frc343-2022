@@ -28,7 +28,7 @@ public class DriveTurnCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_drive.drive(0, m_speed);
+        m_drive.drive(0, m_speed); //this makes us turn ccw if positive
     }
 
     @Override
