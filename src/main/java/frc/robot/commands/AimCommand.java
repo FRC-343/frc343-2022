@@ -48,6 +48,8 @@ public class AimCommand extends CommandBase {
         kTurretSpeed = Math.abs(heading_error) / 20.0; //equivilent to a PID, goes proportionally slower the closer you are
         if (kTurretSpeed > .4) { //increase these to 5 if it doesn't break
             kTurretSpeed = .4;
+        } else if (kTurretSpeed < .2) {
+            kTurretSpeed = .2;
         }
 
         if (heading_error > kTurretPrecision) {
@@ -77,6 +79,7 @@ public class AimCommand extends CommandBase {
         } else { //if (x <= -5 && x > -12) {
             kShooterSpeedFromAim = 75;
         }
+        System.out.println("Done with aiming");
     }
 
     // Returns true when the command should end.

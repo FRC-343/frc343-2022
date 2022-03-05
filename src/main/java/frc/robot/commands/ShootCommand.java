@@ -43,6 +43,7 @@ public class ShootCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        System.out.println("Shoot started the started");
         if (!m_lowGoal) {
             if (AimCommand.kShooterSpeedFromAim > 0.0) { // try using aiming value next
                 kBottomShootReadySpeed = AimCommand.kShooterSpeedFromAim;
@@ -50,7 +51,7 @@ public class ShootCommand extends CommandBase {
                 kBottomShootReadySpeed = 70;
             }
         } else { //lowGoal
-            kBottomShootReadySpeed = 21;
+            kBottomShootReadySpeed = 25;
         }
 
         if (kBottomShootReadySpeed <= 70) {
@@ -63,6 +64,8 @@ public class ShootCommand extends CommandBase {
         kTopShootSpeed = kTopShootReadySpeed * (8.0 / 7); // top speed = 1/7 more than top ready speed, 40 rps
 
         t.start();
+        
+        System.out.println("Shoot ended the started");
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -90,6 +93,7 @@ public class ShootCommand extends CommandBase {
         }
         System.out.println(
                 "t = " + m_shooter.getTopShooterRPS() + "\n b = " + m_shooter.getBottomShooterRPS());
+
 
     }
 
