@@ -19,4 +19,8 @@ public class Vision extends SubsystemBase {
         return ty.getDouble(0.0);
     }
 
+    public boolean isAimed() {
+        return ty.getDouble(0.0) < 2.0;
+    }
+
 }

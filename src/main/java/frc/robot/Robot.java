@@ -89,9 +89,9 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 6).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
 
         // Other Joystick Buttons (turret Presets)
-        new JoystickButton(m_stick, 4).whenHeld(new PresetTurretCommand(m_turret, 63)); // Test and change buttons to actually be good
-        new JoystickButton(m_stick, 3).whenHeld(new PresetTurretCommand(m_turret, 125));
-        new JoystickButton(m_stick, 5).whenHeld(new PresetTurretCommand(m_turret, 183));
+        new JoystickButton(m_stick, 4).whenHeld(new PresetTurretCommand(m_turret, 50)); // Test and change buttons to actually be good
+        new JoystickButton(m_stick, 3).whenHeld(new PresetTurretCommand(m_turret, 115));
+        new JoystickButton(m_stick, 5).whenHeld(new PresetTurretCommand(m_turret, 190));
 
         // Controller joysticks
         m_hood.setDefaultCommand(
@@ -102,12 +102,12 @@ public class Robot extends TimedRobot {
 
         // Controller Triggers/Bumpers
 
-        new Button(() -> m_controller.getRightTriggerAxis() > 0.2).whenHeld(new RunCommand(() -> { //basic shooter
-            m_shooter.set(1.0, 1.0); 
+        new Button(() -> m_controller.getRightBumper()).whenHeld(new RunCommand(() -> { //low goal shooter w/o PIDS
+            m_shooter.set(.15, .2); 
         }, m_shooter));
 
-        new Button(() -> m_controller.getRightBumper()).whenHeld(new ShootCommand(m_shooter, m_kicker, false, false, 70)); //shooter with PIDs and auto kicker
-        new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker, false)); //same as above plus aiming
+        new Button(() -> m_controller.getRightTriggerAxis() > 0.2).whenHeld(new ShootCommand(m_shooter, m_kicker, m_vision, false, false)); //shooter with PIDs and auto kicker
+        // new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootCommand(m_vision, m_hood, m_turret, m_shooter, m_kicker, false)); //same as above plus aiming
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, .8));
 
@@ -125,9 +125,6 @@ public class Robot extends TimedRobot {
         }, m_kicker)).whenReleased(new RunCommand(() -> {
             m_kicker.setKicker(0.0);
         }, m_kicker));
-
-        // new JoystickButton(m_controller, XboxController.Button.kStart.value) // low goal
-        //         .whenHeld(new ShootCommand(m_shooter, m_kicker, false, false, 21));
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics

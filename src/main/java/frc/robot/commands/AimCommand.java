@@ -15,8 +15,8 @@ public class AimCommand extends CommandBase {
     private final Hood m_hood;
     private final Turret m_turret;
 
-    private final double kTurretPrecision = 2.0; 
-    private final double kTurretSpeed = .3;
+    private double kTurretPrecision = 2.0; 
+    private double kTurretSpeed = .3;
 
     public static double kShooterSpeedFromAim = -1.0;
 
@@ -50,6 +50,11 @@ public class AimCommand extends CommandBase {
         // }
 
         // prev_heading_error = heading_error;
+
+        kTurretSpeed = Math.abs(heading_error) / 15.0; //equivilent to a PID, goes proportionally slower the closer you are
+        if (kTurretSpeed > .3) { //increase these to 5 if it doesn't break
+            kTurretSpeed = .3;
+        }
 
         if (heading_error > kTurretPrecision) {
             m_turret.spin(kTurretSpeed);
