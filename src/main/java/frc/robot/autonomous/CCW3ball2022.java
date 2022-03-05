@@ -80,7 +80,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                                                 new Rotation2d(Math.PI / 2)), // 90 degrees, possibly make negative or 3/2 PI
                                         List.of(),
                                         new Pose2d(-1.0, -2.5,
-                                                new Rotation2d(Math.PI / 2)),
+                                                new Rotation2d(2.63)), //135 degees 
                                         forwardPickupConfig),
                                 drive),
                         new IntakeCommand(intake, kicker)),
