@@ -28,7 +28,7 @@ public class PresetHoodCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Hood.isAimed();
+        return m_hood.isAimed();
     }
 
 }

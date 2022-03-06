@@ -62,7 +62,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                 new DriveTurnCommand(-90, -1, drive), // ) // turn 90 degrees cw
                 // fire 2
                 new AimCommand(vision, hood, turret),
-                new ShootCommand(shooter, kicker, false, true),
+                new ShootCommand(shooter, kicker, true),
                 // go to second ball
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -78,6 +78,6 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                         new IntakeCommand(intake, kicker)),
                 // fire last ball
                 new AimCommand(vision, hood, turret),
-                new ShootCommand(shooter, kicker, false, true));
+                new ShootCommand(shooter, kicker, true));
     }
 }

@@ -104,7 +104,7 @@ public class Robot extends TimedRobot {
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
                 .whenHeld(new ShootCommand(m_shooter, m_kicker, false, false)); // shooter with PIDs and auto kicker
         new Button(() -> m_controller.getRightBumper())
-                .whenHeld(new ShootCommand(m_shooter, m_kicker, false, false, true)); // above with low goal
+                .whenHeld(new ShootCommand(m_shooter, m_kicker, false, true)); // above with low goal
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, .8));
 

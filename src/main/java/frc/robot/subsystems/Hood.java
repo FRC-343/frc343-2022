@@ -17,7 +17,7 @@ public class Hood extends SubsystemBase {
     private final double kMaxHoodEncoderValue = 4000; //TODO change here also
     private final double kMaxHoodEncoderRate = 1700;
 
-    private static boolean m_aimed = false; // if shooter is currently aimed
+    private boolean m_aimed = false; // if shooter is currently aimed
     private double m_target = 0.0; // where it needs to be aiming
     private double m_speed = 0.0; // manual control
     private boolean m_aiming = false; // if currently aiming (for automatic)
@@ -52,9 +52,7 @@ public class Hood extends SubsystemBase {
         m_hoodMotor.set(0.0);
     }
 
-    public static boolean isAimed() { // this needs to be static because shootcommand needs to access it without it
-                                      // being given the m_hood object. because in aimshootcommand, only one command
-                                      // (aimcommand) can have access to the hood object, ask josh for more details
+    public boolean isAimed() { 
         return m_aimed;
     }
 

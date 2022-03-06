@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 
@@ -15,7 +14,6 @@ public class ShootCommand extends CommandBase {
 
     private final Shooter m_shooter;
     private final Kicker m_kicker;
-    private final boolean m_waitForAim; // for multitasking
     private final boolean m_stopAfterTime; // for auto
     private final boolean m_lowGoal;
 
@@ -24,14 +22,13 @@ public class ShootCommand extends CommandBase {
     private Timer t;
     private final double time;
 
-    public ShootCommand(Shooter shooter, Kicker kicker, boolean waitForAim, boolean stopAfterTime,
+    public ShootCommand(Shooter shooter, Kicker kicker, boolean stopAfterTime,
             boolean lowGoal) {
         m_shooter = shooter;
         m_kicker = kicker;
 
         addRequirements(m_shooter, m_kicker);
 
-        m_waitForAim = waitForAim;
         m_stopAfterTime = stopAfterTime;
         m_lowGoal = lowGoal;
 
@@ -41,8 +38,8 @@ public class ShootCommand extends CommandBase {
         time = 3.0;
     }
 
-    public ShootCommand(Shooter shooter, Kicker kicker, boolean waitForAim, boolean stopAfterTime) {
-        this(shooter, kicker, waitForAim, stopAfterTime, false);
+    public ShootCommand(Shooter shooter, Kicker kicker, boolean stopAfterTime) {
+        this(shooter, kicker, stopAfterTime, false);
     }
 
     // Called when the command is initially scheduled.
@@ -76,26 +73,15 @@ public class ShootCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (m_waitForAim) { // checks to see if aimed before firing
-            m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
-            if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-                    && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed && Hood.isAimed()) {
-                m_kicker.setKicker(1.0);
-                m_resetAimSpeed = true;
-            } else {
-                m_kicker.setKicker(0);
-            }
-        } else { // fire even if not aiming
+        m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
 
-            m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
-            if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-                    && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
-                m_kicker.setKicker(1.0);
-                m_resetAimSpeed = true;
+        if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
+                && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
+            m_kicker.setKicker(1.0);
+            m_resetAimSpeed = true;
 
-            } else {
-                m_kicker.setKicker(0);
-            }
+        } else {
+            m_kicker.setKicker(0);
         }
 
     }
