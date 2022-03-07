@@ -14,7 +14,7 @@ public class Hood extends SubsystemBase {
     private final DigitalInput m_hoodFront = new DigitalInput(3);
     private final Spark m_hoodMotor = new Spark(7);
 
-    private final double kMaxHoodEncoderValue = 4000; //TODO change here also
+    private final double kMaxHoodEncoderValue = 4000; // TODO change here also
     private final double kMaxHoodEncoderRate = 1700;
 
     private boolean m_aimed = false; // if shooter is currently aimed
@@ -24,7 +24,7 @@ public class Hood extends SubsystemBase {
     private boolean m_zeroing = false; // resetting hood
 
     public Hood() {
-        m_hoodMotor.setInverted(false); //I think either the hood should be inverted or the encoder should be but not both
+        m_hoodMotor.setInverted(false); // I think either the hood should be inverted or the encoder should be but not both
         m_hoodEncoder.setReverseDirection(false); // it failed when both false and both true, so try true-false and false-true
 
         SendableRegistry.setSubsystem(m_hoodEncoder, this.getClass().getSimpleName());
@@ -39,12 +39,12 @@ public class Hood extends SubsystemBase {
     }
 
     public void aim(double target) {
-        m_target = target; 
+        m_target = target;
         SmartDashboard.putNumber("hood_target", m_target);
 
         if (!m_aiming) {
             m_aiming = true;
-            m_zeroing = true;
+            // m_zeroing = true;
         }
     }
 
@@ -52,7 +52,7 @@ public class Hood extends SubsystemBase {
         m_hoodMotor.set(0.0);
     }
 
-    public boolean isAimed() { 
+    public boolean isAimed() {
         return m_aimed;
     }
 
@@ -66,8 +66,9 @@ public class Hood extends SubsystemBase {
     public void periodic() {
         if (m_aiming) {
 
-            if (m_hoodEncoder.getRate() > kMaxHoodEncoderRate || m_hoodEncoder.getRate() < -kMaxHoodEncoderRate|| m_hoodEncoder.getDistance() > kMaxHoodEncoderValue
-                    || m_hoodEncoder.getDistance() < -222) { //TODO change these values
+            if (m_hoodEncoder.getRate() > kMaxHoodEncoderRate || m_hoodEncoder.getRate() < -kMaxHoodEncoderRate
+                    || m_hoodEncoder.getDistance() > kMaxHoodEncoderValue
+                    || m_hoodEncoder.getDistance() < -200) {
                 System.err.println("Hood encoder sent garbage values, zeroing again...");
                 m_zeroing = true;
             }
@@ -77,20 +78,24 @@ public class Hood extends SubsystemBase {
                 m_hoodEncoder.reset();
             }
 
+
             if (m_zeroing) {
                 m_hoodMotor.set(1.0);
             } else {
                 if (m_hoodFront.get()) {
                     m_zeroing = true;
                     m_hoodMotor.set(0.0);
-                } else if (m_hoodEncoder.getDistance() < m_target) {
+                } else if (m_hoodEncoder.getDistance() < m_target - 100) {
                     m_hoodMotor.set(-1.0);
-                } else {
+                } else if (m_hoodEncoder.getDistance() > m_target + 200) {
+                    m_hoodMotor.set(1.0);
+                } else { //m_hoodEncoder.getDistance >m_target-100 && < m_target+200
                     m_hoodMotor.set(0.0);
                     m_aimed = true;
                 }
             }
-            SmartDashboard.putBoolean("hood_aimed", m_aimed);
+            SmartDashboard.putBoolean("hood aimed", m_aimed);
+
         } else {
             if (m_hoodBack.get() && m_speed > 0.0) {
                 m_hoodMotor.set(0.0);
