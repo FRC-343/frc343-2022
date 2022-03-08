@@ -25,8 +25,9 @@ public class Robot extends TimedRobot {
     public static final double kMaxJoySpeed = 3.0; // meters per sec
     public static final double kMaxJoyTurn = 5.0; // radians per sec
     public static final double kMaxHoodSpeed = 1.0; // ratio
-    public static final double kMaxWinchSpeed = 1.0; // ratio
-    public static final double kMaxTurretSpeed = 0.5; // ratio
+    public static final double kMaxWinchSpeed = 1.0;
+    public static final double kMaxTurretSpeed = 0.5;
+    public static final double kMaxClimbingSpeed = .5;
 
     public static final double kTargetP = -0.055;
     public static final double kMinTargetCommand = -0.35;
@@ -81,7 +82,7 @@ public class Robot extends TimedRobot {
                 kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
 
         // Joystick buttons
-        new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_turret));
+        new JoystickButton(m_stick, 9).whenHeld(new AimCommand(m_vision, m_hood, m_turret, false));
 
         new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
@@ -104,10 +105,12 @@ public class Robot extends TimedRobot {
 
         // Controller joysticks
         m_hood.setDefaultCommand(
-                new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getLeftY()), m_hood));
+                new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getRightY()), m_hood));
 
         m_turret.setDefaultCommand(
                 new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
+
+        m_climbing.setDefaultCommand(new RunCommand(() -> m_climbing.setWinch(kMaxClimbingSpeed * m_controller.getLeftY()), m_climbing)); 
 
         // Controller Triggers/Bumpers
 
@@ -137,10 +140,6 @@ public class Robot extends TimedRobot {
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
-
-        // new Button(() -> m_controller.getRightBumper()).whenHeld(new RunCommand(() -> { // shooter w/o PIDS
-        //     m_shooter.set(1.0, 1.0);
-        // }, m_shooter));
 
     }
 
