@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeTimeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.driveCommands.DriveDistanceCommand;
 import frc.robot.commands.driveCommands.DriveTurnCommand;
@@ -39,12 +38,17 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                         new IntakeCommand(intake, kicker)),
                 // aim
                 new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, true, false),
+
                 new ParallelDeadlineGroup(
                         new DriveDistanceCommand(2.8, kDriveSpeed, drive),
                         new AimCommand(vision, hood, turret, false),
-                        new IntakeCommand(intake, kicker, .8, false)),
-                // new IntakeTimeCommand(intake, kicker, 1.5),
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, true, false));
+                        new IntakeCommand(intake, kicker)),
+
+                new ParallelDeadlineGroup(
+                        new AimCommand(vision, hood, turret),
+                        new IntakeCommand(intake, kicker)),
+
+                new ShootCommand(shooter, kicker, true, false));
 
     }
 }
