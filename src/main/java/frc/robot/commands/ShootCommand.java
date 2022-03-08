@@ -75,15 +75,23 @@ public class ShootCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
-
-        if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-                && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
-            m_kicker.setKicker(1.0);
-            m_resetAimSpeed = true;
-
+        if (m_kicker.isBadCargo()) {
+            m_shooter.shoot(10, 10);
+            if (m_shooter.getBottomShooterRPS() <= 15 && m_shooter.getTopShooterRPS() <= 15) {
+                m_kicker.setKicker(1.0);
+                m_resetAimSpeed = true;
+            }
         } else {
-            m_kicker.setKicker(0);
+            m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
+
+            if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
+                    && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
+                m_kicker.setKicker(1.0);
+                m_resetAimSpeed = true;
+
+            } else {
+                m_kicker.setKicker(0);
+            }
         }
 
     }
