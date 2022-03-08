@@ -23,4 +23,7 @@ public class Vision extends SubsystemBase {
         return Math.abs(tx.getDouble(0.0)) < precision;
     }
 
+    public void setCamera(double value) {//vaulue = 0 split, 1 = secondary camera is small, 2 = limelight is small
+        table.getEntry("steam").setNumber(value);
+    }
 }

@@ -34,6 +34,7 @@ public class AimCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        m_vision.setCamera(2);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -78,7 +79,11 @@ public class AimCommand extends CommandBase {
         } else { // if (x <= -5 && x > -12) {
             kShooterSpeedFromAim = 75;
         }
+
         System.out.println("IT is over");
+
+        m_vision.setCamera(1);
+
     }
 
     // Returns true when the command should end.

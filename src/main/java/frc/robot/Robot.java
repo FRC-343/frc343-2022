@@ -138,6 +138,12 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
+        new JoystickButton(m_controller, XboxController.Button.kX.value).whenPressed(new RunCommand(() -> {
+            m_vision.setCamera(2);
+        }, m_vision)).whenReleased(new RunCommand(() -> {
+            m_vision.setCamera(1);
+        }, m_vision));
+
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
 
