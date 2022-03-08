@@ -42,6 +42,7 @@ public class IntakeTimeCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_intake.setIntake(0);
+        m_intake.raise();
         t.reset();
     }
 

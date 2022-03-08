@@ -9,16 +9,22 @@ public class IntakeCommand extends CommandBase {
     private final Kicker m_kicker;
 
     private double kIntakeSpeed;
+    private boolean m_raise;
 
-    public IntakeCommand(Intake intake, Kicker kicker, double intakeSpeed) {
+    public IntakeCommand(Intake intake, Kicker kicker, double intakeSpeed, boolean raise) {
         m_intake = intake;
         m_kicker = kicker;
         kIntakeSpeed = intakeSpeed;
+        m_raise = raise;
         addRequirements(m_intake, m_kicker);
     }
 
     public IntakeCommand(Intake intake, Kicker kicker) {
-        this(intake, kicker, 0.8); // defaults to .8 speed
+        this(intake, kicker, 0.8, true); // defaults to .8 speed
+    }
+
+    public IntakeCommand(Intake intake, Kicker kicker, double intakeSpeed) {
+        this(intake, kicker, intakeSpeed, true);
     }
 
     // Called when the command is initially scheduled.
@@ -45,7 +51,9 @@ public class IntakeCommand extends CommandBase {
     public void end(boolean interrupted) {
         m_intake.setIntake(0);
         m_kicker.setKicker(0);
-        m_intake.raise();
+        if (m_raise) {
+            m_intake.raise();
+        }
     }
 
     // Returns true when the command should end.

@@ -57,6 +57,8 @@ public class Robot extends TimedRobot {
                 new CCW3ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_autoChooser.addOption("2BA",
                 new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
+        m_autoChooser.addOption("3BA",
+                new ThreeBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_autoChooser.addOption("Simple", new MoveAuto(m_drive));
         m_auto = m_autoChooser.getSelected();
 
@@ -89,13 +91,13 @@ public class Robot extends TimedRobot {
 
         // Other Joystick Buttons (turret Presets)
         new JoystickButton(m_stick, 4).whenHeld(new RunCommand(() -> {
-            m_turret.spin(kMaxTurretSpeed);
+            m_turret.spin(-kMaxTurretSpeed);
         }, m_turret)).whenReleased(new RunCommand(() -> {
             m_turret.stop();
         }, m_turret));
 
         new JoystickButton(m_stick, 5).whenHeld(new RunCommand(() -> {
-            m_turret.spin(-kMaxTurretSpeed);
+            m_turret.spin(kMaxTurretSpeed);
         }, m_turret)).whenReleased(new RunCommand(() -> {
             m_turret.stop();
         }, m_turret));
@@ -116,6 +118,8 @@ public class Robot extends TimedRobot {
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, .8));
 
+        new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimCommand(m_vision, m_hood, m_turret));
+
         // Controller Buttons
         new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, -.3));
 
@@ -134,9 +138,9 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
 
-        new Button(() -> m_controller.getRightBumper()).whenHeld(new RunCommand(() -> { // shooter w/o PIDS
-            m_shooter.set(1.0, 1.0);
-        }, m_shooter));
+        // new Button(() -> m_controller.getRightBumper()).whenHeld(new RunCommand(() -> { // shooter w/o PIDS
+        //     m_shooter.set(1.0, 1.0);
+        // }, m_shooter));
 
     }
 

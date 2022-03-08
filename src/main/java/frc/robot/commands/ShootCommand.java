@@ -52,7 +52,7 @@ public class ShootCommand extends CommandBase {
                 kBottomShootReadySpeed = 70;
             }
         } else { // lowGoal
-            kBottomShootReadySpeed = 25;
+            kBottomShootReadySpeed = 30;
         }
 
         if (kBottomShootReadySpeed <= 70) {
@@ -68,6 +68,8 @@ public class ShootCommand extends CommandBase {
         t.reset();
 
         m_resetAimSpeed = false;
+
+        System.out.println("Shooter has started");
     }
 
     // Called every time the scheduler runs while the command is scheduled.
