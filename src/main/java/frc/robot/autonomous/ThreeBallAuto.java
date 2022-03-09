@@ -9,6 +9,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.driveCommands.DriveDistanceCommand;
 import frc.robot.commands.driveCommands.DriveTurnCommand;
+import frc.robot.subsystems.Climbing;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Kicker;
@@ -22,10 +23,11 @@ public class ThreeBallAuto extends SequentialCommandGroup {
     private static final double kDriveSpeed = 1;
 
     public ThreeBallAuto(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
-            Turret turret) {
+            Turret turret, Climbing climbing) {
         // commands in this autonomous
         addCommands(
                 // drop intake
+                new InstantCommand(climbing::engage, climbing),
                 new InstantCommand(intake::lower, intake),
                 // drive and intake
                 new ParallelDeadlineGroup(

@@ -52,14 +52,14 @@ public class Robot extends TimedRobot {
 
     public Robot() {
         m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
-        m_autoChooser.addOption("5CCWALT",
-                new CCW5ball2022Alt(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
-        m_autoChooser.addOption("3CCW",
-                new CCW3ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
+        // m_autoChooser.addOption("5CCWALT",
+        //         new CCW5ball2022Alt(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
+        // m_autoChooser.addOption("3CCW",
+        //         new CCW3ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_autoChooser.addOption("2BA",
-                new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
+                new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
         m_autoChooser.addOption("3BA",
-                new ThreeBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
+                new ThreeBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
         m_autoChooser.addOption("Simple", new MoveAuto(m_drive));
         m_auto = m_autoChooser.getSelected();
 
@@ -105,10 +105,10 @@ public class Robot extends TimedRobot {
 
         // Controller joysticks
         m_hood.setDefaultCommand(
-                new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getRightY()), m_hood));
+                new RunCommand(() -> m_hood.move(MiscMath.deadband(kMaxHoodSpeed * m_controller.getRightY())), m_hood)); //TODO added deadbands, maybe remove
 
         m_turret.setDefaultCommand(
-                new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
+                new RunCommand(() -> m_turret.spin(MiscMath.deadband(kMaxTurretSpeed * m_controller.getRightX())), m_turret));
 
         m_climbing.setDefaultCommand(new RunCommand(() -> m_climbing.setWinch(kMaxClimbingSpeed * m_controller.getLeftY()), m_climbing)); 
 
@@ -146,6 +146,9 @@ public class Robot extends TimedRobot {
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
+
+        new JoystickButton(m_controller, XboxController.Button.kStart.value)
+                .whenHeld(new AutoClimbCommand(m_climbing)); // climbing auto
 
     }
 

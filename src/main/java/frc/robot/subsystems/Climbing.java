@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-// import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -59,24 +58,41 @@ public class Climbing extends SubsystemBase {
         }
     }
 
-  public void setWinch(double speed) {
-      //right
-      if (speed < 0.0 && (m_isRightTop.get())) {
-          m_rightWinch.set(0.0);
-      } else if(speed > 0 && (m_isRightBottom.get())) {
-          m_rightWinch.set(0.0);
-      } else {
-          m_rightWinch.set(speed);
-      }
+    public boolean getLeftTopLimit() {
+        return m_isLeftTop.get();
+    }
 
-      if (speed < 0.0 && (m_isLeftTop.get())) {
-          m_leftWinch.set(0.0);
-      } else if(speed > 0 && (m_isLeftBottom.get())) {
-          m_leftWinch.set(0.0);
-      } else {
-          m_leftWinch.set(speed*.98);
-      }
-      
-  }
+    public boolean getRightTopLimit() {
+        return m_isRightTop.get();
+    }
+
+    public boolean getLeftBottomLimit() {
+        return m_isLeftBottom.get();
+    }
+
+    public boolean getRightBottomLimit() {
+        return m_isRightBottom.get();
+    }
+
+    public void setWinch(double speed) {
+        // right
+        if (speed < 0.0 && (m_isRightTop.get())) {
+            m_rightWinch.set(0.0);
+        } else if (speed > 0 && (m_isRightBottom.get())) {
+            m_rightWinch.set(0.0);
+        } else {
+            m_rightWinch.set(speed);
+        }
+
+        // left
+        if (speed < 0.0 && (m_isLeftTop.get())) {
+            m_leftWinch.set(0.0);
+        } else if (speed > 0 && (m_isLeftBottom.get())) {
+            m_leftWinch.set(0.0);
+        } else {
+            m_leftWinch.set(speed * .98);
+        }
+
+    }
 
 }
