@@ -87,7 +87,7 @@ public class Hood extends SubsystemBase {
                     m_hoodMotor.set(0.0);
                 } else if (m_hoodEncoder.getDistance() < m_target - 100) {
                     m_hoodMotor.set(-1.0);
-                } else if (m_hoodEncoder.getDistance() > m_target + 200) {
+                } else if (m_hoodEncoder.getDistance() > m_target + 200) { //TODO change to 100 for a more accurate hood
                     m_hoodMotor.set(1.0);
                 } else { //m_hoodEncoder.getDistance >m_target-100 && < m_target+200
                     m_hoodMotor.set(0.0);

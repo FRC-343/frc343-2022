@@ -65,6 +65,13 @@ public class Turret extends SubsystemBase {
     public void periodic() {
         if (m_aiming) { // trying to get to a certain value
 
+            if (m_turretEncoder.getRate() > 600 || m_turretEncoder.getRate() < -600
+                    || m_turretEncoder.getDistance() > 350
+                    || m_turretEncoder.getDistance() < -50) {
+                System.err.println("Turret encoder sent garbage values, zeroing again...");
+                m_zeroing = true;
+            }
+
             if (m_isLeft.get()) { // check if already zeroed (gone all the way left)
                 m_zeroing = false;
                 m_turretEncoder.reset();
@@ -76,8 +83,10 @@ public class Turret extends SubsystemBase {
                 if (m_isRight.get()) { // went all the way to the right, so try again
                     m_zeroing = true;
                     m_turret.set(0.0);
-                } else if (m_turretEncoder.get() < m_target) { // going towards target cw, previously was .getDistance()
+                } else if (m_turretEncoder.get() < m_target - 10) { // going towards target cw, previously was .getDistance()
                     m_turret.set(.4);
+                } else if (m_turretEncoder.get() > m_target + 10) {
+                    m_turret.set(-.4);
                 } else {
                     m_turret.set(0.0);
                     m_aimed = true;
@@ -87,7 +96,6 @@ public class Turret extends SubsystemBase {
             SmartDashboard.putBoolean("turret reached preset", m_aimed);
 
         } else {
-            // limit switch logic assuming possible motor values = cw, and negative = ccw
             if (m_isLeft.get() && m_speed < 0.0) {
                 m_turret.set(0.0);
                 m_turretEncoder.reset();
