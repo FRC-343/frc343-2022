@@ -138,7 +138,7 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
-        // new JoystickButton(m_controller, XboxController.Button.kX.value).whenPressed(new RunCommand(() -> {
+        // new JoystickButton(m_controller, XboxController.Button.kX.value).whenPressed(new RunCommand(() -> { //this is if we have a second camera plugged into limelight
         //     m_vision.setCamera(2);
         // }, m_vision)).whenReleased(new RunCommand(() -> {
         //     m_vision.setCamera(1);
