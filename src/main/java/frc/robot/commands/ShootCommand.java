@@ -49,7 +49,7 @@ public class ShootCommand extends CommandBase {
             if (AimCommand.kShooterSpeedFromAim > 0.0) { // try using aiming value next
                 kBottomShootReadySpeed = AimCommand.kShooterSpeedFromAim;
             } else {
-                kBottomShootReadySpeed = 75;
+                kBottomShootReadySpeed = 70;
             }
         } else { // lowGoal
             kBottomShootReadySpeed = 24;
