@@ -34,6 +34,8 @@ public class Kicker extends SubsystemBase {
 
     @Override
     public void periodic() {
+        m_colorMatcher.addColorMatch(kRed);
+        m_colorMatcher.addColorMatch(kBlue);
         ColorMatchResult detectedColor = m_colorMatcher.matchClosestColor(m_color.getColor());
 
         if (detectedColor.color == kRed) {
@@ -46,6 +48,7 @@ public class Kicker extends SubsystemBase {
             SmartDashboard.putString("color_detected", "None Colors there be");
             colorString = "";
         }
+
     }
 
     public void setKicker(double speed) {

@@ -49,10 +49,10 @@ public class ShootCommand extends CommandBase {
             if (AimCommand.kShooterSpeedFromAim > 0.0) { // try using aiming value next
                 kBottomShootReadySpeed = AimCommand.kShooterSpeedFromAim;
             } else {
-                kBottomShootReadySpeed = 70;
+                kBottomShootReadySpeed = 75;
             }
         } else { // lowGoal
-            kBottomShootReadySpeed = 30;
+            kBottomShootReadySpeed = 24;
         }
 
         if (kBottomShootReadySpeed <= 70) {
@@ -75,24 +75,25 @@ public class ShootCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (m_kicker.isBadCargo()) {
-            m_shooter.shoot(10, 10);
-            if (m_shooter.getBottomShooterRPS() <= 15 && m_shooter.getTopShooterRPS() <= 15) {
-                m_kicker.setKicker(1.0);
-                m_resetAimSpeed = true;
-            }
-        } else {
+        // // if (m_kicker.isBadCargo()) {
+        // //     m_shooter.shoot(10, 10);
+        // //     if (m_shooter.getBottomShooterRPS() <= 15 && m_shooter.getTopShooterRPS() <= 15) {
+        // //         m_kicker.setKicker(1.0);
+        // //         m_resetAimSpeed = true;
+        // //     }
+        // } else {
             m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
 
             if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-                    && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
+                    /*&& m_shooter.getTopShooterRPS() >= kTopShootReadySpeed*/) {
+                Timer.delay(.25);
                 m_kicker.setKicker(1.0);
                 m_resetAimSpeed = true;
 
             } else {
                 m_kicker.setKicker(0);
             }
-        }
+        // }
 
     }
 
