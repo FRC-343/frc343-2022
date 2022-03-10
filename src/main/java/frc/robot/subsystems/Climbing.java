@@ -90,7 +90,7 @@ public class Climbing extends SubsystemBase {
         } else if (speed > 0 && (m_isLeftBottom.get())) {
             m_leftWinch.set(0.0);
         } else {
-            m_leftWinch.set(speed * .98);
+            m_leftWinch.set(speed);
         }
 
     }

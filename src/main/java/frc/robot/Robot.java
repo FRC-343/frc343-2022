@@ -105,10 +105,10 @@ public class Robot extends TimedRobot {
 
         // Controller joysticks
         m_hood.setDefaultCommand(
-                new RunCommand(() -> m_hood.move(MiscMath.deadband(kMaxHoodSpeed * m_controller.getRightY())), m_hood)); //TODO added deadbands, maybe remove
+                new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getRightY()), m_hood)); //TODO added deadbands, maybe remove
 
         m_turret.setDefaultCommand(
-                new RunCommand(() -> m_turret.spin(MiscMath.deadband(kMaxTurretSpeed * m_controller.getRightX())), m_turret));
+                new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
 
         m_climbing.setDefaultCommand(new RunCommand(() -> m_climbing.setWinch(kMaxClimbingSpeed * m_controller.getLeftY()), m_climbing)); 
 
@@ -138,17 +138,17 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
-        // new JoystickButton(m_controller, XboxController.Button.kX.value).whenPressed(new RunCommand(() -> { //this is if we have a second camera plugged into limelight
-        //     m_vision.setCamera(2);
-        // }, m_vision)).whenReleased(new RunCommand(() -> {
-        //     m_vision.setCamera(1);
-        // }, m_vision));
+        new JoystickButton(m_controller, XboxController.Button.kX.value).whenPressed(new RunCommand(() -> { //this is if we have a second camera plugged into limelight
+            m_vision.setCamera(2);
+        }, m_vision)).whenReleased(new RunCommand(() -> {
+            m_vision.setCamera(1);
+        }, m_vision));
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
 
-        new JoystickButton(m_controller, XboxController.Button.kStart.value)
-                .whenHeld(new AutoClimbCommand(m_climbing)); // climbing auto
+        // new JoystickButton(m_controller, XboxController.Button.kStart.value)
+        //         .whenHeld(new AutoClimbCommand(m_climbing)); // climbing auto
 
     }
 

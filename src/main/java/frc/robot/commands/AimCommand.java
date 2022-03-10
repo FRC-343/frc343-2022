@@ -58,10 +58,10 @@ public class AimCommand extends CommandBase {
             m_turret.spin(0.0);
         }
 
-        if (x < 22 && x > -2) {
-            m_hood.aim(1.1905 * x * x - -82.3954 * x + 1221.5106);
-        } else { // if (x <= -2 && x > -8.2) {
-            m_hood.aim(12.6389 * x * x -38.8249 * x + 521.7945);
+        if (x < 18 && x > -.5) {
+            m_hood.aim(866.4648 + x * -52.5726);
+        } else { // if (x <= -
+            m_hood.aim(579.835 + x * -185.9704);
         }
 
     }
@@ -74,9 +74,9 @@ public class AimCommand extends CommandBase {
 
         double x = m_vision.getTy();
 
-        if (x < 22 && x > -2) {
+        if (x < 18 && x > -.5) {
             kShooterSpeedFromAim = 70;
-        } else { // if (x <= -2 && x > -8.2) 
+        } else { // if (x <= -
             kShooterSpeedFromAim = 75;
         }
 

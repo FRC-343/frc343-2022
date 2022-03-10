@@ -25,6 +25,6 @@ public class Vision extends SubsystemBase {
 
     //this is for second camera plugged into limelight
     public void setCamera(double value) {//vaulue = 0 split, 1 = secondary camera is small, 2 = limelight is small
-        table.getEntry("steam").setNumber(value);
+        table.getEntry("stream").setNumber(value);
     }
 }
