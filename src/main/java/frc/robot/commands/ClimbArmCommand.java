@@ -29,12 +29,12 @@ public class ClimbArmCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         boolean value = false;
-        if (m_speed > 0) { //positive speed is going down
-            if (m_climbing.getLeftBottomLimit() && m_climbing.getRightBottomLimit()) {
+        if (m_speed < 0) { //positive speed is going down
+            if (m_climbing.getLeftBottomLimit() || m_climbing.getRightBottomLimit()) {
                 value = true;
             }
-        } else if (m_speed < 0) {
-            if (m_climbing.getLeftTopLimit() && m_climbing.getRightTopLimit()) {
+        } else if (m_speed > 0) {
+            if (m_climbing.getLeftTopLimit() || m_climbing.getRightTopLimit()) {
                 value = true;
             }
         } else if (m_speed == 0) {

@@ -12,7 +12,7 @@ public class AimCommand extends CommandBase {
     private final Hood m_hood;
     private final Turret m_turret;
 
-    private double kTurretPrecision = 2.0;
+    private double kTurretPrecision = 1.5;
     private double kTurretSpeed = .3;
 
     private boolean m_stop;
@@ -43,11 +43,11 @@ public class AimCommand extends CommandBase {
         double heading_error = m_vision.getTx();
         double x = m_vision.getTy();
 
-        kTurretSpeed = Math.abs(heading_error) / 30.0; // equivilent to a PID, goes proportionally slower the closer you are
+        kTurretSpeed = Math.abs(heading_error) / 20.0; // equivilent to a PID, goes proportionally slower the closer you are
         if (kTurretSpeed > .4) { // increase these to 5 if it doesn't break
             kTurretSpeed = .4;
-        } else if (kTurretSpeed < .17) {
-            kTurretSpeed = .17;
+        } else if (kTurretSpeed < .2) {
+            kTurretSpeed = .2;
         }
 
         if (heading_error > kTurretPrecision) {
@@ -75,9 +75,9 @@ public class AimCommand extends CommandBase {
         double x = m_vision.getTy();
 
         if (x < 18 && x > -.5) {
-            kShooterSpeedFromAim = 70;
+            kShooterSpeedFromAim = 68;
         } else { // if (x <= -
-            kShooterSpeedFromAim = 75;
+            kShooterSpeedFromAim = 73;
         }
 
         System.out.println("IT is over");
