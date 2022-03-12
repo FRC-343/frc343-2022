@@ -59,9 +59,9 @@ public class AimCommand extends CommandBase {
         }
 
         if (x < 18 && x > -.5) {
-            m_hood.aim(866.4648 + x * -52.5726);
+            m_hood.aim(1000 + x * -52.5726); //866.4648
         } else { // if (x <= -
-            m_hood.aim(579.835 + x * -185.9704);
+            m_hood.aim(600.835 + x * -185.9704);
         }
 
     }
@@ -75,9 +75,9 @@ public class AimCommand extends CommandBase {
         double x = m_vision.getTy();
 
         if (x < 18 && x > -.5) {
-            kShooterSpeedFromAim = 68;
+            kShooterSpeedFromAim = 70;
         } else { // if (x <= -
-            kShooterSpeedFromAim = 73;
+            kShooterSpeedFromAim = 75;
         }
 
         System.out.println("IT is over");

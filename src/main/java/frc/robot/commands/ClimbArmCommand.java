@@ -34,7 +34,7 @@ public class ClimbArmCommand extends CommandBase {
                 value = true;
             }
         } else if (m_speed > 0) {
-            if (m_climbing.getLeftTopLimit() || m_climbing.getRightTopLimit()) {
+            if (m_climbing.getLeftTopLimit() ) {
                 value = true;
             }
         } else if (m_speed == 0) {

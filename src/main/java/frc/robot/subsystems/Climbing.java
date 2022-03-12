@@ -19,7 +19,7 @@ public class Climbing extends SubsystemBase {
 
     private final DigitalInput m_isLeftTop = new DigitalInput(17);
     private final DigitalInput m_isLeftBottom = new DigitalInput(18);
-    private final DigitalInput m_isRightTop = new DigitalInput(16);
+    // private final DigitalInput m_isRightTop = new DigitalInput(16);
     private final DigitalInput m_isRightBottom = new DigitalInput(15);
 
     public Climbing() {
@@ -33,8 +33,8 @@ public class Climbing extends SubsystemBase {
 
         SendableRegistry.setSubsystem(m_isRightBottom, this.getClass().getSimpleName());
         SendableRegistry.setName(m_isRightBottom, "isrightbottom");
-        SendableRegistry.setSubsystem(m_isRightTop, this.getClass().getSimpleName());
-        SendableRegistry.setName(m_isRightTop, "isrighttop");
+        // SendableRegistry.setSubsystem(m_isRightTop, this.getClass().getSimpleName());
+        // SendableRegistry.setName(m_isRightTop, "isrighttop");
 
     }
 
@@ -63,9 +63,9 @@ public class Climbing extends SubsystemBase {
         return m_isLeftTop.get();
     }
 
-    public boolean getRightTopLimit() {
-        return m_isRightTop.get();
-    }
+    // public boolean getRightTopLimit() {
+    //     return m_isRightTop.get();
+    // }
 
     public boolean getLeftBottomLimit() {
         return m_isLeftBottom.get();
@@ -76,7 +76,7 @@ public class Climbing extends SubsystemBase {
     }
 
     public void setWinch(double speed) {
-        if (speed < 0.0 && (m_isRightTop.get() || m_isLeftTop.get())) {
+        if (speed < 0.0 && /*(m_isRightTop.get() || */m_isLeftTop.get()) {
             m_climbingMotor.set(0.0);
         } else if (speed > 0 && (m_isRightBottom.get() || m_isLeftBottom.get())) {
             m_climbingMotor.set(0.0);
