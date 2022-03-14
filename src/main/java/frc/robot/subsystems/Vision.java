@@ -19,8 +19,12 @@ public class Vision extends SubsystemBase {
         return ty.getDouble(0.0);
     }
 
+    public double getTv() {
+        return table.getEntry("tv").getDouble(0.0);
+    }
+
     public boolean isAimed(double precision) {
-        return Math.abs(tx.getDouble(0.0)) < precision;
+        return Math.abs(getTx()) < precision;
     }
 
     //this is for second camera plugged into limelight

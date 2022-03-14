@@ -3,10 +3,8 @@ package frc.robot.autonomous;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.AimCommand;
+import frc.robot.commands.AimShootCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.PresetTurretCommand;
-import frc.robot.commands.ShootCommand;
 import frc.robot.commands.driveCommands.DriveDistanceCommand;
 import frc.robot.commands.driveCommands.DriveTurnCommand;
 import frc.robot.subsystems.Climbing;
@@ -33,7 +31,6 @@ public class TwoBallAuto extends SequentialCommandGroup {
                 new ParallelDeadlineGroup(
                         new DriveDistanceCommand(kDriveDistance, kDriveSpeed, drive),
                         new IntakeCommand(intake, kicker)
-                        // new PresetTurretCommand(turret, 30)
                         ),
                 // rotate
                 new ParallelDeadlineGroup(
@@ -41,6 +38,6 @@ public class TwoBallAuto extends SequentialCommandGroup {
                         new IntakeCommand(intake, kicker)),
 
                 // aim
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, true, false));
+                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false));
     }
 }

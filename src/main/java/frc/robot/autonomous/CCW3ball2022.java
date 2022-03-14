@@ -11,9 +11,8 @@ import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import frc.robot.commands.AimCommand;
+import frc.robot.commands.AimShootCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.ShootCommand;
 import frc.robot.commands.driveCommands.DriveTurnCommand;
 import frc.robot.commands.driveCommands.TrajectoryCommand;
 import frc.robot.subsystems.Drive;
@@ -60,9 +59,8 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                         new IntakeCommand(intake, kicker)),
                 // rotate towards second ball
                 new DriveTurnCommand(-90, -1, drive), // ) // turn 90 degrees cw
-                // fire 2
-                new AimCommand(vision, hood, turret),
-                new ShootCommand(shooter, kicker, true),
+                // fire 2i
+                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false),
                 // go to second ball
                 new ParallelDeadlineGroup(
                         new TrajectoryCommand(
@@ -77,7 +75,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                                 drive),
                         new IntakeCommand(intake, kicker)),
                 // fire last ball
-                new AimCommand(vision, hood, turret),
-                new ShootCommand(shooter, kicker, true));
+                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false));
+
     }
 }

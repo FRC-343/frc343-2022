@@ -3,12 +3,8 @@ package frc.robot.autonomous;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import frc.robot.commands.AimCommand;
+import frc.robot.commands.AimShootCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.PresetHoodCommand;
-import frc.robot.commands.PresetTurretCommand;
-import frc.robot.commands.ShootCommand;
 import frc.robot.commands.driveCommands.DriveDistanceCommand;
 import frc.robot.commands.driveCommands.DriveTurnCommand;
 import frc.robot.subsystems.Climbing;
@@ -42,18 +38,18 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                         new IntakeCommand(intake, kicker)),
                 // rotate turret while doing all the stuff above
                 // aim
-                new AimCommand(vision, hood, turret), new ShootCommand(shooter, kicker, true, false),
+                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false),
 
                 new ParallelDeadlineGroup(
                         new DriveDistanceCommand(2.8, kDriveSpeed, drive),
-                        new AimCommand(vision, hood, turret, false),
+                        new AimShootCommand(shooter, kicker, hood, turret, vision, 2),
                         new IntakeCommand(intake, kicker)),
 
                 new ParallelDeadlineGroup(
-                        new AimCommand(vision, hood, turret),
+                        new AimShootCommand(shooter, kicker, hood, turret, vision, 1),
                         new IntakeCommand(intake, kicker)),
 
-                new ShootCommand(shooter, kicker, true, false));
+                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false));
 
     }
 }

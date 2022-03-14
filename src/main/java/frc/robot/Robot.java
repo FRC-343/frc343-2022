@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
                 kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
 
         // Joystick buttons
-        new JoystickButton(m_stick, 9).whileHeld(new AimCommand(m_vision, m_hood, m_turret, false));
+        new JoystickButton(m_stick, 9).whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 2));
 
         new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
@@ -115,13 +115,13 @@ public class Robot extends TimedRobot {
         // Controller Triggers/Bumpers
 
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
-                .whenHeld(new ShootCommand(m_shooter, m_kicker, false, false)); // shooter with PIDs and auto kicker
+                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, -1)); // shooter with PIDs and auto kicker
         new Button(() -> m_controller.getRightBumper())
-                .whenHeld(new ShootCommand(m_shooter, m_kicker, false, true)); // above with low goal
+                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true, false)); // above with low goal
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, .8));
 
-        new Button(() -> m_controller.getLeftBumper()).whileHeld(new AimCommand(m_vision, m_hood, m_turret, false));
+        new Button(() -> m_controller.getLeftBumper()).whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3));
 
         // Controller Buttons
         new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, -.3));

@@ -22,7 +22,6 @@ public class Kicker extends SubsystemBase {
 
     private static final Color kRed = new Color(0.518311, 0.344971, 0.136963);
     private static final Color kBlue = new Color(0.1267, 0.4160, 0.4575);
-    // private static final Color kEmpty = new Color(0.1267, 0.4160, 0.4575);
 
     private String colorString = "";
 
@@ -34,7 +33,6 @@ public class Kicker extends SubsystemBase {
 
         m_colorMatcher.addColorMatch(kRed);
         m_colorMatcher.addColorMatch(kBlue);
-        // m_colorMatcher.addColorMatch(kEmtpy);
     }
 
     @Override
