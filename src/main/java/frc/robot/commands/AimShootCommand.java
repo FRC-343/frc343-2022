@@ -26,9 +26,10 @@ public class AimShootCommand extends CommandBase {
     private Timer t = new Timer();
     private final double time;
 
-    private double y;
-    private double x;
-    private double v;
+    private double y; //ty from limelight
+    private double d; // horizontal distance to targe
+    private double x; // tx from limelight
+    private double v; // tv from limelight, # = # of targets
 
     private double kTurretPrecision;
     private double kTurretSpeed;
@@ -65,7 +66,7 @@ public class AimShootCommand extends CommandBase {
 
         refreshAimValues();
 
-        time = 8.0;
+        time = 5.0;
     }
 
     public AimShootCommand(Shooter shooter, Kicker kicker, Hood hood, Turret turret, Vision vision, int aimShootMode) {
@@ -73,7 +74,7 @@ public class AimShootCommand extends CommandBase {
     }
 
     public AimShootCommand(Shooter shooter, Kicker kicker, Hood hood, Turret turret, Vision vision) {
-        this(shooter, kicker, hood, turret, vision, 0); // defaults aim-shoot-mode
+        this(shooter, kicker, hood, turret, vision, -1); // defaults aim-shoot-mode
     }
 
     // Called when the command is initially scheduled.
@@ -160,7 +161,7 @@ public class AimShootCommand extends CommandBase {
             setShooterSpeed(getShooterSpeed());
             shootShooter(true); // spin up shooter wheels
             if (isAimFinished()) {
-                stepNumber = 2;
+                stepNumber = 1;
             }
         } else {
             shootShooter(false); // not require to be aimed to fire
@@ -249,6 +250,9 @@ public class AimShootCommand extends CommandBase {
 
     private void refreshAimValues() {
         y = m_vision.getTy(); // put distance formula in here later
+
+        d = Math.tan(y); //change so actually good
+        
         x = m_vision.getTx();
         v = m_vision.getTv();
     }
