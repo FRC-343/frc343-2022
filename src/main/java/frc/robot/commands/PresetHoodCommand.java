@@ -19,6 +19,10 @@ public class PresetHoodCommand extends CommandBase {
         addRequirements(m_hood);
     }
 
+    public PresetHoodCommand(Hood hood, double target) {
+        this(hood, target, false);
+    }
+
     @Override
     public void execute() {
         m_hood.aim(kTarget, m_startWithZeroing);
