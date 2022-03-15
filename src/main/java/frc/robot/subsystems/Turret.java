@@ -52,13 +52,19 @@ public class Turret extends SubsystemBase {
         m_speed = speed;
     }
 
-    public void aim(double target) {
+    public void aim(double target, boolean startWithZeroing) {
         m_target = target;
 
         if (!m_aiming) {
             m_aiming = true;
-            m_zeroing = true;
+            if (startWithZeroing) {
+                m_zeroing = true;
+            }
         }
+    }
+
+    public void aim(double target) { 
+        aim(target);
     }
 
     @Override

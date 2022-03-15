@@ -8,17 +8,20 @@ public class PresetHoodCommand extends CommandBase {
 
     private final Hood m_hood;
 
+    private boolean m_startWithZeroing;
+
     private double kTarget;
     
-    public PresetHoodCommand(Hood hood, double target) {
+    public PresetHoodCommand(Hood hood, double target, boolean startWithZeroing) {
         m_hood = hood;
         kTarget = target;
+        m_startWithZeroing = startWithZeroing;
         addRequirements(m_hood);
     }
 
     @Override
     public void execute() {
-        m_hood.aim(kTarget);
+        m_hood.aim(kTarget, m_startWithZeroing);
     }
 
     @Override

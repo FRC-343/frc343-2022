@@ -3,28 +3,31 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
+import frc.robot.subsystems.Shooter;
 
 public class IntakeCommand extends CommandBase {
     private final Intake m_intake;
     private final Kicker m_kicker;
+    private final Shooter m_shooter;
 
     private double kIntakeSpeed;
     private boolean m_raise;
 
-    public IntakeCommand(Intake intake, Kicker kicker, double intakeSpeed, boolean raise) {
+    public IntakeCommand(Intake intake, Kicker kicker, Shooter shooter, double intakeSpeed, boolean raise) {
         m_intake = intake;
         m_kicker = kicker;
+        m_shooter = shooter;
         kIntakeSpeed = intakeSpeed;
         m_raise = raise;
-        addRequirements(m_intake, m_kicker);
+        addRequirements(m_intake, m_kicker, m_shooter);
     }
 
-    public IntakeCommand(Intake intake, Kicker kicker) {
-        this(intake, kicker, 0.8, true); // defaults to .8 speed
+    public IntakeCommand(Intake intake, Kicker kicker, Shooter shooter) {
+        this(intake, kicker, shooter, 0.8, true); // defaults to .8 speed
     }
 
-    public IntakeCommand(Intake intake, Kicker kicker, double intakeSpeed) {
-        this(intake, kicker, intakeSpeed, true);
+    public IntakeCommand(Intake intake, Kicker kicker, Shooter shooter, double intakeSpeed) {
+        this(intake, kicker, shooter, intakeSpeed, true);
     }
 
     // Called when the command is initially scheduled.
@@ -38,10 +41,17 @@ public class IntakeCommand extends CommandBase {
     public void execute() {
         m_intake.setIntake(kIntakeSpeed);
 
-        if (!m_intake.getCellDetector()) { // if no ball is in chamber run the kicker so it goes into chanber, leaving
+        if (!m_kicker.getCellDetector()) { // if no ball is in chamber run the kicker so it goes into chanber, leaving
             m_kicker.setKicker(1.0); // room for the 2nd ball in the hopper
-        } else {
-            m_kicker.setKicker(0.0);
+            m_shooter.shoot(0.0);
+        } else { // if getCellDetector()
+            if (!m_kicker.isBadCargo()) { // if good cargo stop kicker
+                m_kicker.setKicker(0.0);
+                m_shooter.shoot(0.0);
+            } else if (m_kicker.isBadCargo()) { // if bad then shoot out
+                m_shooter.shoot(10, 20);
+                m_kicker.setKicker(1);
+            }
         }
 
     }
@@ -51,6 +61,7 @@ public class IntakeCommand extends CommandBase {
     public void end(boolean interrupted) {
         m_intake.setIntake(0);
         m_kicker.setKicker(0);
+        m_shooter.shoot(0);
         if (m_raise) {
             m_intake.raise();
         }

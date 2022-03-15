@@ -39,14 +39,20 @@ public class Hood extends SubsystemBase {
 
     }
 
-    public void aim(double target) {
+    public void aim(double target, boolean startWithZeroing) {
         m_target = target;
         SmartDashboard.putNumber("hood_target", m_target);
 
         if (!m_aiming) {
             m_aiming = true;
-            // m_zeroing = true;
+            if (startWithZeroing) {
+                m_zeroing = true;
+            }
         }
+    }
+
+    public void aim(double target) {
+        aim(target);
     }
 
     public void stop() {

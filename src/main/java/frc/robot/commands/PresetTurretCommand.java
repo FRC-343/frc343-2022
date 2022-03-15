@@ -8,17 +8,20 @@ public class PresetTurretCommand extends CommandBase {
 
     private final Turret m_turret;
 
+    private boolean m_startWithZeroing;
+
     private double kTarget;
     
-    public PresetTurretCommand(Turret turret, double target) {
+    public PresetTurretCommand(Turret turret, double target, boolean startWithZeroing) {
         m_turret = turret;
         kTarget = target;
+        m_startWithZeroing = startWithZeroing;
         addRequirements(m_turret);
     }
 
     @Override
     public void execute() {
-        m_turret.aim(kTarget);
+        m_turret.aim(kTarget, m_startWithZeroing);
     }
 
     @Override

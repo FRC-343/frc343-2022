@@ -119,12 +119,12 @@ public class Robot extends TimedRobot {
         new Button(() -> m_controller.getRightBumper())
                 .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true, false)); // above with low goal
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, .8));
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, .8));
 
         new Button(() -> m_controller.getLeftBumper()).whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3));
 
         // Controller Buttons
-        new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, -.3));
+        new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, -.3));
 
         new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
             m_kicker.setKicker(1.0);

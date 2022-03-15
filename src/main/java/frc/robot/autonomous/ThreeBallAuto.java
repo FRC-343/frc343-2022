@@ -2,7 +2,9 @@ package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AimShootCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.driveCommands.DriveDistanceCommand;
@@ -31,11 +33,11 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                 // drive and intake
                 new ParallelDeadlineGroup(
                         new DriveDistanceCommand(kDriveDistance, kDriveSpeed, drive),
-                        new IntakeCommand(intake, kicker)),
+                        new IntakeCommand(intake, kicker, shooter)),
                 // rotate
                 new ParallelDeadlineGroup(
                         new DriveTurnCommand(-117, -kDriveSpeed, drive),
-                        new IntakeCommand(intake, kicker)),
+                        new IntakeCommand(intake, kicker, shooter)),
                 // rotate turret while doing all the stuff above
                 // aim
                 new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false),
@@ -43,11 +45,11 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                 new ParallelDeadlineGroup(
                         new DriveDistanceCommand(2.8, kDriveSpeed, drive),
                         new AimShootCommand(shooter, kicker, hood, turret, vision, 2),
-                        new IntakeCommand(intake, kicker)),
+                        new IntakeCommand(intake, kicker, shooter)),
 
-                new ParallelDeadlineGroup(
-                        new AimShootCommand(shooter, kicker, hood, turret, vision, 1),
-                        new IntakeCommand(intake, kicker)),
+                new ParallelRaceGroup(
+                        new WaitCommand(3), //TODO change later if fail
+                        new IntakeCommand(intake, kicker, shooter)),
 
                 new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false));
 

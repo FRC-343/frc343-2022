@@ -56,7 +56,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                                                 new Rotation2d(0)),
                                         forwardPickupConfig), // 55 Degrees
                                 drive),
-                        new IntakeCommand(intake, kicker)),
+                        new IntakeCommand(intake, kicker, shooter)),
                 // rotate towards second ball
                 new DriveTurnCommand(-90, -1, drive), // ) // turn 90 degrees cw
                 // fire 2i
@@ -73,7 +73,7 @@ public class CCW3ball2022 extends SequentialCommandGroup {
                                                 new Rotation2d(2.63)), // 135 degees
                                         forwardPickupConfig),
                                 drive),
-                        new IntakeCommand(intake, kicker)),
+                        new IntakeCommand(intake, kicker, shooter)),
                 // fire last ball
                 new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false));
 

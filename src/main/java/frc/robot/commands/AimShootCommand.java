@@ -26,10 +26,14 @@ public class AimShootCommand extends CommandBase {
     private Timer t = new Timer();
     private final double time;
 
-    private double y; //ty from limelight
-    private double d; // horizontal distance to targe
+    private double y; // ty from limelight
     private double x; // tx from limelight
     private double v; // tv from limelight, # = # of targets
+    private double d; // horizontal distance to targe
+
+    private final double goalHeight = 96; // inches
+    private final double limeLightHeight = 20;
+    private final double limeLightMountAngleToGround = 20; // degrees
 
     private double kTurretPrecision;
     private double kTurretSpeed;
@@ -251,8 +255,9 @@ public class AimShootCommand extends CommandBase {
     private void refreshAimValues() {
         y = m_vision.getTy(); // put distance formula in here later
 
-        d = Math.tan(y); //change so actually good
-        
+        double angleFromGround = 0.01745329 * (y + limeLightMountAngleToGround); //find total angle and change to rad
+        d = (goalHeight - limeLightHeight) / Math.tan(angleFromGround); // inches
+
         x = m_vision.getTx();
         v = m_vision.getTv();
     }

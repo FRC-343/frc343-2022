@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 
@@ -15,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Kicker extends SubsystemBase {
     private final Spark m_kicker = new Spark(4);
+
+    private final DigitalInput m_cellDetector = new DigitalInput(14);
 
     private final ColorSensorV3 m_color = new ColorSensorV3(I2C.Port.kOnboard);
 
@@ -31,6 +34,9 @@ public class Kicker extends SubsystemBase {
         SendableRegistry.setSubsystem(m_kicker, this.getClass().getSimpleName());
         SendableRegistry.setName(m_kicker, "Kicker Motor");
 
+        SendableRegistry.setSubsystem(m_cellDetector, this.getClass().getSimpleName());
+        SendableRegistry.setName(m_cellDetector, "cell detector for shooter/intake");
+
         m_colorMatcher.addColorMatch(kRed);
         m_colorMatcher.addColorMatch(kBlue);
     }
@@ -45,7 +51,7 @@ public class Kicker extends SubsystemBase {
         } else if (detectedColor.color == kBlue) {
             SmartDashboard.putString("color_detected", "blue");
             colorString = "Blue";
-        } else { 
+        } else {
             SmartDashboard.putString("color_detected", "None Colors there be");
             colorString = "";
         }
@@ -60,10 +66,19 @@ public class Kicker extends SubsystemBase {
     }
 
     public boolean isBadCargo() { // returns true if wrong color
+        boolean value;
         if (colorString.isBlank()) {
-            return false;
+            value =  false;
+        } else if (getCellDetector()){
+            value = false;
         } else {
-            return !(DriverStation.getAlliance().equals(DriverStation.Alliance.valueOf(colorString)));
+            value = !(DriverStation.getAlliance().equals(DriverStation.Alliance.valueOf(colorString)));
         }
+        return value;
     }
+
+    public boolean getCellDetector() {
+        return m_cellDetector.get();
+    }
+
 }
