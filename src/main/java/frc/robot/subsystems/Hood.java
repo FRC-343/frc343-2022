@@ -25,9 +25,6 @@ public class Hood extends SubsystemBase {
     private boolean m_zeroing = false; // resetting hood
 
     public Hood() {
-        m_hoodMotor.setInverted(false); // I think either the hood should be inverted or the encoder should be but not both
-        m_hoodEncoder.setReverseDirection(false); // it failed when both false and both true, so try true-false and false-true
-
         SendableRegistry.setSubsystem(m_hoodEncoder, this.getClass().getSimpleName());
         SendableRegistry.setName(m_hoodEncoder, "Hood Encoder");
         SendableRegistry.setSubsystem(m_hoodBack, this.getClass().getSimpleName());
@@ -92,9 +89,9 @@ public class Hood extends SubsystemBase {
                 if (m_hoodFront.get()) {
                     m_zeroing = true;
                     m_hoodMotor.set(0.0);
-                } else if (m_hoodEncoder.getDistance() < m_target - 100) {
+                } else if (m_hoodEncoder.getDistance() < m_target - 75) {
                     m_hoodMotor.set(-1.0);
-                } else if (m_hoodEncoder.getDistance() > m_target + 200) { //TODO change to 100 for a more accurate hood
+                } else if (m_hoodEncoder.getDistance() > m_target + 75) {
                     m_hoodMotor.set(1.0);
                 } else { //m_hoodEncoder.getDistance >m_target-100 && < m_target+200
                     m_hoodMotor.set(0.0);

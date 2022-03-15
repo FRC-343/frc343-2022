@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
 public class AimShootCommand extends CommandBase {
@@ -50,6 +51,7 @@ public class AimShootCommand extends CommandBase {
     // 2 = aim only, and don't stop aiming
     // 3 = shoot only (no aiming or speed changing (default 70rps))
     // 4 = shoot only (with speed changing based on distance)
+    // 5 = shoot only (with speed for upper hub, when against lower hub)
 
     public AimShootCommand(Shooter shooter, Kicker kicker, Hood hood, Turret turret, Vision vision, int aimShootMode,
             boolean stopShooterAfterTime, boolean lowGoal, boolean notUseColorSensor) {
@@ -109,7 +111,10 @@ public class AimShootCommand extends CommandBase {
             mode3();
         } else if (m_aimShootMode == 4) {
             mode4();
+        } else if (m_aimShootMode == 5) {
+            mode5();
         }
+
     }
 
     // Called once the command ends or is interrupted.
@@ -187,12 +192,14 @@ public class AimShootCommand extends CommandBase {
         shootShooter(false);
     }
 
+    private void mode5() { // shoot to high goal when next to goal (and hood all the way down)
+        setShooterSpeed(65, 65); // TODO change speeds to get a high goal shot good
+        shootShooter(false);
+    }
+
     private void shootShooter(boolean waitForAim) {
-        if (m_kicker.isBadCargo() && !m_notUseColorSensor) {
-            m_shooter.shoot(10, 10);
-            if (m_shooter.getBottomShooterRPS() <= 15 && m_shooter.getTopShooterRPS() <= 15) {
-                m_kicker.setKicker(1.0);
-            }
+        if (!m_notUseColorSensor && m_kicker.isBadCargo()) {
+            shootBadCargo();
         } else {
             m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
 
@@ -204,6 +211,7 @@ public class AimShootCommand extends CommandBase {
                 shootActivateKicker();
             }
         }
+
     }
 
     private void shootActivateKicker() {
@@ -215,9 +223,16 @@ public class AimShootCommand extends CommandBase {
         }
     }
 
-    private void setShooterSpeed(double speed) {
+    private void shootBadCargo() {
+        m_shooter.shoot(10, 10);
+        if (m_shooter.getBottomShooterRPS() <= 15 && m_shooter.getTopShooterRPS() <= 15) {
+            m_kicker.setKicker(1.0);
+        }
+    }
+
+    private void setShooterSpeed(double bottomspeed, double topSpeed) {
         if (!m_lowGoal) {
-            kBottomShootReadySpeed = speed;
+            kBottomShootReadySpeed = bottomspeed;
         } else { // lowGoal
             kBottomShootReadySpeed = 24;
         }
@@ -228,8 +243,12 @@ public class AimShootCommand extends CommandBase {
             kBottomShootSpeed = kBottomShootReadySpeed * 1.2; // higher value so the ready speed will reach the speed it is aiming for
         }
 
-        kTopShootReadySpeed = kBottomShootReadySpeed / 2.0; // top ready speed = 1/2 of bottom ready speed, 35 rps
+        kTopShootReadySpeed = topSpeed; // top ready speed = 1/2 of bottom ready speed, 35 rps
         kTopShootSpeed = kTopShootReadySpeed * (8.0 / 7); // top speed = 1/7 more than top ready speed, 40 rps
+    }
+
+    private void setShooterSpeed(double speed) {
+        setShooterSpeed(speed, speed / 2);
     }
 
     private void setShooterSpeed() {
@@ -253,24 +272,26 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void refreshAimValues() {
-        y = m_vision.getTy(); // put distance formula in here later
-
-        double angleFromGround = 0.01745329 * (y + limeLightMountAngleToGround); //find total angle and change to rad
-        d = (goalHeight - limeLightHeight) / Math.tan(angleFromGround); // inches
-
         x = m_vision.getTx();
         v = m_vision.getTv();
+        y = m_vision.getTy(); // put distance formula in here later
+
+        double angleFromGround = 0.01745329 * (y + limeLightMountAngleToGround); // find total angle and change to rad
+        d = (goalHeight - limeLightHeight) / Math.tan(angleFromGround); // inches
+
+        // if (d > 2400) {
+        // kTurretPrecision = .5;
+        // } else if (d > 1200) {
+        // kTurretPrecision = 1.0;
+        // } else if (d > 600) {
+        // kTurretPrecision = 1.5;
+        // } else {
+        // kTurretPrecision = 2.0;
+        // }
     }
 
     private void aimTurret() {
-        kTurretSpeed = Math.abs(x) / 20.0; // equivilent to a PID, goes proportionally slower the closer you are
-        if (kTurretSpeed > .4) { // increase these to .5 if it doesn't break
-            kTurretSpeed = .4;
-        } else if (kTurretSpeed < .2) {
-            kTurretSpeed = .2;
-        }
-
-        // add vairable percission based on distance
+        aimTurretSpeed();
 
         if (x > kTurretPrecision) {
             m_turret.spin(kTurretSpeed);
@@ -278,6 +299,36 @@ public class AimShootCommand extends CommandBase {
             m_turret.spin(-kTurretSpeed);
         } else {
             m_turret.spin(0.0);
+        }
+    }
+
+    private void aimTurretSpeed() {
+        kTurretSpeed = Math.abs(x) / 20.0; // equivilent to a PID, goes proportionally slower the closer you are
+        if (kTurretSpeed > .4) { // increase these to .5 if it doesn't break
+            kTurretSpeed = .4;
+        } else if (kTurretSpeed < .2) {
+            kTurretSpeed = .2;
+        }
+    }
+
+    private void aimTurretSpeedAlternate() {
+        double minTurretSpeed;
+        if (kTurretPrecision <= .5) {
+            minTurretSpeed = .1;
+        } else if (kTurretPrecision <= 1.0) {
+            minTurretSpeed = .15;
+        } else if (kTurretPrecision <= 1.5) {
+            minTurretSpeed = .2;
+        } else {
+            minTurretSpeed = 2.5;
+        }
+
+        if (Math.abs(x) <= kTurretPrecision * 2) {
+            kTurretSpeed = minTurretSpeed;
+        } else if (Math.abs(x) <= kTurretPrecision * 3) {
+            kTurretSpeed = (minTurretSpeed + Robot.kMaxTurretSpeed) / 2;
+        } else {
+            kTurretSpeed = .4;
         }
     }
 

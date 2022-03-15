@@ -62,14 +62,14 @@ public class Kicker extends SubsystemBase {
     }
 
     public void setKicker(double speed) {
-        m_kicker.set(speed);
+        m_kicker.set(speed); // TODO change to setVoltage for testing
     }
 
     public boolean isBadCargo() { // returns true if wrong color
         boolean value;
         if (colorString.isBlank()) {
-            value =  false;
-        } else if (getCellDetector()){
+            value = false;
+        } else if (getCellDetector()) {
             value = false;
         } else {
             value = !(DriverStation.getAlliance().equals(DriverStation.Alliance.valueOf(colorString)));
