@@ -41,7 +41,6 @@ public class AimShootCommand extends CommandBase {
     private double kTurretSpeed;
 
     private int stepNumber; // used to keep track of where we are with complicated aimShootMode's
-    private boolean halfSecAfterBadCargo;
 
     // aimShootMode explanation:
     // ---------------------------------------------------------------------------------
