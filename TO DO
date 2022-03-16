@@ -1,0 +1,35 @@
+Things that need to be tested on the robot
+
+||||||||||||||||||||||||||||||||||||||||||||||||||
+||||||||||||||||||||||||||||||||||||||||||||||||||
+||||||||||||||||||||||||||||||||||||||||||||||||||
+||||||||||||||||||||||||||||||||||||||||||||||||||
+||||||||||||||||||||||||||||||||||||||||||||||||||
+
+preset turret/hood (with zeroing and without)
+
+shooter aiming /shooting modes
+
+color sensor stuff
+
+kicker setvoltage (fire faster back to back)
+
+intake spitting wrong color
+
+zeroing after shooting
+
+shooting high while against hub
+
+alternate turret aiming for shooting
+
+3 ball auto
+
+||||||||||||||||||||||||||||||||||||||||||||||||||
+||||||||||||||||||||||||||||||||||||||||||||||||||
+Things to do after testing is done 
+||||||||||||||||||||||||||||||||||||||||||||||||||
+||||||||||||||||||||||||||||||||||||||||||||||||||
+
+sysid / drive characterzation 
+
+auto 4 with trajectories

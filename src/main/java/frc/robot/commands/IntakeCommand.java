@@ -49,7 +49,7 @@ public class IntakeCommand extends CommandBase {
                 m_kicker.setKicker(0.0);
                 m_shooter.shoot(0.0);
             } else if (m_kicker.isBadCargo()) { // if bad then shoot out
-                m_shooter.shoot(10, 20);
+                m_shooter.shoot(13, 13);
                 m_kicker.setKicker(1);
             }
         }

@@ -90,6 +90,10 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 7).whenPressed(new InstantCommand(m_climbing::disEngage, m_climbing));
         new JoystickButton(m_stick, 6).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
 
+       // Joystick Trigger 
+
+        new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, .8));
+
         // Other Joystick Buttons (turret Presets)
 
         new JoystickButton(m_stick, 3).whenPressed(new PresetTurretCommand(m_turret, 110));
@@ -118,7 +122,7 @@ public class Robot extends TimedRobot {
         // Controller Triggers/Bumpers
 
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
-                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, -1))/*.whenReleased(new PresetHoodCommand(m_hood, 0, true))*/; // shooter with PIDs and auto kicker
+                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3))/*.whenReleased(new PresetHoodCommand(m_hood, 0, true))*/; // shooter with PIDs and auto kicker
         new Button(() -> m_controller.getRightBumper())
                 .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true, false)); // above with low goal
 

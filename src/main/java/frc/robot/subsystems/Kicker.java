@@ -69,7 +69,7 @@ public class Kicker extends SubsystemBase {
         boolean value;
         if (colorString.isBlank()) {
             value = false;
-        } else if (getCellDetector()) {
+        } else if (!getCellDetector()) {
             value = false;
         } else {
             value = !(DriverStation.getAlliance().equals(DriverStation.Alliance.valueOf(colorString)));

@@ -24,7 +24,8 @@ public class AimShootCommand extends CommandBase {
 
     private int m_aimShootMode;
 
-    private Timer t = new Timer();
+    private Timer t = new Timer(); // for ending shooting
+    private Timer t2 = new Timer(); //for color spitting
     private final double time;
 
     private double y; // ty from limelight
@@ -40,6 +41,7 @@ public class AimShootCommand extends CommandBase {
     private double kTurretSpeed;
 
     private int stepNumber; // used to keep track of where we are with complicated aimShootMode's
+    private boolean halfSecAfterBadCargo;
 
     // aimShootMode explanation:
     // ---------------------------------------------------------------------------------
@@ -199,6 +201,10 @@ public class AimShootCommand extends CommandBase {
 
     private void shootShooter(boolean waitForAim) {
         if (!m_notUseColorSensor && m_kicker.isBadCargo()) {
+            t2.reset();
+            t2.start();
+        }
+        if (!m_notUseColorSensor && (m_kicker.isBadCargo() || t2.get() < .5)) {
             shootBadCargo();
         } else {
             m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
@@ -224,7 +230,7 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void shootBadCargo() {
-        m_shooter.shoot(10, 10);
+        m_shooter.shoot(13, 13);
         if (m_shooter.getBottomShooterRPS() <= 15 && m_shooter.getTopShooterRPS() <= 15) {
             m_kicker.setKicker(1.0);
         }
@@ -278,16 +284,18 @@ public class AimShootCommand extends CommandBase {
 
         double angleFromGround = 0.01745329 * (y + limeLightMountAngleToGround); // find total angle and change to rad
         d = (goalHeight - limeLightHeight) / Math.tan(angleFromGround); // inches
+    }
 
-        // if (d > 2400) {
-        // kTurretPrecision = .5;
-        // } else if (d > 1200) {
-        // kTurretPrecision = 1.0;
-        // } else if (d > 600) {
-        // kTurretPrecision = 1.5;
-        // } else {
-        // kTurretPrecision = 2.0;
-        // }
+    private void refreshTurretPrecision() {
+        if (d > 2400) {
+            kTurretPrecision = .5;
+        } else if (d > 1200) {
+            kTurretPrecision = 1.0;
+        } else if (d > 600) {
+            kTurretPrecision = 1.5;
+        } else {
+            kTurretPrecision = 2.0;
+        }
     }
 
     private void aimTurret() {
