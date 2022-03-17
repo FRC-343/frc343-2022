@@ -122,13 +122,13 @@ public class Robot extends TimedRobot {
         // Controller Triggers/Bumpers
 
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
-                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3))/*.whenReleased(new PresetHoodCommand(m_hood, 0, true))*/; // shooter with PIDs and auto kicker
+                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, -1, false, false, true))/*.whenReleased(new PresetHoodCommand(m_hood, 0, true))*/; // shooter with PIDs and auto kicker
         new Button(() -> m_controller.getRightBumper())
                 .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true, false)); // above with low goal
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, .8));
 
-        new Button(() -> m_controller.getLeftBumper()).whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3));
+        new Button(() -> m_controller.getLeftBumper()).whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 2));
 
         // Controller Buttons
         new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, -.3));

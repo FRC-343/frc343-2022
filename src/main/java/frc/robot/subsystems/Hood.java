@@ -49,7 +49,7 @@ public class Hood extends SubsystemBase {
     }
 
     public void aim(double target) {
-        aim(target);
+        aim(target, false);
     }
 
     public void stop() {

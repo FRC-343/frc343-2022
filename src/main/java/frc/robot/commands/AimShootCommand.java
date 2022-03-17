@@ -94,6 +94,8 @@ public class AimShootCommand extends CommandBase {
         t.reset();
 
         stepNumber = 0;
+
+        kTurretPrecision = 1.5;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -310,7 +312,7 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void aimTurretSpeed() {
-        kTurretSpeed = Math.abs(x) / 20.0; // equivilent to a PID, goes proportionally slower the closer you are
+        kTurretSpeed = Math.abs(x) / 30.0; // equivilent to a PID, goes proportionally slower the closer you are
         if (kTurretSpeed > .4) { // increase these to .5 if it doesn't break
             kTurretSpeed = .4;
         } else if (kTurretSpeed < .2) {
