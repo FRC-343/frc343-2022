@@ -20,11 +20,11 @@
         "header": {
           "open": true
         }
-      },
-      "SPARK MAX [3]": {
-        "header": {
-          "open": true
-        }
+      }
+    },
+    "RoboRIO": {
+      "window": {
+        "visible": true
       }
     }
   },
@@ -35,6 +35,9 @@
       "/LiveWindow/Climbing/Bottom climber limit switch": "Digital Input",
       "/LiveWindow/Climbing/Top climber limit switch": "Digital Input",
       "/LiveWindow/Climbing/Winch Motor": "Motor Controller",
+      "/LiveWindow/Climbing/isleftTop": "Digital Input",
+      "/LiveWindow/Climbing/isleftbottom": "Digital Input",
+      "/LiveWindow/Climbing/isrightbottom": "Digital Input",
       "/LiveWindow/Drive": "Subsystem",
       "/LiveWindow/Drive/Drive Stopping Sensor Thingy on wheel Thingy": "Digital Input",
       "/LiveWindow/Drive/Gyro Drive Thingy": "Gyro",
@@ -55,6 +58,7 @@
       "/LiveWindow/Intake/cell detector for shooter/intake": "Digital Input",
       "/LiveWindow/Kicker": "Subsystem",
       "/LiveWindow/Kicker/Kicker Motor": "Motor Controller",
+      "/LiveWindow/Kicker/cell detector for shooter/intake": "Digital Input",
       "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Shooter/Shooter Motor": "Motor Controller",
       "/LiveWindow/Shooter/Shooter PIDController": "PIDController",

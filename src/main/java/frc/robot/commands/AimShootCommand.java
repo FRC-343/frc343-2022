@@ -40,6 +40,8 @@ public class AimShootCommand extends CommandBase {
     private double kTurretPrecision;
     private double kTurretSpeed;
 
+    private double shooterSpeed;
+
     private int stepNumber; // used to keep track of where we are with complicated aimShootMode's
 
     // aimShootMode explanation:
@@ -74,6 +76,7 @@ public class AimShootCommand extends CommandBase {
         refreshAimValues();
 
         time = 5.0;
+        shooterSpeed = 70;
     }
 
     public AimShootCommand(Shooter shooter, Kicker kicker, Hood hood, Turret turret, Vision vision, int aimShootMode) {
@@ -261,19 +264,16 @@ public class AimShootCommand extends CommandBase {
     }
 
     private double getShooterSpeed() {
-        double speed;
         // speed formula will go here later, but make sure it rounds to avoid changing speeds slightly constantly
         if (v == 1) {
             if (y < 18 && y > -.5) {
-                speed = 70;
+                shooterSpeed = 70;
             } else { // if (y <= -.5)
-                speed = 75;
+                shooterSpeed = 75;
             }
-        } else {
-            speed = 70;
-        }
+        } 
 
-        return speed;
+        return shooterSpeed;
     }
 
     private void refreshAimValues() {

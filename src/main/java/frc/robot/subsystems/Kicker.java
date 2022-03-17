@@ -51,6 +51,7 @@ public class Kicker extends SubsystemBase {
         } else if (detectedColor.color == kBlue) {
             SmartDashboard.putString("color_detected", "blue");
             colorString = "Blue";
+
         } else {
             SmartDashboard.putString("color_detected", "None Colors there be");
             colorString = "";
