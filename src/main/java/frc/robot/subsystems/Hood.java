@@ -16,7 +16,7 @@ public class Hood extends SubsystemBase {
 
     private final double kMaxHoodEncoderValue = 3000;
     private final double kMinHoodEncoderValue = -200;
-    private final double kMaxHoodEncoderRate = 1700;
+    private final double kMaxHoodEncoderRate = 3000;
 
     private boolean m_aimed = false; // if shooter is currently aimed
     private double m_target = 0.0; // where it needs to be aiming
@@ -85,14 +85,17 @@ public class Hood extends SubsystemBase {
 
             if (m_zeroing) {
                 m_hoodMotor.set(1.0);
+                m_aimed = false;
             } else {
                 if (m_hoodFront.get()) {
                     m_zeroing = true;
                     m_hoodMotor.set(0.0);
                 } else if (m_hoodEncoder.getDistance() < m_target - 75) {
                     m_hoodMotor.set(-1.0);
+                    m_aimed = false;
                 } else if (m_hoodEncoder.getDistance() > m_target + 75) {
                     m_hoodMotor.set(1.0);
+                    m_aimed = false;
                 } else { //m_hoodEncoder.getDistance >m_target-100 && < m_target+200
                     m_hoodMotor.set(0.0);
                     m_aimed = true;
