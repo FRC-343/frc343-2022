@@ -49,7 +49,7 @@ public class Intake2Command extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (t.get() >= Math.sqrt(2)) { // no comet // no comment
+        if (t.get() >= (Math.sqrt(2)/2)) { // no comet // no comment
             return true;
         } else {
             return false;

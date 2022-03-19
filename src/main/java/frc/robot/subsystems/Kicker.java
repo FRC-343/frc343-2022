@@ -63,7 +63,7 @@ public class Kicker extends SubsystemBase {
     }
 
     public void setKicker(double speed) {
-        m_kicker.set(speed); // TODO change to setVoltage for testing
+        m_kicker.set(speed);
     }
 
     public boolean isBadCargo() { // returns true if wrong color

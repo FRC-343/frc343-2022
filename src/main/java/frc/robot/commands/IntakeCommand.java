@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
@@ -45,13 +46,17 @@ public class IntakeCommand extends CommandBase {
             m_kicker.setKicker(1.0); // room for the 2nd ball in the hopper
             m_shooter.shoot(0.0);
         } else { // if getCellDetector()
-            // if (!m_kicker.isBadCargo()) { // if good cargo stop kicker
+            if (Robot.kUseColorSensor) {
+                if (!m_kicker.isBadCargo()) { // if good cargo stop kicker
+                    m_kicker.setKicker(0.0);
+                    m_shooter.shoot(0.0);
+                } else if (m_kicker.isBadCargo()) { // if bad then shoot out
+                    m_shooter.shoot(13, 13);
+                    m_kicker.setKicker(1);
+                }
+            } else {
                 m_kicker.setKicker(0.0);
-                m_shooter.shoot(0.0);
-            // } else if (m_kicker.isBadCargo()) { // if bad then shoot out
-                // m_shooter.shoot(13, 13);
-                // m_kicker.setKicker(1);
-            // }
+            }
         }
 
     }

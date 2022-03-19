@@ -29,6 +29,8 @@ public class Robot extends TimedRobot {
     public static final double kMaxTurretSpeed = 0.5;
     public static final double kMaxClimbingSpeed = .8;
 
+    public final static boolean kUseColorSensor = false;
+
     public static final double kTargetP = -0.055;
     public static final double kMinTargetCommand = -0.35;
 
@@ -122,9 +124,9 @@ public class Robot extends TimedRobot {
         // Controller Triggers/Bumpers
 
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
-                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, -1, false, false, true))/*.whenReleased(new PresetHoodCommand(m_hood, 0, true))*/; // shooter with PIDs and auto kicker
+                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, -1, false, false, !kUseColorSensor)); // shooter with PIDs and auto kicker
         new Button(() -> m_controller.getRightBumper())
-                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true, false)); // above with low goal
+                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true, !kUseColorSensor)); // above with low goal
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, .8)).whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
 
@@ -145,7 +147,7 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
-        new JoystickButton(m_controller, XboxController.Button.kX.value).whenHeld(new PresetHoodCommand(m_hood, 0, true));
+        new JoystickButton(m_controller, XboxController.Button.kX.value).whenPressed(new PresetHoodCommand(m_hood, 0, true));
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics

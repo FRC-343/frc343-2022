@@ -1,9 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
 public class AimShootCommand extends CommandBase {
@@ -296,20 +294,21 @@ public class AimShootCommand extends CommandBase {
 
     }
 
-    private void refreshTurretPrecision() {
-        if (d > 2400) {
-            kTurretPrecision = .5;
-        } else if (d > 1200) {
-            kTurretPrecision = 1.0;
-        } else if (d > 600) {
+    private void refreshTurretPrecision(double speed) { //designed to get the precision based on speed (on distance)
+        if (speed == 65) {
+            kTurretPrecision = 2;
+        } else if (speed == 70) {
             kTurretPrecision = 1.5;
-        } else {
-            kTurretPrecision = 2.0;
+        } else if (speed == 75) {
+            kTurretPrecision = 1.0;
+        } else if (speed == 80) {
+            kTurretPrecision = .5;
         }
     }
 
     private void aimTurret() {
         aimTurretSpeed();
+        refreshTurretPrecision(getShooterSpeed()); 
 
         if (x > kTurretPrecision) {
             m_turret.spin(kTurretSpeed);
@@ -322,31 +321,10 @@ public class AimShootCommand extends CommandBase {
 
     private void aimTurretSpeed() {
         kTurretSpeed = Math.abs(x) / 35.0; // equivilent to a PID, goes proportionally slower the closer you are
-        if (kTurretSpeed > .4) { // increase these to .5 if it doesn't break
-            kTurretSpeed = .4;
+        if (kTurretSpeed > .5) { // increase these to .5 if it doesn't break
+            kTurretSpeed = .5;
         } else if (kTurretSpeed < .18) {
             kTurretSpeed = .18;
-        }
-    }
-
-    private void aimTurretSpeedAlternate() {
-        double minTurretSpeed;
-        if (kTurretPrecision <= .5) {
-            minTurretSpeed = .1;
-        } else if (kTurretPrecision <= 1.0) {
-            minTurretSpeed = .15;
-        } else if (kTurretPrecision <= 1.5) {
-            minTurretSpeed = .2;
-        } else {
-            minTurretSpeed = 2.5;
-        }
-
-        if (Math.abs(x) <= kTurretPrecision * 2) {
-            kTurretSpeed = minTurretSpeed;
-        } else if (Math.abs(x) <= kTurretPrecision * 3) {
-            kTurretSpeed = (minTurretSpeed + Robot.kMaxTurretSpeed) / 2;
-        } else {
-            kTurretSpeed = .4;
         }
     }
 
