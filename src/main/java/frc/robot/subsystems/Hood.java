@@ -70,8 +70,8 @@ public class Hood extends SubsystemBase {
     public void periodic() {
         if (m_aiming) {
 
-            if (m_hoodEncoder.getRate() > kMaxHoodEncoderRate || m_hoodEncoder.getRate() < -kMaxHoodEncoderRate
-                    || m_hoodEncoder.getDistance() > kMaxHoodEncoderValue
+            if (/*m_hoodEncoder.getRate() > kMaxHoodEncoderRate || m_hoodEncoder.getRate() < -kMaxHoodEncoderRate
+                    || */m_hoodEncoder.getDistance() > kMaxHoodEncoderValue
                     || m_hoodEncoder.getDistance() < kMinHoodEncoderValue) {
                 System.err.println("Hood encoder sent garbage values, zeroing again...");
                 m_zeroing = true;

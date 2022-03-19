@@ -74,7 +74,7 @@ public class AimShootCommand extends CommandBase {
 
         refreshAimValues();
 
-        time = 5.0;
+        time = 4.0;
         shooterSpeed = 70;
 
     }
@@ -237,8 +237,10 @@ public class AimShootCommand extends CommandBase {
 
     private void shootBadCargo() {
         m_shooter.shoot(13, 13);
-        if (m_shooter.getBottomShooterRPS() <= 15 && m_shooter.getTopShooterRPS() <= 15) {
+        if (m_shooter.getBottomShooterRPS() <= 20 && m_shooter.getTopShooterRPS() <= 20) {
             m_kicker.setKicker(1.0);
+        } else {
+            m_kicker.setKicker(0.0);
         }
     }
 
@@ -246,7 +248,7 @@ public class AimShootCommand extends CommandBase {
         if (!m_lowGoal) {
             kBottomShootReadySpeed = bottomspeed;
         } else { // lowGoal
-            kBottomShootReadySpeed = 24;
+            kBottomShootReadySpeed = 20;
         }
 
         if (kBottomShootReadySpeed <= 70) {
@@ -323,8 +325,8 @@ public class AimShootCommand extends CommandBase {
         kTurretSpeed = Math.abs(x) / 35.0; // equivilent to a PID, goes proportionally slower the closer you are
         if (kTurretSpeed > .5) { // increase these to .5 if it doesn't break
             kTurretSpeed = .5;
-        } else if (kTurretSpeed < .18) {
-            kTurretSpeed = .18;
+        } else if (kTurretSpeed < .2) {
+            kTurretSpeed = .2;
         }
     }
 

@@ -19,29 +19,31 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class TwoBallAuto extends SequentialCommandGroup {
-    private static final double kDriveDistance = 1.7;
-    private static final double kDriveSpeed = 1;
 
     public TwoBallAuto(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
             Turret turret, Climbing climbing) {
         // commands in this autonomous
         addCommands(
                 // drop intake
-                new InstantCommand(climbing::engage, climbing),
                 new InstantCommand(intake::lower, intake),
                 // drive and intake
                 new ParallelDeadlineGroup(
-                        new DriveDistanceCommand(kDriveDistance, kDriveSpeed, drive),
+                        new DriveDistanceCommand(1.1, 3, drive),
                         new IntakeCommand(intake, kicker, shooter),
-                        new PresetHoodCommand(hood, 0, true),
+                        new PresetHoodCommand(hood, 1100, true),
                         new PresetTurretCommand(turret, 90, true)
                         ),
                 // rotate
                 new ParallelDeadlineGroup(
-                        new DriveTurnCommand(90, kDriveSpeed, drive),
+                        new DriveTurnCommand(80, 2, drive),
                         new IntakeCommand(intake, kicker, shooter)),
 
                 // aim
-                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false));
+                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true),
+                new ParallelDeadlineGroup(
+                        new DriveDistanceCommand(3, 1, drive), 
+                        new IntakeCommand(intake, kicker, shooter)
+                ));
+                // new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true));
     }
 }

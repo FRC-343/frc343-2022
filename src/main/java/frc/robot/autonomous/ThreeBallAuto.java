@@ -2,7 +2,6 @@ package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AimShootCommand;
@@ -29,35 +28,34 @@ public class ThreeBallAuto extends SequentialCommandGroup {
         addCommands(
                 // do the first things while doing the turret preset
                 // drop intake and climbing
-                new InstantCommand(climbing::engage, climbing),
                 new InstantCommand(intake::lower, intake),
                 // drive and intake
                 new ParallelDeadlineGroup(
-                        new DriveDistanceCommand(1.4, kDriveSpeed, drive),
+                        new DriveDistanceCommand(1.1, kDriveSpeed, drive),
                         new IntakeCommand(intake, kicker, shooter),
-                        new PresetHoodCommand(hood, 0, true),
-                        new PresetTurretCommand(turret, 90, true)),
+                        new PresetHoodCommand(hood, 1200, true),
+                        new PresetTurretCommand(turret, 65, true)),
                 // rotate
                 new ParallelDeadlineGroup(
-                        new DriveTurnCommand(100, kDriveSpeed, drive),
+                        new DriveTurnCommand(83, kDriveSpeed, drive),
                         new IntakeCommand(intake, kicker, shooter)),
                 // rotate turret while doing all the stuff above
                 // aim and shoot
                 new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true),
 
-                new ParallelDeadlineGroup(
-                        new DriveDistanceCommand(2.0, kDriveSpeed, drive),
-                        new AimShootCommand(shooter, kicker, hood, turret, vision, 2)),
+                new DriveDistanceCommand(0.7, kDriveSpeed, drive),
 
                 new ParallelDeadlineGroup(
-                        new DriveDistanceCommand(.4, kDriveSpeed, drive), 
+                        new DriveDistanceCommand(1.3, kDriveSpeed, drive),
                         new IntakeCommand(intake, kicker, shooter)),
 
-                new ParallelRaceGroup(
-                        new WaitCommand(3), //TODO change later if fail
-                        new IntakeCommand(intake, kicker, shooter)),
+                new ParallelDeadlineGroup(
+                        new WaitCommand(2),
+                        new DriveTurnCommand(15, kDriveSpeed, drive),
+                        new IntakeCommand(intake, kicker, shooter),
+                        new PresetTurretCommand(turret, 70)),
 
-                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false));
+                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true));
 
     }
 }
