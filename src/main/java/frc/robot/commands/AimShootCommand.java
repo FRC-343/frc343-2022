@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
@@ -25,7 +26,7 @@ public class AimShootCommand extends CommandBase {
     private int m_aimShootMode;
 
     private Timer t = new Timer(); // for ending shooting
-    private Timer t2 = new Timer(); //for color spitting
+    private Timer t2 = new Timer(); // for color spitting
     private final double time;
 
     private double y; // ty from limelight
@@ -33,9 +34,9 @@ public class AimShootCommand extends CommandBase {
     private double v; // tv from limelight, # = # of targets
     private double d; // horizontal distance to targe
 
-    private final double goalHeight = 96; // inches
-    private final double limeLightHeight = 20;
-    private final double limeLightMountAngleToGround = 20; // degrees
+    private final double goalHeight = 104; // inches
+    private final double limeLightHeight = 31.5;
+    private final double limeLightMountAngleToGround = 9; // degrees
 
     private double kTurretPrecision;
     private double kTurretSpeed;
@@ -77,6 +78,7 @@ public class AimShootCommand extends CommandBase {
 
         time = 5.0;
         shooterSpeed = 70;
+
     }
 
     public AimShootCommand(Shooter shooter, Kicker kicker, Hood hood, Turret turret, Vision vision, int aimShootMode) {
@@ -101,6 +103,8 @@ public class AimShootCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        // SmartDashboard.putNumber("distance in inches", d);
+        System.out.println("Distance = " + d);
         refreshAimValues();
 
         if (m_aimShootMode == -2) {
@@ -262,18 +266,22 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void setShooterSpeed() {
-        setShooterSpeed(70);
+        setShooterSpeed(80);
     }
 
     private double getShooterSpeed() {
         // speed formula will go here later, but make sure it rounds to avoid changing speeds slightly constantly
         if (v == 1) {
-            if (y < 18 && y > -.5) {
+            if (d < 154) {
+                shooterSpeed = 65;
+            } else if (d < 197) {
                 shooterSpeed = 70;
-            } else { // if (y <= -.5)
+            } else if (d < 256) {
                 shooterSpeed = 75;
+            } else if (d >= 256) {
+                shooterSpeed = 80;
             }
-        } 
+        }
 
         return shooterSpeed;
     }
@@ -285,6 +293,7 @@ public class AimShootCommand extends CommandBase {
 
         double angleFromGround = 0.01745329 * (y + limeLightMountAngleToGround); // find total angle and change to rad
         d = (goalHeight - limeLightHeight) / Math.tan(angleFromGround); // inches
+
     }
 
     private void refreshTurretPrecision() {
@@ -312,11 +321,11 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void aimTurretSpeed() {
-        kTurretSpeed = Math.abs(x) / 30.0; // equivilent to a PID, goes proportionally slower the closer you are
+        kTurretSpeed = Math.abs(x) / 35.0; // equivilent to a PID, goes proportionally slower the closer you are
         if (kTurretSpeed > .4) { // increase these to .5 if it doesn't break
             kTurretSpeed = .4;
-        } else if (kTurretSpeed < .2) {
-            kTurretSpeed = .2;
+        } else if (kTurretSpeed < .18) {
+            kTurretSpeed = .18;
         }
     }
 
@@ -342,10 +351,16 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void aimHood() {
-        if (y < 18 && y > -.5) {
-            m_hood.aim(1000 + y * -52.5726);
-        } else { // if (d <= -.5
-            m_hood.aim(600.835 + y * -185.9704);
+        if (v == 1) {
+            if (d < 154) { //65 rps
+                m_hood.aim(-0.2028 * d * d + 70.58583 * d + -4400.5072);
+            } else if (d < 197) { //70 rps
+                m_hood.aim(0.4001 * d * d + -119.50488 * d + 9914.97874);
+            } else if (d < 256) { //75 rps
+                m_hood.aim(-0.081 * d * d + 49.40145 * d + -4988.84872);
+            } else if (d >= 256) { //80 rps
+                m_hood.aim(-0.6618 * d * d + 378.75 * d + -51490.58824);
+            }
         }
     }
 

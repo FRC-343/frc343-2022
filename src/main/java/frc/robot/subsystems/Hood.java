@@ -14,7 +14,7 @@ public class Hood extends SubsystemBase {
     private final DigitalInput m_hoodFront = new DigitalInput(3);
     private final Spark m_hoodMotor = new Spark(7);
 
-    private final double kMaxHoodEncoderValue = 3000;
+    private final double kMaxHoodEncoderValue = 3300;
     private final double kMinHoodEncoderValue = -200;
     private final double kMaxHoodEncoderRate = 3000;
 
@@ -75,6 +75,7 @@ public class Hood extends SubsystemBase {
                     || m_hoodEncoder.getDistance() < kMinHoodEncoderValue) {
                 System.err.println("Hood encoder sent garbage values, zeroing again...");
                 m_zeroing = true;
+                m_aimed = false;
             }
 
             if (m_hoodBack.get()) {

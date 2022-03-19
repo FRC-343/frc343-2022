@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
 
        // Joystick Trigger 
 
-        new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, .8));
+        new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, .8)).whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
 
         // Other Joystick Buttons (turret Presets)
 
