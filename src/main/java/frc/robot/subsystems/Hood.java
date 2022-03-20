@@ -14,10 +14,6 @@ public class Hood extends SubsystemBase {
     private final DigitalInput m_hoodFront = new DigitalInput(3);
     private final Spark m_hoodMotor = new Spark(7);
 
-    private final double kMaxHoodEncoderValue = 3300;
-    private final double kMinHoodEncoderValue = -200;
-    private final double kMaxHoodEncoderRate = 3000;
-
     private boolean m_aimed = false; // if shooter is currently aimed
     private double m_target = 0.0; // where it needs to be aiming
     private double m_speed = 0.0; // manual control
@@ -70,9 +66,7 @@ public class Hood extends SubsystemBase {
     public void periodic() {
         if (m_aiming) {
 
-            if (/*m_hoodEncoder.getRate() > kMaxHoodEncoderRate || m_hoodEncoder.getRate() < -kMaxHoodEncoderRate
-                    || */m_hoodEncoder.getDistance() > kMaxHoodEncoderValue
-                    || m_hoodEncoder.getDistance() < kMinHoodEncoderValue) {
+            if (m_hoodEncoder.getDistance() > 3300 || m_hoodEncoder.getDistance() < -200) {
                 System.err.println("Hood encoder sent garbage values, zeroing again...");
                 m_zeroing = true;
                 m_aimed = false;
@@ -82,7 +76,6 @@ public class Hood extends SubsystemBase {
                 m_zeroing = false;
                 m_hoodEncoder.reset();
             }
-
 
             if (m_zeroing) {
                 m_hoodMotor.set(1.0);
@@ -97,7 +90,7 @@ public class Hood extends SubsystemBase {
                 } else if (m_hoodEncoder.getDistance() > m_target + 75) {
                     m_hoodMotor.set(1.0);
                     m_aimed = false;
-                } else { //m_hoodEncoder.getDistance >m_target-100 && < m_target+200
+                } else { // m_hoodEncoder.getDistance >m_target-100 && < m_target+200
                     m_hoodMotor.set(0.0);
                     m_aimed = true;
                 }
