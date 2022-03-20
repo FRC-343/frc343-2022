@@ -266,7 +266,7 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void setShooterSpeed() {
-        setShooterSpeed(80);
+        setShooterSpeed(70);
     }
 
     private double getShooterSpeed() {
@@ -303,7 +303,7 @@ public class AimShootCommand extends CommandBase {
             kTurretPrecision = 1.5;
         } else if (speed == 75) {
             kTurretPrecision = 1.0;
-        } else if (speed == 80) {
+        } else if (speed >= 80) {
             kTurretPrecision = .5;
         }
     }
@@ -322,12 +322,15 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void aimTurretSpeed() {
-        kTurretSpeed = Math.abs(x) / 35.0; // equivilent to a PID, goes proportionally slower the closer you are
-        if (kTurretSpeed > .5) { // increase these to .5 if it doesn't break
-            kTurretSpeed = .5;
-        } else if (kTurretSpeed < .2) {
-            kTurretSpeed = .2;
+        double speed;
+        speed = Math.abs(x) / 35.0; // equivilent to a PID, goes proportionally slower the closer you are
+        if (speed > .5) { // increase these to .5 if it doesn't break
+            speed = .5;
+        } else if (speed < .2) {
+            speed = .2;
         }
+
+        kTurretSpeed = speed;
     }
 
     private void aimHood() {
