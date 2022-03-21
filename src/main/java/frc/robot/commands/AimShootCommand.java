@@ -34,7 +34,7 @@ public class AimShootCommand extends CommandBase {
 
     private final double goalHeight = 104; // inches
     private final double limeLightHeight = 31.5;
-    private final double limeLightMountAngleToGround = 9; // degrees
+    private final double limeLightMountAngleToGround = 17; // degrees
 
     private double kTurretPrecision;
     private double kTurretSpeed;
@@ -264,7 +264,7 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void setShooterSpeed() {
-        setShooterSpeed(70);
+        setShooterSpeed(85);
     }
 
     private double getShooterSpeed() {
@@ -272,7 +272,7 @@ public class AimShootCommand extends CommandBase {
         if (v == 1) {
             if (d < 154) {
                 shooterSpeed = 65;
-            } else if (d < 197) {
+            } else if (d < 180) {
                 shooterSpeed = 70;
             } else if (d < 256) {
                 shooterSpeed = 75;
@@ -334,8 +334,8 @@ public class AimShootCommand extends CommandBase {
     private void aimHood() {
         if (v == 1) {
             if (d < 154) { // 65 rps
-                m_hood.aim(-0.2028 * d * d + 70.58583 * d + -4400.5072);
-            } else if (d < 197) { // 70 rps
+                m_hood.aim(0.2065 * d * d + -28.9906 * d + 1407.1326);
+            } else if (d < 180) { // 70 rps
                 m_hood.aim(0.4001 * d * d + -119.50488 * d + 9914.97874);
             } else if (d < 256) { // 75 rps
                 m_hood.aim(-0.081 * d * d + 49.40145 * d + -4988.84872);
