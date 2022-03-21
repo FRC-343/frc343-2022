@@ -29,13 +29,13 @@ public class TwoBallAuto extends SequentialCommandGroup {
         // drive and intake
         new ParallelDeadlineGroup(
             new DriveDistanceCommand(1.1, 3, drive),
-            new IntakeCommand(intake, kicker, shooter),
+            new IntakeCommand(intake, kicker),
             new PresetHoodCommand(hood, 1100, true),
             new PresetTurretCommand(turret, 90, true)),
         // rotate
         new ParallelDeadlineGroup(
             new DriveTurnCommand(80, 2, drive),
-            new IntakeCommand(intake, kicker, shooter)),
+            new IntakeCommand(intake, kicker)),
 
         // aim
         new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true));

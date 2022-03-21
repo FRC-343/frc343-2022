@@ -54,15 +54,13 @@ public class Robot extends TimedRobot {
 
     public Robot() {
         m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
-        // m_autoChooser.addOption("5CCWALT",
-        //         new CCW5ball2022Alt(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
-        // m_autoChooser.addOption("3CCW",
-        //         new CCW3ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_autoChooser.addOption("2BA",
                 new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
         m_autoChooser.addOption("3BA",
                 new ThreeBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
         m_autoChooser.addOption("Simple", new MoveAuto(m_drive));
+        m_autoChooser.addOption("4BA",
+                new FourBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_auto = m_autoChooser.getSelected();
 
     }
@@ -78,7 +76,7 @@ public class Robot extends TimedRobot {
 
         Pressy.enableDigital(); // compressor has to be enabled manually
 
-        //Background commands that activate themselves when ready
+        // Background commands that activate themselves when ready
         m_shooter.setDefaultCommand(new ShooterCommand(m_shooter));
         m_kicker.setDefaultCommand(new KickerCommand(m_kicker));
 
@@ -88,7 +86,8 @@ public class Robot extends TimedRobot {
                 kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
 
         // Joystick buttons
-        new JoystickButton(m_stick, 9).whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 2));
+        new JoystickButton(m_stick, 9)
+                .whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 2));
 
         new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
@@ -96,9 +95,10 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 7).whenPressed(new InstantCommand(m_climbing::disEngage, m_climbing));
         new JoystickButton(m_stick, 6).whenPressed(new InstantCommand(m_climbing::engage, m_climbing));
 
-       // Joystick Trigger 
+        // Joystick Trigger
 
-        new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, .8)).whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
+        new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(m_intake, m_kicker, .8))
+                .whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
 
         // Other Joystick Buttons (turret Presets)
 
@@ -123,21 +123,27 @@ public class Robot extends TimedRobot {
         m_turret.setDefaultCommand(
                 new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
 
-        m_climbing.setDefaultCommand(new RunCommand(() -> m_climbing.setWinch(kMaxClimbingSpeed * m_controller.getLeftY()), m_climbing)); 
+        m_climbing.setDefaultCommand(
+                new RunCommand(() -> m_climbing.setWinch(kMaxClimbingSpeed * m_controller.getLeftY()), m_climbing));
 
         // Controller Triggers/Bumpers
 
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
-                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, -1, false, false, !kUseColorSensor)); // shooter with PIDs and auto kicker
+                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, -1, false, false,
+                        !kUseColorSensor)); // shooter with PIDs and auto kicker
         new Button(() -> m_controller.getRightBumper())
-                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true, !kUseColorSensor)); // above with low goal
+                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true,
+                        !kUseColorSensor)); // above with low goal
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, .8)).whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
+                .whenHeld(new IntakeCommand(m_intake, m_kicker, .8))
+                .whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
 
-        new Button(() -> m_controller.getLeftBumper()).whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 2));
+        new Button(() -> m_controller.getLeftBumper())
+                .whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 2));
 
         // Controller Buttons
-        new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, m_shooter, -.3));
+        new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, -.3));
 
         new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
             m_kicker.setKicker(1.0);
@@ -151,7 +157,8 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
-        new JoystickButton(m_controller, XboxController.Button.kX.value).whenPressed(new PresetHoodCommand(m_hood, 0, true));
+        new JoystickButton(m_controller, XboxController.Button.kX.value)
+                .whenPressed(new PresetHoodCommand(m_hood, 0, true));
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
@@ -189,13 +196,13 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        m_drive.zeroHeading();
+
         m_auto = m_autoChooser.getSelected();
 
         if (m_auto != null) {
             m_auto.schedule();
         }
-
-        m_drive.zeroHeading();
 
     }
 
@@ -212,7 +219,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-
         if (m_auto != null) {
             m_auto.cancel();
         }

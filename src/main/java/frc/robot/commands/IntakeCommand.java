@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
-import frc.robot.subsystems.Shooter;
 
 public class IntakeCommand extends CommandBase {
     private final Intake m_intake;
@@ -17,7 +16,7 @@ public class IntakeCommand extends CommandBase {
 
     public static double activateShooter[] = { 0, 0 };
 
-    public IntakeCommand(Intake intake, Kicker kicker, Shooter shooter, double intakeSpeed, boolean raise) {
+    public IntakeCommand(Intake intake, Kicker kicker, double intakeSpeed, boolean raise) {
         m_intake = intake;
         m_kicker = kicker;
         kIntakeSpeed = intakeSpeed;
@@ -25,12 +24,12 @@ public class IntakeCommand extends CommandBase {
         addRequirements(m_intake);
     }
 
-    public IntakeCommand(Intake intake, Kicker kicker, Shooter shooter) {
-        this(intake, kicker, shooter, 0.8, true); // defaults to .8 speed
+    public IntakeCommand(Intake intake, Kicker kicker) {
+        this(intake, kicker, 0.8, true); // defaults to .8 speed
     }
 
-    public IntakeCommand(Intake intake, Kicker kicker, Shooter shooter, double intakeSpeed) {
-        this(intake, kicker, shooter, intakeSpeed, true);
+    public IntakeCommand(Intake intake, Kicker kicker, double intakeSpeed) {
+        this(intake, kicker, intakeSpeed, true);
     }
 
     // Called when the command is initially scheduled.
