@@ -321,7 +321,7 @@ public class AimShootCommand extends CommandBase {
 
     private void aimTurretSpeed() {
         double speed;
-        speed = Math.abs(x) / 35.0; // equivilent to a PID, goes proportionally slower the closer you are
+        speed = Math.abs(x) / 35.0; // equivilent to a PID (P only), goes proportionally slower the closer you are
         if (speed > .5) { // increase these to .5 if it doesn't break
             speed = .5;
         } else if (speed < .2) {
