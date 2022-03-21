@@ -12,14 +12,15 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class Shooter extends SubsystemBase {
 
     private final CANSparkMax m_bottomShooter = new CANSparkMax(1, MotorType.kBrushless);
     private final CANSparkMax m_topShooter = new CANSparkMax(2, MotorType.kBrushless);
 
-    private final RelativeEncoder m_bottomShooterEncoder = m_bottomShooter.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    private final RelativeEncoder m_topShooterEncoder = m_topShooter.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+    private final RelativeEncoder m_bottomShooterEncoder = m_bottomShooter
+            .getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+    private final RelativeEncoder m_topShooterEncoder = m_topShooter
+            .getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
     private final PIDController m_shooterPIDController = new PIDController(0.10, 0.0, 0.0);
     private final SimpleMotorFeedforward m_shooterFeedforward = new SimpleMotorFeedforward(1.71, 0.0782);
@@ -29,7 +30,7 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         m_bottomShooter.setInverted(false);
-        m_bottomShooterEncoder.setVelocityConversionFactor(0.01666); //vel deffaults to RPM, this turns it to Rev/sec
+        m_bottomShooterEncoder.setVelocityConversionFactor(0.01666); // vel deffaults to RPM, this turns it to Rev/sec
 
         m_topShooter.setInverted(true);
         m_topShooterEncoder.setVelocityConversionFactor(0.01666);
@@ -52,7 +53,7 @@ public class Shooter extends SubsystemBase {
         m_topSpeed = topSpeed;
     }
 
-    public void shoot (double bothShooterSpeed) {
+    public void shoot(double bothShooterSpeed) {
         shoot(bothShooterSpeed, bothShooterSpeed);
     }
 

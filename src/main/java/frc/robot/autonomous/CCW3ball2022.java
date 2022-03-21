@@ -24,58 +24,58 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class CCW3ball2022 extends SequentialCommandGroup {
-    private final double maxSpeed;
-    private final double maxAcceleration;
+  private final double maxSpeed;
+  private final double maxAcceleration;
 
-    public CCW3ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
-            Turret turret) {
+  public CCW3ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
+      Turret turret) {
 
-        maxSpeed = Drive.kMaxSpeed / 8;
-        maxAcceleration = Drive.kMaxAcceleration / 4;
+    maxSpeed = Drive.kMaxSpeed / 8;
+    maxAcceleration = Drive.kMaxAcceleration / 4;
 
-        TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
-                drive.getRightFeedforward(),
-                drive.getKinematics(), 11.0);
+    TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
+        drive.getRightFeedforward(),
+        drive.getKinematics(), 11.0);
 
-        // Create config for trajectory
-        TrajectoryConfig forwardPickupConfig = new TrajectoryConfig(maxSpeed, maxAcceleration)
-                // Add kinematics to ensure max speed is actually obeyed
-                .setKinematics(drive.getKinematics())
-                // Apply the voltage constraint
-                .addConstraint(voltageConstraint);
+    // Create config for trajectory
+    TrajectoryConfig forwardPickupConfig = new TrajectoryConfig(maxSpeed, maxAcceleration)
+        // Add kinematics to ensure max speed is actually obeyed
+        .setKinematics(drive.getKinematics())
+        // Apply the voltage constraint
+        .addConstraint(voltageConstraint);
 
-        // commands in this autonomous
-        addCommands(
-                new ParallelDeadlineGroup(
-                        new TrajectoryCommand(
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0, 0, new Rotation2d(
-                                                0)),
-                                        List.of(),
-                                        new Pose2d(1.1, 0.0,
-                                                new Rotation2d(0)),
-                                        forwardPickupConfig), // 55 Degrees
-                                drive),
-                        new IntakeCommand(intake, kicker, shooter)),
-                // rotate towards second ball
-                new DriveTurnCommand(-90, -1, drive), // ) // turn 90 degrees cw
-                // fire 2i
-                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false),
-                // go to second ball
-                new ParallelDeadlineGroup(
-                        new TrajectoryCommand(
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(0.0, 0.0,
-                                                new Rotation2d(Math.PI
-                                                        / 2)), // 90 degrees, possibly make negative or 3/2 PI
-                                        List.of(),
-                                        new Pose2d(-1.0, -2.5,
-                                                new Rotation2d(2.63)), // 135 degees
-                                        forwardPickupConfig),
-                                drive),
-                        new IntakeCommand(intake, kicker, shooter)),
-                // fire last ball
-                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false));
+    // commands in this autonomous
+    addCommands(
+        new ParallelDeadlineGroup(
+            new TrajectoryCommand(
+                TrajectoryGenerator.generateTrajectory(
+                    new Pose2d(0, 0, new Rotation2d(
+                        0)),
+                    List.of(),
+                    new Pose2d(1.1, 0.0,
+                        new Rotation2d(0)),
+                    forwardPickupConfig),
+                drive),
+            new IntakeCommand(intake, kicker, shooter)),
+        // rotate towards second ball
+        new DriveTurnCommand(-90, -1, drive),
+        // fire 2
+        new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false),
+        // go to second ball
+        new ParallelDeadlineGroup(
+            new TrajectoryCommand(
+                TrajectoryGenerator.generateTrajectory(
+                    new Pose2d(0.0, 0.0,
+                        new Rotation2d(Math.PI
+                            / 2)), // 90 degrees, possibly make negative or 3/2 PI
+                    List.of(),
+                    new Pose2d(-1.0, -2.5,
+                        new Rotation2d(2.63)), // 135 degees
+                    forwardPickupConfig),
+                drive),
+            new IntakeCommand(intake, kicker, shooter)),
+        // fire last ball
+        new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, false));
 
-    }
+  }
 }

@@ -78,6 +78,10 @@ public class Robot extends TimedRobot {
 
         Pressy.enableDigital(); // compressor has to be enabled manually
 
+        //Background commands that activate themselves when ready
+        m_shooter.setDefaultCommand(new ShooterCommand(m_shooter));
+        m_kicker.setDefaultCommand(new KickerCommand(m_kicker));
+
         // Joystick
         m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed *
                 MiscMath.deadband(-m_stick.getY()),

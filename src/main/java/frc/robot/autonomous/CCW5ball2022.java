@@ -23,9 +23,9 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Turret;
 
-public class CCW5ball2022Alt extends SequentialCommandGroup {
+public class CCW5ball2022 extends SequentialCommandGroup {
 
-    public CCW5ball2022Alt(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter, Turret turret) {
+    public CCW5ball2022(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter, Turret turret) {
         TrajectoryConstraint voltageConstraint = new DifferentialDriveVoltageConstraint(
                 drive.getRightFeedforward(),
                 drive.getKinematics(), 11.0);

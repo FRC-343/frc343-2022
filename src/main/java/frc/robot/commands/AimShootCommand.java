@@ -43,6 +43,10 @@ public class AimShootCommand extends CommandBase {
 
     private int stepNumber; // used to keep track of where we are with complicated aimShootMode's
 
+    public static boolean activateKicker = false; //true = run at 1.0 
+
+    public static double activateShooter[] = { 0, 0 }; // bottom speed, top speed
+
     // aimShootMode explanation:
     // ---------------------------------------------------------------------------------
     // -2 = aim, then shoot with no overlap
@@ -53,7 +57,6 @@ public class AimShootCommand extends CommandBase {
     // 2 = aim only, and don't stop aiming
     // 3 = shoot only (no aiming or speed changing (default 70rps))
     // 4 = shoot only (with speed changing based on distance)
-    // 5 = shoot only (with speed for upper hub, when against lower hub)
 
     public AimShootCommand(Shooter shooter, Kicker kicker, Hood hood, Turret turret, Vision vision, int aimShootMode,
             boolean stopShooterAfterTime, boolean lowGoal, boolean notUseColorSensor) {
@@ -64,7 +67,7 @@ public class AimShootCommand extends CommandBase {
         m_turret = turret;
         m_vision = vision;
 
-        addRequirements(m_shooter, m_kicker, m_hood, m_turret, m_vision);
+        addRequirements(m_hood, m_turret, m_vision); //no kicker or shooter because overlap with intake, activate<subsysetm> tells the required subsystem to run so that it doesn't kill anything
 
         m_aimShootMode = aimShootMode;
 
@@ -119,17 +122,14 @@ public class AimShootCommand extends CommandBase {
             mode3();
         } else if (m_aimShootMode == 4) {
             mode4();
-        } else if (m_aimShootMode == 5) {
-            mode5();
         }
-
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_shooter.shoot(0);
-        m_kicker.setKicker(0);
+        shoot(0, 0);
+        activateKicker = false;
         t.stop();
         t.reset();
         stepNumber = 0;
@@ -200,11 +200,6 @@ public class AimShootCommand extends CommandBase {
         shootShooter(false);
     }
 
-    private void mode5() { // shoot to high goal when next to goal (and hood all the way down)
-        setShooterSpeed(65, 65); // TODO change speeds to get a high goal shot good
-        shootShooter(false);
-    }
-
     private void shootShooter(boolean waitForAim) {
         if (!m_notUseColorSensor && m_kicker.isBadCargo()) {
             t2.reset();
@@ -213,8 +208,7 @@ public class AimShootCommand extends CommandBase {
         if (!m_notUseColorSensor && (m_kicker.isBadCargo() || t2.get() < .5)) {
             shootBadCargo();
         } else {
-            m_shooter.shoot(kBottomShootSpeed, kTopShootSpeed);
-
+            shoot(kBottomShootSpeed, kTopShootSpeed);
             if (waitForAim) {
                 if (isAimFinished()) {
                     shootActivateKicker();
@@ -223,24 +217,28 @@ public class AimShootCommand extends CommandBase {
                 shootActivateKicker();
             }
         }
+    }
 
+    private void shoot(double bottomSpeed, double topSpeed) {
+        activateShooter[0] = bottomSpeed;
+        activateShooter[1] = topSpeed;
     }
 
     private void shootActivateKicker() {
         if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
                 && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
-            m_kicker.setKicker(1.0);
+            activateKicker = true;
         } else {
-            m_kicker.setKicker(0);
+            activateKicker = false;
         }
     }
 
     private void shootBadCargo() {
-        m_shooter.shoot(13, 13);
+        shoot(13, 13);
         if (m_shooter.getBottomShooterRPS() <= 20 && m_shooter.getTopShooterRPS() <= 20) {
-            m_kicker.setKicker(1.0);
+            activateKicker = true;
         } else {
-            m_kicker.setKicker(0.0);
+            activateKicker = false;
         }
     }
 
@@ -296,7 +294,7 @@ public class AimShootCommand extends CommandBase {
 
     }
 
-    private void refreshTurretPrecision(double speed) { //designed to get the precision based on speed (on distance)
+    private void refreshTurretPrecision(double speed) { // designed to get the precision based on speed (on distance)
         if (speed == 65) {
             kTurretPrecision = 2;
         } else if (speed == 70) {
@@ -310,7 +308,7 @@ public class AimShootCommand extends CommandBase {
 
     private void aimTurret() {
         aimTurretSpeed();
-        refreshTurretPrecision(getShooterSpeed()); 
+        refreshTurretPrecision(getShooterSpeed());
 
         if (x > kTurretPrecision) {
             m_turret.spin(kTurretSpeed);
@@ -335,13 +333,13 @@ public class AimShootCommand extends CommandBase {
 
     private void aimHood() {
         if (v == 1) {
-            if (d < 154) { //65 rps
+            if (d < 154) { // 65 rps
                 m_hood.aim(-0.2028 * d * d + 70.58583 * d + -4400.5072);
-            } else if (d < 197) { //70 rps
+            } else if (d < 197) { // 70 rps
                 m_hood.aim(0.4001 * d * d + -119.50488 * d + 9914.97874);
-            } else if (d < 256) { //75 rps
+            } else if (d < 256) { // 75 rps
                 m_hood.aim(-0.081 * d * d + 49.40145 * d + -4988.84872);
-            } else if (d >= 256) { //80 rps
+            } else if (d >= 256) { // 80 rps
                 m_hood.aim(-0.6618 * d * d + 378.75 * d + -51490.58824);
             }
         }

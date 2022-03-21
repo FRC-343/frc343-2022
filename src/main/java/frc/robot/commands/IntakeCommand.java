@@ -9,18 +9,20 @@ import frc.robot.subsystems.Shooter;
 public class IntakeCommand extends CommandBase {
     private final Intake m_intake;
     private final Kicker m_kicker;
-    private final Shooter m_shooter;
 
     private double kIntakeSpeed;
     private boolean m_raise;
 
+    public static boolean activateKicker = false;
+
+    public static double activateShooter[] = { 0, 0 };
+
     public IntakeCommand(Intake intake, Kicker kicker, Shooter shooter, double intakeSpeed, boolean raise) {
         m_intake = intake;
         m_kicker = kicker;
-        m_shooter = shooter;
         kIntakeSpeed = intakeSpeed;
         m_raise = raise;
-        addRequirements(m_intake, m_kicker, m_shooter);
+        addRequirements(m_intake);
     }
 
     public IntakeCommand(Intake intake, Kicker kicker, Shooter shooter) {
@@ -43,19 +45,19 @@ public class IntakeCommand extends CommandBase {
         m_intake.setIntake(kIntakeSpeed);
 
         if (!m_kicker.getCellDetector()) { // if no ball is in chamber run the kicker so it goes into chanber, leaving
-            m_kicker.setKicker(1.0); // room for the 2nd ball in the hopper
-            m_shooter.shoot(0.0);
+            activateKicker = true; // room for the 2nd ball in the hopper
+            shoot(0, 0);
         } else { // if getCellDetector()
             if (Robot.kUseColorSensor) {
                 if (!m_kicker.isBadCargo()) { // if good cargo stop kicker
-                    m_kicker.setKicker(0.0);
-                    m_shooter.shoot(0.0);
+                    activateKicker = false;
+                    shoot(0, 0);
                 } else if (m_kicker.isBadCargo()) { // if bad then shoot out
-                    m_shooter.shoot(15, 15);
-                    m_kicker.setKicker(1);
+                    shoot(15, 15);
+                    activateKicker = true;
                 }
             } else {
-                m_kicker.setKicker(0.0);
+                activateKicker = false;
             }
         }
 
@@ -65,8 +67,8 @@ public class IntakeCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_intake.setIntake(0);
-        m_kicker.setKicker(0);
-        m_shooter.shoot(0);
+        activateKicker = false;
+        shoot(0, 0);
         if (m_raise) {
             m_intake.raise();
         }
@@ -76,5 +78,10 @@ public class IntakeCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    private void shoot(double bottomSpeed, double topSpeed) {
+        activateShooter[0] = bottomSpeed;
+        activateShooter[1] = topSpeed;
     }
 }
