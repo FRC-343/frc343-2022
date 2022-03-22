@@ -20,42 +20,42 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class ThreeBallAuto extends SequentialCommandGroup {
-    private static final double kDriveSpeed = 1;
+  private static final double kDriveSpeed = 1;
 
-    public ThreeBallAuto(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
-            Turret turret, Climbing climbing) {
-        // commands in this autonomous
-        addCommands(
-                // do the first things while doing the turret preset
-                // drop intake and climbing
-                new InstantCommand(intake::lower, intake),
-                // drive and intake
-                new ParallelDeadlineGroup(
-                        new DriveDistanceCommand(1.1, kDriveSpeed, drive),
-                        new IntakeCommand(intake, kicker),
-                        new PresetHoodCommand(hood, 1200, true),
-                        new PresetTurretCommand(turret, 65, true)),
-                // rotate
-                new ParallelDeadlineGroup(
-                        new DriveTurnCommand(83, kDriveSpeed, drive),
-                        new IntakeCommand(intake, kicker)),
-                // rotate turret while doing all the stuff above
-                // aim and shoot
-                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true),
+  public ThreeBallAuto(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
+      Turret turret, Climbing climbing) {
+    // commands in this autonomous
+    addCommands(
+        // do the first things while doing the turret preset
+        // drop intake and climbing
+        new InstantCommand(intake::lower, intake),
+        // drive and intake
+        new ParallelDeadlineGroup(
+            new DriveDistanceCommand(1.1, kDriveSpeed, drive),
+            new IntakeCommand(intake, kicker),
+            new PresetHoodCommand(hood, 1200, true),
+            new PresetTurretCommand(turret, 65, true)),
+        // rotate
+        new ParallelDeadlineGroup(
+            new DriveTurnCommand(83, kDriveSpeed, drive),
+            new IntakeCommand(intake, kicker)),
+        // rotate turret while doing all the stuff above
+        // aim and shoot
+        new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true),
 
-                new DriveDistanceCommand(0.7, kDriveSpeed, drive),
+        new DriveDistanceCommand(0.7, kDriveSpeed, drive),
 
-                new ParallelDeadlineGroup(
-                        new DriveDistanceCommand(1.3, kDriveSpeed, drive),
-                        new IntakeCommand(intake, kicker)),
+        new ParallelDeadlineGroup(
+            new DriveDistanceCommand(1.3, kDriveSpeed, drive),
+            new IntakeCommand(intake, kicker)),
 
-                new ParallelDeadlineGroup(
-                        new WaitCommand(2),
-                        new DriveTurnCommand(15, kDriveSpeed, drive),
-                        new IntakeCommand(intake, kicker),
-                        new PresetTurretCommand(turret, 70)),
+        new ParallelDeadlineGroup(
+            new WaitCommand(2),
+            new DriveTurnCommand(15, kDriveSpeed, drive),
+            new IntakeCommand(intake, kicker),
+            new AimShootCommand(shooter, kicker, hood, turret, vision, 2)),
 
-                new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true));
+        new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true));
 
-    }
+  }
 }
