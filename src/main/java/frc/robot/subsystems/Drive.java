@@ -189,7 +189,7 @@ public class Drive extends SubsystemBase {
      * @return the robot's heading in degrees, from -180 to 180
      */
     public double getHeading() {
-        //return m_gyro.getRotation2d().getDegrees();
+        // return m_gyro.getRotation2d().getDegrees();
         return Math.IEEEremainder(m_gyro.getAngle(), 360) * (kGyroReversed ? -1.0 : 1.0);
     }
 
@@ -234,8 +234,6 @@ public class Drive extends SubsystemBase {
             double leftOutput = leftPIDOutput + leftFeedforward;
             double rightOutput = rightPIDOutput + rightFeedforward;
 
-            // setVoltages(leftOutput, rightOutput);
-
             m_leftGroup.setVoltage(leftOutput);
             m_rightGroup.setVoltage(rightOutput);
         }
@@ -244,9 +242,5 @@ public class Drive extends SubsystemBase {
         m_odometry.update(Rotation2d.fromDegrees(getHeading()), m_leftEncoder.getDistance(),
                 m_rightEncoder.getDistance());
 
-    }
-
-    public void driveClimb(double speed) {
-        m_rightGroup.set(speed);
     }
 }
