@@ -92,6 +92,10 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
 
+
+        new JoystickButton(m_stick, 6).whenHeld(new AutoClimbCommand(m_climbing, false)); //high bar climb
+        new JoystickButton(m_stick, 7).whenHeld(new AutoClimbCommand(m_climbing, true)); // traversal bar climb
+
         // Joystick Trigger
 
         new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(m_intake, m_kicker, .8))
