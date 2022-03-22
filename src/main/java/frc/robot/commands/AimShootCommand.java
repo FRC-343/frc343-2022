@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
@@ -39,11 +40,13 @@ public class AimShootCommand extends CommandBase {
     private double kTurretPrecision;
     private double kTurretSpeed;
 
+    private double prev_heading_error;
+
     private double shooterSpeed;
 
     private int stepNumber; // used to keep track of where we are with complicated aimShootMode's
 
-    public static boolean activateKicker = false; //true = run at 1.0 
+    public static boolean activateKicker = false; // true = run at 1.0
 
     public static double activateShooter[] = { 0, 0 }; // bottom speed, top speed
 
@@ -67,7 +70,7 @@ public class AimShootCommand extends CommandBase {
         m_turret = turret;
         m_vision = vision;
 
-        addRequirements(m_hood, m_turret, m_vision); //no kicker or shooter because overlap with intake, activate<subsysetm> tells the required subsystem to run so that it doesn't kill anything
+        addRequirements(m_hood, m_turret, m_vision); // no kicker or shooter because overlap with intake, activate<subsysetm> tells the required subsystem to run so that it doesn't kill anything
 
         m_aimShootMode = aimShootMode;
 
@@ -264,7 +267,7 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void setShooterSpeed() {
-        setShooterSpeed(85);
+        setShooterSpeed(65);
     }
 
     private double getShooterSpeed() {
@@ -317,6 +320,19 @@ public class AimShootCommand extends CommandBase {
         } else {
             m_turret.spin(0.0);
         }
+    }
+
+    private void aimTurretAlt() {
+        kTurretPrecision = .5;
+        double kTargetP = .01;
+        double kTargetD = 0.0;
+        
+        if (Math.abs(x) > kTurretPrecision) {
+            m_turret.spin(MathUtil.clamp(kTargetP * x + kTargetD * (x - prev_heading_error), -.5, .5));
+        }
+
+        prev_heading_error = x;
+
     }
 
     private void aimTurretSpeed() {
