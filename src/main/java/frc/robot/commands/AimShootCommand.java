@@ -267,19 +267,19 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void setShooterSpeed() {
-        setShooterSpeed(65);
+        setShooterSpeed(70);
     }
 
     private double getShooterSpeed() {
         // speed formula will go here later, but make sure it rounds to avoid changing speeds slightly constantly
         if (v == 1) {
-            if (d < 154) {
+            if (y > 10) {
                 shooterSpeed = 65;
-            } else if (d < 180) {
+            } else if (y > 5.1) {
                 shooterSpeed = 70;
-            } else if (d < 256) {
+            } else if (y > 1.9) {
                 shooterSpeed = 75;
-            } else if (d >= 256) {
+            } else if (y <= 1.9) {
                 shooterSpeed = 80;
             }
         }
@@ -349,14 +349,14 @@ public class AimShootCommand extends CommandBase {
 
     private void aimHood() {
         if (v == 1) {
-            if (d < 154) { // 65 rps
-                m_hood.aim(0.2065 * d * d + -28.9906 * d + 1407.1326);
-            } else if (d < 180) { // 70 rps
-                m_hood.aim(0.4001 * d * d + -119.50488 * d + 9914.97874);
-            } else if (d < 256) { // 75 rps
-                m_hood.aim(-0.081 * d * d + 49.40145 * d + -4988.84872);
-            } else if (d >= 256) { // 80 rps
-                m_hood.aim(-0.6618 * d * d + 378.75 * d + -51490.58824);
+            if (y > 10) { // 65 rps
+                m_hood.aim(-85.6237 * y + 2301.1902);
+            } else if (y > 5.1) { // 70 rps
+                m_hood.aim(27.6693 * y * y + -556.39365 * y + 3878.6579);
+            } else if (y > 1.9) { // 75 rps
+                m_hood.aim(21.4843 * y * y + 291.0156 * y + 2315.3711);
+            } else if (y <= -1.9) { // 80 rps
+                m_hood.aim(71.6124 * y * y + -353.6925 * y + 1984.3842);
             }
         }
     }

@@ -130,7 +130,7 @@ public class Robot extends TimedRobot {
         // Controller Triggers/Bumpers
 
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
-                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, false,
+                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, -1, false, false,
                         !kUseColorSensor)); // shooter with PIDs and auto kicker
         new Button(() -> m_controller.getRightBumper())
                 .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true,
