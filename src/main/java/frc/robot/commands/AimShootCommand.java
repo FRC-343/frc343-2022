@@ -107,8 +107,7 @@ public class AimShootCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // SmartDashboard.putNumber("distance in inches", d);
-        System.out.println("Distance = " + d);
+        // System.out.println("Distance = " + d);
         refreshAimValues();
 
         if (m_aimShootMode == -2) {
