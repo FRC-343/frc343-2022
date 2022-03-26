@@ -35,7 +35,7 @@ public class AutoClimbCommand extends SequentialCommandGroup {
           new WaitCommand(1.5),
           // pull down arms for a little bit of time to come off mid rung
           new ParallelDeadlineGroup(
-              new WaitCommand(1.3),
+              new WaitCommand(.8),
               new ClimbArmCommand(climbing, 1)));
     } else { // traversal
       addCommands(
@@ -87,7 +87,7 @@ public class AutoClimbCommand extends SequentialCommandGroup {
           new WaitCommand(1.5),
           // pull down arms for a little bit of time to come off high rung
           new ParallelDeadlineGroup(
-              new WaitCommand(1.3),
+              new WaitCommand(.8),
               new ClimbArmCommand(climbing, 1)));
 
     }

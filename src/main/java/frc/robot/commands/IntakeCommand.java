@@ -1,5 +1,8 @@
 package frc.robot.commands;
 
+import java.sql.Time;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
@@ -47,12 +50,12 @@ public class IntakeCommand extends CommandBase {
             activateKicker = true; // room for the 2nd ball in the hopper
             shoot(0, 0);
         } else { // if getCellDetector()
-            if (Robot.kUseColorSensor) {
+            if (true/*Robot.kUseColorSensor*/) {
                 if (!m_kicker.isBadCargo()) { // if good cargo stop kicker
                     activateKicker = false;
                     shoot(0, 0);
                 } else if (m_kicker.isBadCargo()) { // if bad then shoot out
-                    shoot(15, 15);
+                    shoot(50, -95); 
                     activateKicker = true;
                 }
             } else {

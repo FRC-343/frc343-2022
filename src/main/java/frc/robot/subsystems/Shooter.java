@@ -59,7 +59,7 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (m_bottomSpeed > 0.01) {
+        if (m_bottomSpeed > 0.01 || m_bottomSpeed < -0.01) {
             double shooterFeedforward = m_shooterFeedforward.calculate(m_bottomSpeed);
             double shooterPIDOutput = m_shooterPIDController.calculate(getBottomShooterRPS(), m_bottomSpeed);
             double shooterOutput = shooterFeedforward + shooterPIDOutput;
@@ -69,7 +69,7 @@ public class Shooter extends SubsystemBase {
             m_bottomShooter.setVoltage(0.0);
         }
 
-        if (m_topSpeed > 0.01) {
+        if (m_topSpeed > 0.01 || m_topSpeed < -0.01) {
             double shooterFeedforward = m_shooterFeedforward.calculate(m_topSpeed);
             double shooterPIDOutput = m_shooterPIDController.calculate(getTopShooterRPS(), m_topSpeed);
             double shooterOutput = shooterFeedforward + shooterPIDOutput;

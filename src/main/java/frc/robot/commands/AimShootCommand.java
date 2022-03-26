@@ -203,10 +203,10 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void shootShooter(boolean waitForAim) {
-        if (!m_notUseColorSensor && m_kicker.isBadCargo()) {
-            t2.reset();
-            t2.start();
-        }
+        // if (!m_notUseColorSensor && m_kicker.isBadCargo()) {
+        //     t2.reset();
+        //     t2.start();
+        // }
         if (!m_notUseColorSensor && (m_kicker.isBadCargo() || t2.get() < .5)) {
             shootBadCargo();
         } else {
@@ -237,11 +237,11 @@ public class AimShootCommand extends CommandBase {
 
     private void shootBadCargo() {
         shoot(13, 13);
-        if (m_shooter.getBottomShooterRPS() <= 20 && m_shooter.getTopShooterRPS() <= 20) {
+        // if (m_shooter.getBottomShooterRPS() <= 20 && m_shooter.getTopShooterRPS() <= 20) {
             activateKicker = true;
-        } else {
-            activateKicker = false;
-        }
+        // } else {
+        //     activateKicker = false;
+        // }
     }
 
     private void setShooterSpeed(double bottomspeed, double topSpeed) {
