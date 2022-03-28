@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
     public static final double kMaxJoyTurn = 5.0; // radians per sec
     public static final double kMaxHoodSpeed = 1.0; // ratio
     public static final double kMaxWinchSpeed = 1.0;
-    public static final double kMaxTurretSpeed = 0.5;
+    public static final double kMaxTurretSpeed = 0.6;
     public static final double kMaxClimbingSpeed = .8;
 
     public final static boolean kUseColorSensor = false;

@@ -247,8 +247,10 @@ public class AimShootCommand extends CommandBase {
     private void setShooterSpeed(double bottomspeed, double topSpeed) {
         if (!m_lowGoal) {
             kBottomShootReadySpeed = bottomspeed;
+            kTopShootReadySpeed = topSpeed;
         } else { // lowGoal
-            kBottomShootReadySpeed = 20;
+            kBottomShootReadySpeed = 21;
+            kTopShootReadySpeed = kBottomShootReadySpeed / 2;
         }
 
         if (kBottomShootReadySpeed <= 70) {
@@ -257,12 +259,11 @@ public class AimShootCommand extends CommandBase {
             kBottomShootSpeed = kBottomShootReadySpeed * 1.2; // higher value so the ready speed will reach the speed it is aiming for
         }
 
-        kTopShootReadySpeed = topSpeed; // top ready speed = 1/2 of bottom ready speed, 35 rps
         kTopShootSpeed = kTopShootReadySpeed * (8.0 / 7); // top speed = 1/7 more than top ready speed, 40 rps
     }
 
     private void setShooterSpeed(double speed) {
-        setShooterSpeed(speed, speed / 2);
+        setShooterSpeed(speed, (speed / 2));
     }
 
     private void setShooterSpeed() {
@@ -351,11 +352,11 @@ public class AimShootCommand extends CommandBase {
             if (y > 10) { // 65 rps
                 m_hood.aim(-85.6237 * y + 2301.1902);
             } else if (y > 5.1) { // 70 rps
-                m_hood.aim(27.6693 * y * y + -556.39365 * y + 3878.6579);
+                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3878.6579);
             } else if (y > 1.9) { // 75 rps
-                m_hood.aim(21.4843 * y * y + 291.0156 * y + 2315.3711);
+                m_hood.aim(21.4843 * y * y - 291.0156 * y + 2315.3711);
             } else if (y <= -1.9) { // 80 rps
-                m_hood.aim(71.6124 * y * y + -353.6925 * y + 1984.3842);
+                m_hood.aim(71.6124 * y * y - 353.6925 * y + 1984.3842);
             }
         }
     }

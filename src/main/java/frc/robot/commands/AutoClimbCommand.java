@@ -73,13 +73,13 @@ public class AutoClimbCommand extends SequentialCommandGroup {
                     new ClimbArmCommand(climbing, -1),
                     // pull arms back in so hooks can reach high bar
                     new InstantCommand(climbing::disEngage, climbing),
-                    new WaitCommand(2),
+                    new WaitCommand(.4),
                     // pull hooks down on high bar
                     new ClimbArmCommand(climbing, 1),
                     // bring out hooks to grab high rung
                     new InstantCommand(climbing::engage, climbing),
                     // wait b/c they are slow
-                    new WaitCommand(1),
+                    new WaitCommand(1.75),
 
                     // raise up arms for 1 second
                     new ParallelDeadlineGroup(
@@ -87,7 +87,7 @@ public class AutoClimbCommand extends SequentialCommandGroup {
                             new ClimbArmCommand(climbing, -1)),
                     // bring them back in so climbing arms can continue extending out
                     new InstantCommand(climbing::disEngage, climbing),
-                    new WaitCommand(1),
+                    // new WaitCommand(1),
                     // raise up arms all the way to the traversal bar
                     new ClimbArmCommand(climbing, -1),
                     // push to traversal bar
