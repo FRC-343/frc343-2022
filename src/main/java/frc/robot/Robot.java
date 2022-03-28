@@ -93,8 +93,8 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
 
 
-        new JoystickButton(m_stick, 6).whenHeld(new AutoClimbCommand(m_climbing, false)); //high bar climb
-        new JoystickButton(m_stick, 7).whenHeld(new AutoClimbCommand(m_climbing, true)); // traversal bar climb
+        new JoystickButton(m_stick, 6).whenHeld(new AutoClimbCommand(m_climbing, false, false)); //high bar climb
+        new JoystickButton(m_stick, 7).whenHeld(new AutoClimbCommand(m_climbing, true, false)); // traversal bar climb
 
         // Joystick Trigger
 
@@ -165,7 +165,7 @@ public class Robot extends TimedRobot {
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
 
         new JoystickButton(m_controller, XboxController.Button.kStart.value)
-                .whenHeld(new AutoClimbCommand(m_climbing)); // climbing auto
+                .whenHeld(new AutoClimbCommand(m_climbing, true, true)); // climbing auto
 
     }
 
