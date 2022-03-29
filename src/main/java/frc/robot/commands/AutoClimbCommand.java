@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Climbing;
 
 public class AutoClimbCommand extends SequentialCommandGroup {
-    private static Timer t = new Timer();
 
     public AutoClimbCommand(Climbing climbing, boolean traversal, boolean autoDecide) {
         if (autoDecide) {

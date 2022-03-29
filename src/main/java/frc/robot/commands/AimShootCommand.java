@@ -60,6 +60,8 @@ public class AimShootCommand extends CommandBase {
     // 2 = aim only, and don't stop aiming
     // 3 = shoot only (no aiming or speed changing (default 70rps))
     // 4 = shoot only (with speed changing based on distance)
+    // 5 = shoot only for tarmat edge
+    // 6 = shoot only for safe hanger thingy
 
     public AimShootCommand(Shooter shooter, Kicker kicker, Hood hood, Turret turret, Vision vision, int aimShootMode,
             boolean stopShooterAfterTime, boolean lowGoal, boolean notUseColorSensor) {
@@ -124,6 +126,10 @@ public class AimShootCommand extends CommandBase {
             mode3();
         } else if (m_aimShootMode == 4) {
             mode4();
+        } else if (m_aimShootMode == 5) {
+            mode5();
+        } else if (m_aimShootMode == 5) {
+            mode6();
         }
     }
 
@@ -202,10 +208,18 @@ public class AimShootCommand extends CommandBase {
         shootShooter(false);
     }
 
+    private void mode5() {
+
+    } 
+    
+    private void mode6() {
+
+    }
+
     private void shootShooter(boolean waitForAim) {
         // if (!m_notUseColorSensor && m_kicker.isBadCargo()) {
-        //     t2.reset();
-        //     t2.start();
+        // t2.reset();
+        // t2.start();
         // }
         if (!m_notUseColorSensor && (m_kicker.isBadCargo() || t2.get() < .5)) {
             shootBadCargo();
@@ -238,9 +252,9 @@ public class AimShootCommand extends CommandBase {
     private void shootBadCargo() {
         shoot(13, 13);
         // if (m_shooter.getBottomShooterRPS() <= 20 && m_shooter.getTopShooterRPS() <= 20) {
-            activateKicker = true;
+        activateKicker = true;
         // } else {
-        //     activateKicker = false;
+        // activateKicker = false;
         // }
     }
 
@@ -310,6 +324,10 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void aimTurret() {
+        aimTurretMain();
+    }
+
+    private void aimTurretMain() {
         aimTurretSpeed();
         refreshTurretPrecision(getShooterSpeed());
 
@@ -324,9 +342,9 @@ public class AimShootCommand extends CommandBase {
 
     private void aimTurretAlt() {
         kTurretPrecision = .5;
-        double kTargetP = .01;
+        double kTargetP = .1;
         double kTargetD = 0.0;
-        
+
         if (Math.abs(x) > kTurretPrecision) {
             m_turret.spin(MathUtil.clamp(kTargetP * x + kTargetD * (x - prev_heading_error), -.5, .5));
         }
