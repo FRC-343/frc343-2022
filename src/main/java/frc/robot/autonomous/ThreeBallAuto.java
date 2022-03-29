@@ -33,11 +33,11 @@ public class ThreeBallAuto extends SequentialCommandGroup {
         new ParallelDeadlineGroup(
             new DriveDistanceCommand(1.1, kDriveSpeed, drive),
             new IntakeCommand(intake, kicker),
-            new PresetHoodCommand(hood, 1200, true),
+            new PresetHoodCommand(hood, 1000, true),
             new PresetTurretCommand(turret, 65, true)),
         // rotate
         new ParallelDeadlineGroup(
-            new DriveTurnCommand(83, kDriveSpeed, drive),
+            new DriveTurnCommand(97, kDriveSpeed, drive),
             new IntakeCommand(intake, kicker)),
         // rotate turret while doing all the stuff above
         // aim and shoot
