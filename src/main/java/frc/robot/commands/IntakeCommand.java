@@ -47,7 +47,7 @@ public class IntakeCommand extends CommandBase {
             activateKicker = true; // room for the 2nd ball in the hopper
             shoot(0, 0);
         } else { // if getCellDetector()
-            if (true/*Robot.kUseColorSensor*/) {
+            if (Robot.kUseColorSensor) {
                 if (!m_kicker.isBadCargo()) { // if good cargo stop kicker
                     activateKicker = false;
                     shoot(0, 0);

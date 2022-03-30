@@ -313,7 +313,7 @@ public class AimShootCommand extends CommandBase {
 
     private void refreshTurretPrecision(double speed) { // designed to get the precision based on speed (on distance)
         if (speed == 65) {
-            kTurretPrecision = 2;
+            kTurretPrecision = 2.5;
         } else if (speed == 70) {
             kTurretPrecision = 1.5;
         } else if (speed == 75) {
@@ -338,19 +338,6 @@ public class AimShootCommand extends CommandBase {
         } else {
             m_turret.spin(0.0);
         }
-    }
-
-    private void aimTurretAlt() {
-        kTurretPrecision = .5;
-        double kTargetP = .1;
-        double kTargetD = 0.0;
-
-        if (Math.abs(x) > kTurretPrecision) {
-            m_turret.spin(MathUtil.clamp(kTargetP * x + kTargetD * (x - prev_heading_error), -.5, .5));
-        }
-
-        prev_heading_error = x;
-
     }
 
     private void aimTurretSpeed() {

@@ -61,6 +61,8 @@ public class Robot extends TimedRobot {
         m_autoChooser.addOption("3BAAAAAAA",
                 new ThreeBallAltAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
         m_autoChooser.addOption("Simple", new MoveAuto(m_drive));
+        m_autoChooser.addOption("T_5",
+                new CCW5ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
         m_autoChooser.addOption("4BA",
                 new FourBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_auto = m_autoChooser.getSelected();
