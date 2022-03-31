@@ -58,13 +58,9 @@ public class Robot extends TimedRobot {
                 new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
         m_autoChooser.addOption("3BA",
                 new ThreeBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
-        m_autoChooser.addOption("3BAAAAAAA",
-                new ThreeBallAltAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
         m_autoChooser.addOption("Simple", new MoveAuto(m_drive));
         m_autoChooser.addOption("T_5",
                 new CCW5ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
-        m_autoChooser.addOption("4BA",
-                new FourBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_auto = m_autoChooser.getSelected();
 
     }
@@ -169,7 +165,10 @@ public class Robot extends TimedRobot {
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
 
         new JoystickButton(m_controller, XboxController.Button.kStart.value)
-                .whenHeld(new AutoClimbCommand(m_climbing, true, true)); // climbing auto
+                .whenHeld(new AutoClimbCommand(m_climbing, false, false)); // climbing auto
+        
+        new Button(() -> m_controller.getPOV() == 0).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 5, false, false, !kUseColorSensor));
+        new Button(() -> m_controller.getPOV() == 180).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 6, false, false, !kUseColorSensor));
 
     }
 

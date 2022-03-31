@@ -23,6 +23,10 @@ public class Vision extends SubsystemBase {
         return table.getEntry("tv").getDouble(0.0);
     }
 
+    public double getThor() { //possibly with a hammer
+        return table.getEntry("thor").getDouble(0.0);
+    }
+
     public boolean isAimed(double precision) {
         return Math.abs(getTx()) < precision;
     }

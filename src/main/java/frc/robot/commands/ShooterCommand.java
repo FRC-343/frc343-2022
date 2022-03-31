@@ -15,10 +15,10 @@ public class ShooterCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (IntakeCommand.activateShooter[0] != 0 || IntakeCommand.activateShooter[1] != 0) {
-            m_shooter.shoot(IntakeCommand.activateShooter[0], IntakeCommand.activateShooter[1]);
-        } else if (AimShootCommand.activateShooter[0] != 0 || AimShootCommand.activateShooter[1] != 0) {
+        if (AimShootCommand.activateShooter[0] != 0 || AimShootCommand.activateShooter[1] != 0) {
             m_shooter.shoot(AimShootCommand.activateShooter[0], AimShootCommand.activateShooter[1]);
+        } else if (IntakeCommand.activateShooter[0] != 0 || IntakeCommand.activateShooter[1] != 0) {
+            m_shooter.shoot(IntakeCommand.activateShooter[0], IntakeCommand.activateShooter[1]);
         } else {
             m_shooter.shoot(0);
         }

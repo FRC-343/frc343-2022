@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
@@ -31,16 +30,13 @@ public class AimShootCommand extends CommandBase {
     private double y; // ty from limelight
     private double x; // tx from limelight
     private double v; // tv from limelight, # = # of targets
-    private double d; // horizontal distance to targe
 
-    private final double goalHeight = 104; // inches
-    private final double limeLightHeight = 31.5;
-    private final double limeLightMountAngleToGround = 17; // degrees
+    // private final double goalHeight = 104; // inches
+    // private final double limeLightHeight = 31.5;
+    // private final double limeLightMountAngleToGround = 17; // degrees
 
     private double kTurretPrecision;
     private double kTurretSpeed;
-
-    private double prev_heading_error;
 
     private double shooterSpeed;
 
@@ -209,11 +205,33 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void mode5() {
-
+        m_hood.aim(Math.pow(Math.E, Math.PI)*50); // 1150
+        setShooterSpeed(70);
+        if (m_hood.isAimed()) {
+            shootShooter(false);
+        }
     } 
     
     private void mode6() {
+        m_hood.aim(Math.log(343)/Math.log(7)*600); // 1800
+        setShooterSpeed(70);
+        if (m_hood.isAimed()) {
+            shootShooter(false);
+        }
+    }
 
+    private void mode7() { // shooting while moving left
+        aimHood();
+        aimTurret();
+        setShooterSpeed(getShooterSpeed());
+        shootShooter(true);
+    }
+
+    private void mode8() { // shooting while moving right
+        aimHood();
+        aimTurret();
+        setShooterSpeed(getShooterSpeed());
+        shootShooter(true);
     }
 
     private void shootShooter(boolean waitForAim) {
@@ -305,10 +323,6 @@ public class AimShootCommand extends CommandBase {
         x = m_vision.getTx();
         v = m_vision.getTv();
         y = m_vision.getTy(); // put distance formula in here later
-
-        double angleFromGround = 0.01745329 * (y + limeLightMountAngleToGround); // find total angle and change to rad
-        d = (goalHeight - limeLightHeight) / Math.tan(angleFromGround); // inches
-
     }
 
     private void refreshTurretPrecision(double speed) { // designed to get the precision based on speed (on distance)
