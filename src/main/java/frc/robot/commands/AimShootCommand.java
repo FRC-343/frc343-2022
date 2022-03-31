@@ -277,7 +277,7 @@ public class AimShootCommand extends CommandBase {
             kBottomShootReadySpeed = bottomspeed;
             kTopShootReadySpeed = topSpeed;
         } else { // lowGoal
-            kBottomShootReadySpeed = 21;
+            kBottomShootReadySpeed = 24;
             kTopShootReadySpeed = kBottomShootReadySpeed / 2;
         }
 
@@ -323,7 +323,11 @@ public class AimShootCommand extends CommandBase {
 
     private void refreshTurretPrecision(double speed) { // designed to get the precision based on speed (on distance)
         if (speed == 65) {
-            kTurretPrecision = 2.5;
+            if (y > 6) {
+                kTurretPrecision = 3;
+            } else {
+                kTurretPrecision = 2.0;
+            }
         } else if (speed == 70) {
             kTurretPrecision = 1.5;
         } else if (speed == 75) {
@@ -338,7 +342,7 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void aimTurretAlt() {
-        double robotSpeed = Drive.getSpeed(); 
+        double robotSpeed = Drive.getSpeed();
 
         double degreesOfTarget = m_vision.getThor() / 320 * 54;
         double kConstant = 3;
@@ -378,11 +382,11 @@ public class AimShootCommand extends CommandBase {
     private void aimHood() {
         if (v == 1) {
             if (y > 10) { // 65 rps
-                m_hood.aim(-85.6237 * y + 2301.1902);
+                m_hood.aim(-85.6237 * y + 2000); //-300
             } else if (y > 5.1) { // 70 rps
-                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3878.6579);
+                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700); //-300, +122
             } else if (y > 1.9) { // 75 rps
-                m_hood.aim(21.4843 * y * y - 291.0156 * y + 2315.3711);
+                m_hood.aim(21.4843 * y * y - 291.0156 * y + 2500); // +185
             } else if (y <= -1.9) { // 80 rps
                 m_hood.aim(71.6124 * y * y - 353.6925 * y + 1984.3842);
             }
