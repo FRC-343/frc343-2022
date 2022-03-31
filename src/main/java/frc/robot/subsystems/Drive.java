@@ -28,6 +28,8 @@ public class Drive extends SubsystemBase {
 
     private static final boolean kGyroReversed = true;
 
+    public static double avgSpeed = 0;
+
     private final Spark m_leftMaster = new Spark(0);
     private final Spark m_leftFollower = new Spark(1);
     private final Spark m_rightMaster = new Spark(2);
@@ -137,6 +139,10 @@ public class Drive extends SubsystemBase {
         return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
     }
 
+    public static double getSpeed() {
+        return avgSpeed;
+    }
+
     /**
      * Sets the max output of the drive. Useful for scaling the drive to drive more
      * slowly.
@@ -241,6 +247,8 @@ public class Drive extends SubsystemBase {
         // Update the odometry in the periodic block
         m_odometry.update(Rotation2d.fromDegrees(getHeading()), m_leftEncoder.getDistance(),
                 m_rightEncoder.getDistance());
+
+        avgSpeed = (m_leftEncoder.getRate() + m_rightEncoder.getRate()) / 2;
 
     }
 }

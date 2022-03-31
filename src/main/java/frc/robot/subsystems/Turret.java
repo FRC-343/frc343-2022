@@ -38,6 +38,10 @@ public class Turret extends SubsystemBase {
         SendableRegistry.setName(m_isRight, "Turret right (cw) limit switich");
     }
 
+    public double getEncoder() {
+        return m_turretEncoder.get();
+    }
+
     public void stop() {
         m_turret.set(0.0);
     }

@@ -58,6 +58,7 @@ public class AimShootCommand extends CommandBase {
     // 4 = shoot only (with speed changing based on distance)
     // 5 = shoot only for tarmat edge
     // 6 = shoot only for safe hanger thingy
+    // 7 = like -1 but accounts for x plane motion
 
     public AimShootCommand(Shooter shooter, Kicker kicker, Hood hood, Turret turret, Vision vision, int aimShootMode,
             boolean stopShooterAfterTime, boolean lowGoal, boolean notUseColorSensor) {
@@ -124,8 +125,10 @@ public class AimShootCommand extends CommandBase {
             mode4();
         } else if (m_aimShootMode == 5) {
             mode5();
-        } else if (m_aimShootMode == 5) {
+        } else if (m_aimShootMode == 6) {
             mode6();
+        } else if (m_aimShootMode == 7) {
+            mode7();
         }
     }
 
@@ -205,31 +208,24 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void mode5() {
-        m_hood.aim(Math.pow(Math.E, Math.PI)*50); // 1150
+        m_hood.aim(Math.pow(Math.E, Math.PI) * 50); // 1150
         setShooterSpeed(70);
         if (m_hood.isAimed()) {
             shootShooter(false);
         }
-    } 
-    
+    }
+
     private void mode6() {
-        m_hood.aim(Math.log(343)/Math.log(7)*600); // 1800
+        m_hood.aim(Math.log(343) / Math.log(7) * 600); // 1800
         setShooterSpeed(70);
         if (m_hood.isAimed()) {
             shootShooter(false);
         }
     }
 
-    private void mode7() { // shooting while moving left
+    private void mode7() { // shooting while moving
         aimHood();
-        aimTurret();
-        setShooterSpeed(getShooterSpeed());
-        shootShooter(true);
-    }
-
-    private void mode8() { // shooting while moving right
-        aimHood();
-        aimTurret();
+        aimTurretAlt();
         setShooterSpeed(getShooterSpeed());
         shootShooter(true);
     }
@@ -338,16 +334,29 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void aimTurret() {
-        aimTurretMain();
+        aimTurretMain(x);
     }
 
-    private void aimTurretMain() {
+    private void aimTurretAlt() {
+        double robotSpeed = Drive.getSpeed(); 
+
+        double degreesOfTarget = m_vision.getThor() / 320 * 54;
+        double kConstant = 3;
+        double offset = degreesOfTarget * kConstant * robotSpeed;
+        if (m_turret.getEncoder() > 125) {
+            offset *= -1;
+        }
+
+        aimTurretMain(x - offset);
+    }
+
+    private void aimTurretMain(double tx) {
         aimTurretSpeed();
         refreshTurretPrecision(getShooterSpeed());
 
-        if (x > kTurretPrecision) {
+        if (tx > kTurretPrecision) {
             m_turret.spin(kTurretSpeed);
-        } else if (x < -kTurretPrecision) {
+        } else if (tx < -kTurretPrecision) {
             m_turret.spin(-kTurretSpeed);
         } else {
             m_turret.spin(0.0);

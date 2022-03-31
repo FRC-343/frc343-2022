@@ -170,6 +170,8 @@ public class Robot extends TimedRobot {
         new Button(() -> m_controller.getPOV() == 0).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 5, false, false, !kUseColorSensor));
         new Button(() -> m_controller.getPOV() == 180).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 6, false, false, !kUseColorSensor));
 
+        new Button(() -> m_controller.getPOV() == 90).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 7, false, false, !kUseColorSensor));
+        new Button(() -> m_controller.getPOV() == 270).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 7, false, false, !kUseColorSensor));
     }
 
     /**
