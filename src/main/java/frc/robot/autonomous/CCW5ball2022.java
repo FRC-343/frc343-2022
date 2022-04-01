@@ -36,13 +36,14 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                         new PresetTurretCommand(turret, 0, true)),
                 // rotate
                 new ParallelDeadlineGroup(
-                        new DriveTurnCommand(56, 2, drive),
+                        new DriveTurnCommand(68, 2, drive), //was 56
                         new IntakeCommand(intake, kicker),
                         new PresetTurretCommand(turret, 10, true)),
 
                 // aim
                 new ParallelDeadlineGroup(
-                        new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true, false, true),
+                        new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true,
+                                false, true),
                         new IntakeCommand(intake, kicker)),
                 new DriveDistanceCommand(4.0, 3, drive),
                 new ParallelDeadlineGroup(
@@ -54,6 +55,7 @@ public class CCW5ball2022 extends SequentialCommandGroup {
 
                 new ParallelDeadlineGroup(
                         new DriveTurnCommand(100, 2, drive),
+                        new PresetTurretCommand(turret, 60, true),
                         new IntakeCommand(intake, kicker)),
                 new PresetTurretCommand(turret, 80, true),
                 new ParallelDeadlineGroup(
@@ -62,7 +64,8 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                         new AimShootCommand(shooter, kicker, hood, turret, vision, 2)),
 
                 new ParallelDeadlineGroup(
-                        new AimShootCommand(shooter, kicker, hood, turret, vision, -1, false, false, true),
+                        new AimShootCommand(shooter, kicker, hood, turret, vision, -1, false,
+                                false, true),
                         new IntakeCommand(intake, kicker))
 
         );

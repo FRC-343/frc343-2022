@@ -382,13 +382,13 @@ public class AimShootCommand extends CommandBase {
     private void aimHood() {
         if (v == 1) {
             if (y > 10) { // 65 rps
-                m_hood.aim(-85.6237 * y + 2000); //-300
+                m_hood.aim(-85.6237 * y + 2000); // possibly increase soon (originiall lowered this and 70rps by 300 to account for cargo inflation)
             } else if (y > 5.1) { // 70 rps
-                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700); //-300, +122
+                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700); //-300, +122 (over lowered this value)
             } else if (y > 1.9) { // 75 rps
-                m_hood.aim(21.4843 * y * y - 291.0156 * y + 2500); // +185
+                m_hood.aim(21.4843 * y * y - 291.0156 * y + 2500); // +185 (recently increased this becaues close to safezoon we be undershooting)
             } else if (y <= -1.9) { // 80 rps
-                m_hood.aim(71.6124 * y * y - 353.6925 * y + 1984.3842);
+                m_hood.aim(71.6124 * y * y - 353.6925 * y + 1984.3842); //sniper man good
             }
         }
     }
