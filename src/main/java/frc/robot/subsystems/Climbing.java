@@ -76,6 +76,7 @@ public class Climbing extends SubsystemBase {
     }
 
     public void setWinch(double speed) {
+        m_climbingMotor.setInverted(true);
         if (speed < 0.0 && /*(m_isRightTop.get() || */m_isLeftTop.get()) {
             m_climbingMotor.set(0.0);
         } else if (speed > 0 && (m_isRightBottom.get() || m_isLeftBottom.get())) {

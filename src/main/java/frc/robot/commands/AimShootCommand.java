@@ -198,8 +198,11 @@ public class AimShootCommand extends CommandBase {
     }
 
     private void mode3() { // shoot only
-        setShooterSpeed();
-        shootShooter(false);
+        aimTurret();
+        setShooterSpeed(75);
+        if (m_vision.isAimed(kTurretPrecision)) {
+            shootShooter(false);
+        }
     }
 
     private void mode4() { // shoot only but with speed calculated by distance
@@ -210,15 +213,17 @@ public class AimShootCommand extends CommandBase {
     private void mode5() {
         m_hood.aim(Math.pow(Math.E, Math.PI) * 50); // 1150
         setShooterSpeed(70);
-        if (m_hood.isAimed()) {
+        aimTurret();
+        if (isAimFinished()) {
             shootShooter(false);
         }
     }
 
     private void mode6() {
-        m_hood.aim(Math.log(343) / Math.log(7) * 600); // 1800
+        m_hood.aim(1800); // 1800
         setShooterSpeed(70);
-        if (m_hood.isAimed()) {
+        aimTurret();
+        if (isAimFinished()) {
             shootShooter(false);
         }
     }
@@ -318,13 +323,13 @@ public class AimShootCommand extends CommandBase {
     private void refreshAimValues() {
         x = m_vision.getTx();
         v = m_vision.getTv();
-        y = m_vision.getTy(); // put distance formula in here later
+        y = (m_vision.getTy() + 2); // put distance formula in here later
     }
 
     private void refreshTurretPrecision(double speed) { // designed to get the precision based on speed (on distance)
         if (speed == 65) {
             if (y > 6) {
-                kTurretPrecision = 3;
+                kTurretPrecision = 2; //was three
             } else {
                 kTurretPrecision = 2.0;
             }
@@ -382,13 +387,13 @@ public class AimShootCommand extends CommandBase {
     private void aimHood() {
         if (v == 1) {
             if (y > 10) { // 65 rps
-                m_hood.aim(-85.6237 * y + 2000); // possibly increase soon (originiall lowered this and 70rps by 300 to account for cargo inflation)
+                m_hood.aim(-85.6237 * y + 2001); // possibly increase soon (originiall lowered this and 70rps by 300 to account for cargo inflation)
             } else if (y > 5.1) { // 70 rps
-                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700); //-300, +122 (over lowered this value)
+                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700); // -300, +122 (over lowered this value)
             } else if (y > 1.9) { // 75 rps
                 m_hood.aim(21.4843 * y * y - 291.0156 * y + 2500); // +185 (recently increased this becaues close to safezoon we be undershooting)
             } else if (y <= -1.9) { // 80 rps
-                m_hood.aim(71.6124 * y * y - 353.6925 * y + 1984.3842); //sniper man good
+                m_hood.aim(71.6124 * y * y - 353.6925 * y + 1984.3842); // sniper man good
             }
         }
     }

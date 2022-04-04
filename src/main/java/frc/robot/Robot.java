@@ -141,7 +141,7 @@ public class Robot extends TimedRobot {
                 .whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
 
         new Button(() -> m_controller.getLeftBumper())
-                .whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 2));
+                .whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, false, true));
 
         // Controller Buttons
         new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, -.3));
