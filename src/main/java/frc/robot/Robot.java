@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
     public Robot() {
         m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
         m_autoChooser.addOption("2BA",
-                new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
+                new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_autoChooser.addOption("3BA",
                 new ThreeBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
         m_autoChooser.addOption("Simple", new MoveAuto(m_drive));
@@ -98,7 +98,7 @@ public class Robot extends TimedRobot {
 
         // Joystick Trigger
 
-        new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(m_intake, m_kicker, .8))
+        new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(m_intake, .8))
                 .whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
 
         // Other Joystick Buttons (turret Presets)
@@ -137,14 +137,14 @@ public class Robot extends TimedRobot {
                         !kUseColorSensor)); // above with low goal
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
-                .whenHeld(new IntakeCommand(m_intake, m_kicker, .8))
+                .whenHeld(new IntakeCommand(m_intake, .8))
                 .whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
 
         new Button(() -> m_controller.getLeftBumper())
                 .whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, false, true));
 
         // Controller Buttons
-        new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, m_kicker, -.3));
+        new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, -.3));
 
         new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
             m_kicker.setKicker(1.0);

@@ -106,7 +106,6 @@ public class AimShootCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // System.out.println("Distance = " + d);
         refreshAimValues();
 
         if (m_aimShootMode == -2) {
@@ -282,7 +281,7 @@ public class AimShootCommand extends CommandBase {
             kBottomShootReadySpeed = bottomspeed;
             kTopShootReadySpeed = topSpeed;
         } else { // lowGoal
-            kBottomShootReadySpeed = 24;
+            kBottomShootReadySpeed = 23;
             kTopShootReadySpeed = kBottomShootReadySpeed / 2;
         }
 
@@ -389,7 +388,7 @@ public class AimShootCommand extends CommandBase {
             if (y > 10) { // 65 rps
                 m_hood.aim(-85.6237 * y + 2001); // possibly increase soon (originiall lowered this and 70rps by 300 to account for cargo inflation)
             } else if (y > 5.1) { // 70 rps
-                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700); // -300, +122 (over lowered this value)
+                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700); // -300, +122 (over lowered this value, or I messed with it at the end and it will mess things up)
             } else if (y > 1.9) { // 75 rps
                 m_hood.aim(21.4843 * y * y - 291.0156 * y + 2500); // +185 (recently increased this becaues close to safezoon we be undershooting)
             } else if (y <= -1.9) { // 80 rps

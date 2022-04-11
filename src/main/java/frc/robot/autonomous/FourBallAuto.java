@@ -62,7 +62,7 @@ public class FourBallAuto extends SequentialCommandGroup {
                     new Pose2d(1.2, 1.6, Rotation2d.fromDegrees(90)),
                     forwardPickupConfig),
                 drive),
-            new IntakeCommand(intake, kicker),
+            new IntakeCommand(intake),
             new PresetHoodCommand(hood, 1300, true),
             new PresetTurretCommand(turret, 45, true)),
         // fire 2
@@ -76,9 +76,9 @@ public class FourBallAuto extends SequentialCommandGroup {
                     new Pose2d(-3.1, -4.5, Rotation2d.fromDegrees(225)),
                     forwardPickupConfig),
                 drive),
-            new IntakeCommand(intake, kicker)),
+            new IntakeCommand(intake)),
 
-        new ParallelDeadlineGroup(new WaitCommand(1), new IntakeCommand(intake, kicker)),
+        new ParallelDeadlineGroup(new WaitCommand(1), new IntakeCommand(intake)),
         // back up while aiming
         new ParallelDeadlineGroup(
             new TrajectoryCommand(

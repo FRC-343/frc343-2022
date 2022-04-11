@@ -31,42 +31,42 @@ public class CCW5ball2022 extends SequentialCommandGroup {
                 // drive and intake
                 new ParallelDeadlineGroup(
                         new DriveDistanceCommand(1.1, 3, drive),
-                        new IntakeCommand(intake, kicker),
+                        new IntakeCommand(intake),
                         new PresetHoodCommand(hood, 1000, true),
                         new PresetTurretCommand(turret, 0, true)),
                 // rotate
                 new ParallelDeadlineGroup(
                         new DriveTurnCommand(68, 2, drive), //was 56
-                        new IntakeCommand(intake, kicker),
+                        new IntakeCommand(intake),
                         new PresetTurretCommand(turret, 10, true)),
 
                 // aim
                 new ParallelDeadlineGroup(
                         new AimShootCommand(shooter, kicker, hood, turret, vision, -1, true,
                                 false, true),
-                        new IntakeCommand(intake, kicker)),
+                        new IntakeCommand(intake)),
                 new DriveDistanceCommand(4.0, 3, drive),
                 new ParallelDeadlineGroup(
                         new DriveDistanceCommand(1.6, 1, drive),
-                        new IntakeCommand(intake, kicker)),
+                        new IntakeCommand(intake)),
                 new ParallelDeadlineGroup(
                         new WaitCommand(1.0),
-                        new IntakeCommand(intake, kicker)),
+                        new IntakeCommand(intake)),
 
                 new ParallelDeadlineGroup(
                         new DriveTurnCommand(100, 2, drive),
                         new PresetTurretCommand(turret, 60, true),
-                        new IntakeCommand(intake, kicker)),
+                        new IntakeCommand(intake)),
                 new PresetTurretCommand(turret, 80, true),
                 new ParallelDeadlineGroup(
                         new DriveDistanceCommand(3.5, 3, drive),
-                        new IntakeCommand(intake, kicker),
+                        new IntakeCommand(intake),
                         new AimShootCommand(shooter, kicker, hood, turret, vision, 2)),
 
                 new ParallelDeadlineGroup(
                         new AimShootCommand(shooter, kicker, hood, turret, vision, -1, false,
                                 false, true),
-                        new IntakeCommand(intake, kicker))
+                        new IntakeCommand(intake))
 
         );
     }
