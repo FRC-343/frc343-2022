@@ -36,6 +36,22 @@ public class Vision extends SubsystemBase {
         return Math.abs(getTx()) < precision;
     }
 
+    public void setLEDS(boolean turnOn) {
+        if (turnOn) {
+            table.getEntry("ledMode").setNumber(3);
+        } else {
+            table.getEntry("ledMode").setNumber(1);
+        }
+    }
+
+    public void killYourEnimiesViaLEDS() {
+        table.getEntry("ledMode").setNumber(2);
+    }
+
+    public void setLEDSToDefault() {
+        table.getEntry("ledMode").setNumber(0);
+    }
+
     //this is for second camera plugged into limelight
     public void setCamera(double value) {//vaulue = 0 split, 1 = secondary camera is small, 2 = limelight is small
         table.getEntry("stream").setNumber(value);

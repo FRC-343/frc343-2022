@@ -188,6 +188,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        m_vision.setLEDS(true);
         m_drive.zeroHeading();
 
         m_auto = m_autoChooser.getSelected();
@@ -216,6 +217,7 @@ public class Robot extends TimedRobot {
         }
 
         m_drive.zeroHeading();
+        m_vision.setLEDS(true);
     }
 
     /**
@@ -231,8 +233,9 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
     }
 
-    @Override
-    public void testPeriodic() {
-
+    @Override 
+    public void disabledInit() {
+        m_vision.setLEDS(false);
     }
+
 }
