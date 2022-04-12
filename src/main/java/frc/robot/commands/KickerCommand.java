@@ -17,10 +17,12 @@ public class KickerCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (AimShootCommand.activateKicker) {
-            m_kicker.setKicker(1.0);
+        if (ShootCommand.activateKicker != 0) {
+            m_kicker.setKicker(ShootCommand.activateKicker);
         } else if (runKickerForIntake()) {
             kickerForIntake();
+        } else {
+            m_kicker.setKicker(0);;
         }
     }
 

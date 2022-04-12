@@ -7,14 +7,21 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class AimCommand extends CommandBase {
-    private double turretPrecision;
-    private double turretSpeed;
+
     private final Hood m_hood;
     private final Turret m_turret;
     private final Vision m_vision;
+
+    private double turretPrecision;
+    private double turretSpeed;
+
     private double x;
     private double y;
     private double v;
+
+    private static boolean isHoodAimed = false;
+    private static boolean isTurretAimed = false;
+    private static double isTarget = 0;
 
     public AimCommand(Hood hood, Turret turret, Vision vision) {
         refreshAimValues();
@@ -33,9 +40,9 @@ public class AimCommand extends CommandBase {
     @Override
     public void execute() {
         refreshAimValues();
+        refreshIsAimedValues();
         aimHood();
-        aimTurretMain();
-
+        aimTurretMain(x);
     }
 
     @Override
@@ -55,6 +62,12 @@ public class AimCommand extends CommandBase {
         y = m_vision.getTy(); // put distance formula in here later
     }
 
+    private void refreshIsAimedValues() { //have to use the static values since isAimed needs to be static to access in ShootCommand
+        isHoodAimed = m_hood.isAimed();
+        isTurretAimed = m_vision.isAimed(turretPrecision);
+        isTarget = v;
+    }
+
     private void aimHood() {
         if (v == 1) {
             if (y > 10) { // 65 rps
@@ -69,17 +82,13 @@ public class AimCommand extends CommandBase {
         }
     }
 
-    private void refreshTurretPrecision() { // designed to get the precision based on speed (on distance)
-        turretPrecision = 1;
-    }
-
-    private void aimTurretMain() {
+    private void aimTurretMain(double tx) {
         aimTurretSpeed();
         refreshTurretPrecision();
 
-        if (x > turretPrecision) {
+        if (tx > turretPrecision) {
             m_turret.spin(turretSpeed);
-        } else if (x < -turretPrecision) {
+        } else if (tx < -turretPrecision) {
             m_turret.spin(-turretSpeed);
         } else {
             m_turret.spin(0.0);
@@ -98,6 +107,10 @@ public class AimCommand extends CommandBase {
         turretSpeed = speed;
     }
 
+    private void refreshTurretPrecision() { // designed to get the precision based on speed (on distance)
+        turretPrecision = 1;
+    }
+
     private void aimTurretAlt() {
         double robotSpeed = Drive.getSpeed();
 
@@ -108,10 +121,18 @@ public class AimCommand extends CommandBase {
             offset *= -1;
         }
 
-        // aimTurretMain(x - offset);
+        aimTurretMain(x - offset);
     }
 
     public static boolean isAimFinished() {
-        return m_hood.isAimed() && m_vision.isAimed(turretPrecision) && v == 1;
+        return isHoodAimed && isTurretAimed && isTarget == 1;
+    }
+    
+    public static boolean isHoodAimed() {
+        return isHoodAimed;
+    }
+
+    public static boolean isTurretAimed() {
+        return isTurretAimed;
     }
 }
