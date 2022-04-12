@@ -205,7 +205,7 @@ public class AimShootCommand extends CommandBase {
         }
     }
 
-    private void mode4() { // shoot only but with speed calculated by distance
+    private void mode4() { // shoot only but with speed calculated by distances
         setShooterSpeed(getShooterSpeed());
         shootShooter(false);
     }
