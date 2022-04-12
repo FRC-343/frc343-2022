@@ -14,17 +14,18 @@ public class Intake2Command extends CommandBase {
 
     private double kIntakeSpeed;
 
-    public Intake2Command(Intake intake, Kicker kicker, Shooter shooter, double intakeSpeed) {
-        m_intake = intake;
-        m_kicker = kicker;
-        m_shooter = shooter;
+    public Intake2Command(double intakeSpeed) {
+        m_intake = Intake.getInstance();
+        m_kicker = Kicker.getInstance();
+        m_shooter = Shooter.getInstance();
+        addRequirements(m_intake, m_kicker, m_shooter);
+
         kIntakeSpeed = intakeSpeed;
         t = new Timer();
-        addRequirements(m_intake, m_kicker, m_shooter);
     }
 
-    public Intake2Command(Intake intake, Kicker kicker, Shooter shooter) {
-        this(intake, kicker, shooter, 0.8); // defaults to .8 speed
+    public Intake2Command() {
+        this(0.8); // defaults to .8 speed
     }
 
     // Called when the command is initially scheduled.
@@ -49,7 +50,7 @@ public class Intake2Command extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (t.get() >= (Math.sqrt(2)/2)) { // no comet // no comment
+        if (t.get() >= (Math.sqrt(2) / 2)) { // no comet // no comment
             return true;
         } else {
             return false;

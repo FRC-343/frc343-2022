@@ -15,6 +15,8 @@ import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Kicker extends SubsystemBase {
+    private static final Kicker m_instance = new Kicker();
+
     private final Spark m_kicker = new Spark(4);
 
     private final DigitalInput m_cellDetector = new DigitalInput(14);
@@ -39,6 +41,10 @@ public class Kicker extends SubsystemBase {
 
         m_colorMatcher.addColorMatch(kRed);
         m_colorMatcher.addColorMatch(kBlue);
+    }
+
+    public static Kicker getInstance() {
+        return m_instance;
     }
 
     @Override

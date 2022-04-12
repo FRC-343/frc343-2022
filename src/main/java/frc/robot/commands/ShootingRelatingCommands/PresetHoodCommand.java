@@ -12,15 +12,15 @@ public class PresetHoodCommand extends CommandBase {
 
     private double kTarget;
     
-    public PresetHoodCommand(Hood hood, double target, boolean startWithZeroing) {
-        m_hood = hood;
+    public PresetHoodCommand(double target, boolean startWithZeroing) {
+        m_hood = Hood.getInstance();
         kTarget = target;
         m_startWithZeroing = startWithZeroing;
         addRequirements(m_hood);
     }
 
-    public PresetHoodCommand(Hood hood, double target) {
-        this(hood, target, false);
+    public PresetHoodCommand(double target) {
+        this(target, false);
     }
 
     @Override

@@ -27,10 +27,10 @@ public class AimCommand extends CommandBase {
     private static boolean aimWhileMove = false;
     private static int aimWhat = 1; // 0 = nothing, 1 = both, 2 = turret only, 3 = hood only
 
-    public AimCommand(Hood hood, Turret turret, Vision vision) {
-        m_hood = hood;
-        m_turret = turret;
-        m_vision = vision;
+    public AimCommand() {
+        m_hood = Hood.getInstance();
+        m_turret = Turret.getInstance();
+        m_vision = Vision.getInstance();
 
         addRequirements(m_hood, m_turret);
 

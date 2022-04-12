@@ -13,19 +13,19 @@ public class IntakeCommand extends CommandBase {
 
     public static double activateShooter[] = { 0, 0 };
 
-    public IntakeCommand(Intake intake, double intakeSpeed, boolean raise) {
-        m_intake = intake;
+    public IntakeCommand(double intakeSpeed, boolean raise) {
+        m_intake = Intake.getInstance();
         kIntakeSpeed = intakeSpeed;
         m_raise = raise;
         addRequirements(m_intake);
     }
 
-    public IntakeCommand(Intake intake) {
-        this(intake, 0.8, true); // defaults to .8 speed
+    public IntakeCommand() {
+        this(0.8, true); // defaults to .8 speed
     }
 
-    public IntakeCommand(Intake intake, double intakeSpeed) {
-        this(intake, intakeSpeed, true);
+    public IntakeCommand(double intakeSpeed) {
+        this(intakeSpeed, true);
     }
 
     // Called when the command is initially scheduled.

@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hood extends SubsystemBase {
+    private static final Hood m_instance = new Hood();
+
     private final Encoder m_hoodEncoder = new Encoder(4, 5);
     private final DigitalInput m_hoodBack = new DigitalInput(2); // 2 = bottom = back
     private final DigitalInput m_hoodFront = new DigitalInput(3);
@@ -30,6 +32,10 @@ public class Hood extends SubsystemBase {
         SendableRegistry.setSubsystem(m_hoodMotor, this.getClass().getSimpleName());
         SendableRegistry.setName(m_hoodMotor, "Hood Motor");
 
+    }
+
+    public static Hood getInstance() {
+        return m_instance;
     }
 
     public void aim(double target, boolean startWithZeroing) {

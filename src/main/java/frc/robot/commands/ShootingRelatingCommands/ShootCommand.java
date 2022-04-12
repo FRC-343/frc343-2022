@@ -32,10 +32,10 @@ public class ShootCommand extends CommandBase {
 
     public static double activateShooter[] = { 0, 0 }; // bottom speed, top speed
 
-    public ShootCommand(Shooter shooter, Vision vision) {
+    public ShootCommand() {
 
-        m_shooter = shooter;
-        m_vision = vision;
+        m_shooter = Shooter.getInstance();
+        m_vision = Vision.getInstance();
 
         addRequirements(); // vision and shooter don't run any motors, they just grabs values
 

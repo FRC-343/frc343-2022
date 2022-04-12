@@ -35,15 +35,14 @@ public class Robot extends TimedRobot {
 
     private static final Compressor Pressy = new Compressor(0, PneumaticsModuleType.CTREPCM);
 
-    private final Drive m_drive = new Drive();
-    private final Hood m_hood = new Hood();
-    private final Shooter m_shooter = new Shooter();
-    private final Vision m_vision = new Vision();
-    private final Turret m_turret = new Turret();
-    private final Kicker m_kicker = new Kicker();
-    private final Intake m_intake = new Intake();
-
-    private final Climbing m_climbing = new Climbing();
+    private final Drive m_drive = Drive.getInstance();
+    private final Hood m_hood = Hood.getInstance();
+    private final Shooter m_shooter = Shooter.getInstance();
+    private final Vision m_vision = Vision.getInstance();
+    private final Turret m_turret = Turret.getInstance();
+    private final Kicker m_kicker = Kicker.getInstance();
+    private final Intake m_intake = Intake.getInstance();
+    private final Climbing m_climbing = Climbing.getInstance();
 
     private final XboxController m_controller = new XboxController(1);
     private final Joystick m_stick = new Joystick(0);
@@ -54,12 +53,12 @@ public class Robot extends TimedRobot {
     public Robot() {
         m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
         m_autoChooser.addOption("2BA",
-                new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
+                new TwoBallAuto());
         m_autoChooser.addOption("3BA",
-                new ThreeBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
-        m_autoChooser.addOption("Simple", new MoveAuto(m_drive));
+                new ThreeBallAuto());
+        m_autoChooser.addOption("Simple", new MoveAuto());
         m_autoChooser.addOption("T_5",
-                new CCW5ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
+                new CCW5ball2022());
         m_auto = m_autoChooser.getSelected();
 
     }
@@ -76,8 +75,8 @@ public class Robot extends TimedRobot {
         Pressy.enableDigital(); // compressor has to be enabled manually
 
         // Background commands that activate themselves when ready
-        m_shooter.setDefaultCommand(new ShooterCommand(m_shooter));
-        m_kicker.setDefaultCommand(new KickerCommand(m_kicker));
+        m_shooter.setDefaultCommand(new ShooterCommand());
+        m_kicker.setDefaultCommand(new KickerCommand());
 
         // Joystick
         m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed *
@@ -91,12 +90,12 @@ public class Robot extends TimedRobot {
 
         // Joystick Trigger
 
-        new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(m_intake, .8))
-                .whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
+        new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(.8))
+                .whenReleased(new Intake2Command(.8));
 
         // Other Joystick Buttons (turret Presets)
 
-        new JoystickButton(m_stick, 3).whenPressed(new PresetTurretCommand(m_turret, 110));
+        new JoystickButton(m_stick, 3).whenPressed(new PresetTurretCommand(110));
 
         new JoystickButton(m_stick, 4).whenHeld(new RunCommand(() -> {
             m_turret.spin(-kMaxTurretSpeed);
@@ -123,21 +122,21 @@ public class Robot extends TimedRobot {
         // Controller Triggers/Bumpers
 
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
-                .whenHeld(new AimShootCommand(m_hood, m_turret, m_vision, m_shooter)); // shooter
+                .whenHeld(new AimShootCommand()); // shooter
 
         new Button(() -> m_controller.getRightBumper())
                 .whenHeld(new SequentialCommandGroup(new InstantCommand(ShootCommand::useLowGoal),
-                        new ShootCommand(m_shooter, m_vision))); // low goal
+                        new ShootCommand())); // low goal
 
         new Button(() -> m_controller.getLeftBumper())
-                .whenHeld(new AimShootMoveCommand(m_hood, m_turret, m_vision, m_shooter)); // low goal
+                .whenHeld(new AimShootMoveCommand()); // low goal
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
-                .whenHeld(new IntakeCommand(m_intake, .8))
-                .whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
+                .whenHeld(new IntakeCommand(.8))
+                .whenReleased(new Intake2Command(.8));
 
         // Controller Buttons
-        new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, -.3));
+        new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(-.3));
 
         new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
             m_kicker.setKicker(1.0);
@@ -152,13 +151,13 @@ public class Robot extends TimedRobot {
         }, m_kicker));
 
         new JoystickButton(m_controller, XboxController.Button.kX.value)
-                .whenPressed(new PresetHoodCommand(m_hood, 0, true));
+                .whenPressed(new PresetHoodCommand(0, true));
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
 
         new JoystickButton(m_controller, XboxController.Button.kStart.value)
-                .whenHeld(new AutoClimbCommand(m_climbing, false, false)); // climbing auto
+                .whenHeld(new AutoClimbCommand(false, false)); // climbing auto
     }
 
     /**

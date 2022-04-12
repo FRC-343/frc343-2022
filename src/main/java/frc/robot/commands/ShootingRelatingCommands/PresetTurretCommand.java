@@ -12,15 +12,15 @@ public class PresetTurretCommand extends CommandBase {
 
     private double kTarget;
     
-    public PresetTurretCommand(Turret turret, double target, boolean startWithZeroing) {
-        m_turret = turret;
+    public PresetTurretCommand(double target, boolean startWithZeroing) {
+        m_turret = Turret.getInstance();
         kTarget = target;
         m_startWithZeroing = startWithZeroing;
         addRequirements(m_turret);
     }
 
-    public PresetTurretCommand(Turret turret, double target) {
-        this(turret, target, false);
+    public PresetTurretCommand(double target) {
+        this(target, false);
     }
 
     @Override

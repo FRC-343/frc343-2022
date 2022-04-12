@@ -10,8 +10,8 @@ public class ClimbArmCommand extends CommandBase {
 
     private double m_speed;
 
-    public ClimbArmCommand(Climbing climbing, double speed) {
-        m_climbing = climbing;
+    public ClimbArmCommand(double speed) {
+        m_climbing = Climbing.getInstance();
         m_speed = speed;
         addRequirements(m_climbing);
     }

@@ -8,8 +8,8 @@ public class ShooterCommand extends CommandBase {
 
     private final Shooter m_shooter;
 
-    public ShooterCommand(Shooter shooter) {
-        m_shooter = shooter;
+    public ShooterCommand() {
+        m_shooter = Shooter.getInstance();
         addRequirements(m_shooter);
     }
 

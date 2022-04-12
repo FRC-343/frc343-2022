@@ -12,11 +12,13 @@ public class DriveTurnCommand extends CommandBase {
 
     private Pose2d m_startPose = new Pose2d();
 
-    public DriveTurnCommand(double rot, double speed, Drive drive) {
+    public DriveTurnCommand(double rot, double speed) {
+
+        m_drive = Drive.getInstance();
+        addRequirements(m_drive);
+
         m_rot = rot;
         m_speed = speed;
-        m_drive = drive;
-        addRequirements(m_drive);
     }
 
     @Override

@@ -6,10 +6,15 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
+    private static final Vision m_instance = new Vision();
 
     private final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     private final NetworkTableEntry tx = table.getEntry("tx");
     private final NetworkTableEntry ty = table.getEntry("ty");
+
+    public static Vision getInstance() {
+        return m_instance;
+    }
 
     public double getTx() {
         return tx.getDouble(0.0);

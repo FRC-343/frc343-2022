@@ -5,23 +5,21 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ShootingRelatingCommands.AimCommand;
 import frc.robot.commands.ShootingRelatingCommands.ShootCommand;
-import frc.robot.subsystems.*;
 
 public class AimShootCommandAuto extends SequentialCommandGroup {
 
-  public AimShootCommandAuto(Hood h, Turret t, Vision v, Shooter s, double time) {
-
+  public AimShootCommandAuto(double time) {
     addCommands(
         new InstantCommand(AimCommand::useStandardAutoAim),
         new InstantCommand(() -> ShootCommand.useStandardAutoAimForAutonomous(time)),
         new ParallelDeadlineGroup(
-            new ShootCommand(s, v),
-            new AimCommand(h, t, v))
+            new ShootCommand(),
+            new AimCommand())
 
     );
   }
 
-  public AimShootCommandAuto(Hood h, Turret t, Vision v, Shooter s) {
-    this(h, t, v, s, 4);
+  public AimShootCommandAuto() {
+    this(4);
   }
 }

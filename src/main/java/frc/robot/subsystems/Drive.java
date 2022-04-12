@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MiscMath;
 
 public class Drive extends SubsystemBase {
+    private static final Drive m_instance = new Drive();
+
     private static final double kTrackWidth = 0.568; // meters
     private static final double kWheelRadius = 0.0762; // meters
     private static final int kEncoderResolution = 2048;
@@ -95,6 +97,10 @@ public class Drive extends SubsystemBase {
         SendableRegistry.setSubsystem(m_rightPIDController, this.getClass().getSimpleName());
         SendableRegistry.setName(m_rightPIDController, "Right Drive PID Controller Thingy");
 
+    }
+
+    public static Drive getInstance() {
+        return m_instance;
     }
 
     public PIDController getLeftPIDController() {

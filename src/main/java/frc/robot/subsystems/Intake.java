@@ -8,6 +8,8 @@ import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
+    private static final Intake m_instance = new Intake();
+
     private final DoubleSolenoid m_intakeLift = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 0);
     private final Spark m_intake = new Spark(6);
     private static boolean runningIntake = false;
@@ -20,6 +22,10 @@ public class Intake extends SubsystemBase {
 
         SendableRegistry.setSubsystem(m_intakeLift, this.getClass().getSimpleName());
         SendableRegistry.setName(m_intakeLift, "Intake Lift");
+    }
+
+    public static Intake getInstance() {
+        return m_instance;
     }
 
     public void raise() {

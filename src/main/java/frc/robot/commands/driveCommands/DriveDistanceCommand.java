@@ -13,11 +13,12 @@ public class DriveDistanceCommand extends CommandBase {
 
     private Pose2d m_startPose = new Pose2d(0, 0, new Rotation2d(0));
 
-    public DriveDistanceCommand(double distance, double speed, Drive drive) {
+    public DriveDistanceCommand(double distance, double speed) {
+        m_drive = Drive.getInstance();
+        addRequirements(m_drive);
+
         m_distance = distance;
         m_speed = speed;
-        m_drive = drive;
-        addRequirements(m_drive);
     }
 
     @Override

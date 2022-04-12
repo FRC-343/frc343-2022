@@ -12,28 +12,29 @@ import frc.robot.subsystems.*;
 
 public class TwoBallAuto extends SequentialCommandGroup {
 
-    public TwoBallAuto(Drive drive, Intake intake, Kicker kicker, Vision vision, Hood hood, Shooter shooter,
-            Turret turret) {
+    public TwoBallAuto() {
+        Intake intake = Intake.getInstance();
+        
         // commands in this autonomous
         addCommands(
                 // drop intake
                 new InstantCommand(intake::lower, intake),
                 // drive and intake
                 new ParallelDeadlineGroup(
-                        new DriveDistanceCommand(1.1, 3, drive),
-                        new IntakeCommand(intake),
-                        new PresetHoodCommand(hood, 1100, true),
-                        new PresetTurretCommand(turret, 30, true)),
+                        new DriveDistanceCommand(1.1, 3),
+                        new IntakeCommand(),
+                        new PresetHoodCommand(1100, true),
+                        new PresetTurretCommand(30, true)),
                 // rotate
                 new ParallelDeadlineGroup(
-                        new DriveTurnCommand(110, 2, drive),
-                        new AimShootCommandAuto(hood, turret, vision, shooter),
-                        new IntakeCommand(intake)),
+                        new DriveTurnCommand(110, 2),
+                        new AimShootCommandAuto(),
+                        new IntakeCommand()),
 
                 new WaitCommand(1),
                 new ParallelDeadlineGroup(
-                        new AimShootCommandAuto(hood, turret, vision, shooter),
-                        new IntakeCommand(intake))
+                        new AimShootCommandAuto(),
+                        new IntakeCommand())
 
         );
     }

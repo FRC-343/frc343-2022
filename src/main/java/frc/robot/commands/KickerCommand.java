@@ -11,8 +11,8 @@ public class KickerCommand extends CommandBase {
     private final Kicker m_kicker;
     public static double activateShooter[] = { 0, 0 }; // bottom speed, top speed
 
-    public KickerCommand(Kicker kicker) {
-        m_kicker = kicker;
+    public KickerCommand() {
+        m_kicker = Kicker.getInstance();
         addRequirements(m_kicker);
     }
 

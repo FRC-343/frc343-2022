@@ -13,13 +13,14 @@ public class SimpleDriveCommand extends CommandBase {
 
     private Timer t;
 
-    public SimpleDriveCommand(Drive drive, double speed, double driveTime, double waitTime) {
-        m_drive = drive;
+    public SimpleDriveCommand(double speed, double driveTime, double waitTime) {
+        m_drive = Drive.getInstance();
+        addRequirements(m_drive);
+
         m_speed = speed;
         m_driveTime = driveTime;
         m_waitTime = waitTime;
         t = new Timer();
-        addRequirements(m_drive);
     }
 
     @Override

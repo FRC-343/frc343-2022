@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
+    private static final Turret m_instance = new Turret();
 
     private final Spark m_turret = new Spark(5);
     private final Encoder m_turretEncoder = new Encoder(0, 1);
@@ -36,6 +37,10 @@ public class Turret extends SubsystemBase {
 
         SendableRegistry.setSubsystem(m_isRight, this.getClass().getSimpleName());
         SendableRegistry.setName(m_isRight, "Turret right (cw) limit switich");
+    }
+
+    public static Turret getInstance() {
+        return m_instance;
     }
 
     public double getEncoder() {
