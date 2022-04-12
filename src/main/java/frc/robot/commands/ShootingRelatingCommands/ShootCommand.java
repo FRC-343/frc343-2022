@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.ShootingRelatingCommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -37,7 +37,7 @@ public class ShootCommand extends CommandBase {
         m_shooter = shooter;
         m_vision = vision;
 
-        addRequirements(); // vision doesn't run any motors..., it just grabs values
+        addRequirements(); // vision and shooter don't run any motors, they just grabs values
 
         refreshAimValues();
 
@@ -57,6 +57,7 @@ public class ShootCommand extends CommandBase {
     @Override
     public void execute() {
         refreshAimValues();
+
         if (useVariableSpeed) {
             setShooterSpeed(getShooterSpeed());
         } else {
@@ -86,20 +87,16 @@ public class ShootCommand extends CommandBase {
 
     private void shootShooter() {
         shoot(kBottomShootSpeed, kTopShootSpeed);
-        if (waitForAim == 1) {
-            if (AimCommand.isAimFinished()) { // both turret and hood aimed
-                shootActivateKicker();
-            }
-        } else if (waitForAim == 2) {
-            if (AimCommand.isTurretAimed()) { // only turret
-                shootActivateKicker();
-            }
-        } else if (waitForAim == 3) {
-            if (AimCommand.isHoodAimed()) { // only hood
-                shootActivateKicker();
-            }
-        } else if (waitForAim == 0) { // neither is required
+
+        int w = waitForAim;
+        boolean a = AimCommand.isAimFinished();
+        boolean t = AimCommand.isTurretAimed();
+        boolean h = AimCommand.isHoodAimed();
+
+        if ((w == 0) || (w == 1 && a) || (w == 2 && t) || (w == 3 && h)) {
             shootActivateKicker();
+        } else {
+            activateKicker = 0;
         }
     }
 
@@ -177,7 +174,7 @@ public class ShootCommand extends CommandBase {
         stopShooterAfterTime = false;
     }
 
-    public static void custom(boolean useVarSpeed, double bottomSpeed, double topSpeed, int waitAim,
+    public static void useCustom(boolean useVarSpeed, double bottomSpeed, double topSpeed, int waitAim,
             double seconds) {
 
         useVariableSpeed = useVarSpeed;

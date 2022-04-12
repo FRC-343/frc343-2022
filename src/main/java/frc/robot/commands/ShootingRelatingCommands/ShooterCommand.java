@@ -1,7 +1,7 @@
-package frc.robot.commands;
+package frc.robot.commands.ShootingRelatingCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterCommand extends CommandBase {

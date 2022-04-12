@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.ShootingRelatingCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
@@ -23,37 +23,59 @@ public class AimCommand extends CommandBase {
     private static boolean isTurretAimed = false;
     private static double isTarget = 0;
 
+    private static boolean doesEnd = false;
+    private static boolean aimWhileMove = false;
+    private static int aimWhat = 1; // 0 = nothing, 1 = both, 2 = turret only, 3 = hood only
+
     public AimCommand(Hood hood, Turret turret, Vision vision) {
-        refreshAimValues();
         m_hood = hood;
         m_turret = turret;
         m_vision = vision;
 
         addRequirements(m_hood, m_turret);
+
+        refreshAimValues();
     }
 
     @Override
     public void initialize() {
-
     }
 
     @Override
     public void execute() {
         refreshAimValues();
         refreshIsAimedValues();
-        aimHood();
-        aimTurretMain(x);
+        if (aimWhat == 1) {
+            aimHood();
+            aimTurret();
+        } else if (aimWhat == 2) {
+            aimTurret();
+        } else if (aimWhat == 3)  {
+            aimHood();
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        m_hood.stop();
+        m_turret.stop();
     }
 
     @Override
     public boolean isFinished() {
-        return false;
-
+        if (doesEnd) { // ends as soon as it is aimed
+            if (aimWhat == 1) {
+                return isAimFinished();
+            } else if (aimWhat == 2) {
+                return isTurretAimed();
+            } else if (aimWhat == 3) {
+                return isHoodAimed();
+            } else {
+                return true;
+            }
+        } else { // does not end
+            return false;
+        }
     }
 
     private void refreshAimValues() {
@@ -62,7 +84,7 @@ public class AimCommand extends CommandBase {
         y = m_vision.getTy(); // put distance formula in here later
     }
 
-    private void refreshIsAimedValues() { //have to use the static values since isAimed needs to be static to access in ShootCommand
+    private void refreshIsAimedValues() { // have to use the static values since isAimed needs to be static to access in ShootCommand
         isHoodAimed = m_hood.isAimed();
         isTurretAimed = m_vision.isAimed(turretPrecision);
         isTarget = v;
@@ -79,6 +101,14 @@ public class AimCommand extends CommandBase {
             } else if (y <= -1.9) { // 80 rps
                 m_hood.aim(71.6124 * y * y - 353.6925 * y + 1984.3842); // sniper man good
             }
+        }
+    }
+
+    private void aimTurret() {
+        if (!aimWhileMove) {
+            aimTurretMain(x);
+        } else {
+            aimTurretAlt();
         }
     }
 
@@ -127,12 +157,34 @@ public class AimCommand extends CommandBase {
     public static boolean isAimFinished() {
         return isHoodAimed && isTurretAimed && isTarget == 1;
     }
-    
+
     public static boolean isHoodAimed() {
         return isHoodAimed;
     }
 
     public static boolean isTurretAimed() {
         return isTurretAimed;
+    }
+
+    public static void setUnendingAiming(boolean doesItEnd) {
+        doesEnd = doesItEnd;
+    }
+
+    public static void useCustom(boolean doesItEnd, boolean movingAiming, int aimMode) {
+        doesEnd = doesItEnd;
+        aimWhileMove = movingAiming;
+        aimWhat = aimMode;
+    }
+
+    public static void useStandardAutoAim() {
+        doesEnd = false;
+        aimWhileMove = false;
+        aimWhat = 1;
+    }
+
+    public static void useMovingAutoAim() {
+        doesEnd = false;
+        aimWhileMove = true;
+        aimWhat = 1;
     }
 }

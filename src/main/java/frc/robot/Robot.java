@@ -3,7 +3,8 @@ package frc.robot;
 import frc.robot.autonomous.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-
+import frc.robot.commands.ShootingRelatingCommands.*;
+import frc.robot.commands.ShootingRelatingCommands.SpecificCommands.*;
 import frc.robot.utils.MiscMath;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
@@ -30,9 +32,6 @@ public class Robot extends TimedRobot {
     public static final double kMaxClimbingSpeed = .8;
 
     public final static boolean kUseColorSensor = false;
-
-    public static final double kTargetP = -0.055;
-    public static final double kMinTargetCommand = -0.35;
 
     private static final Compressor Pressy = new Compressor(0, PneumaticsModuleType.CTREPCM);
 
@@ -57,10 +56,10 @@ public class Robot extends TimedRobot {
         m_autoChooser.addOption("2BA",
                 new TwoBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_autoChooser.addOption("3BA",
-                new ThreeBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
+                new ThreeBallAuto(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_autoChooser.addOption("Simple", new MoveAuto(m_drive));
         m_autoChooser.addOption("T_5",
-                new CCW5ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret, m_climbing));
+                new CCW5ball2022(m_drive, m_intake, m_kicker, m_vision, m_hood, m_shooter, m_turret));
         m_auto = m_autoChooser.getSelected();
 
     }
@@ -86,15 +85,9 @@ public class Robot extends TimedRobot {
                 kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
 
         // Joystick buttons
-        new JoystickButton(m_stick, 9)
-                .whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 2));
 
         new JoystickButton(m_stick, 10).whenPressed(new InstantCommand(m_intake::lower, m_intake));
         new JoystickButton(m_stick, 11).whenPressed(new InstantCommand(m_intake::raise, m_intake));
-
-
-        // new JoystickButton(m_stick, 6).whenHeld(new AutoClimbCommand(m_climbing, false, false)); //high bar climb
-        // new JoystickButton(m_stick, 7).whenHeld(new AutoClimbCommand(m_climbing, true, false)); // traversal bar climb
 
         // Joystick Trigger
 
@@ -130,18 +123,18 @@ public class Robot extends TimedRobot {
         // Controller Triggers/Bumpers
 
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
-                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, -1, false, false,
-                        !kUseColorSensor)); // shooter with PIDs and auto kicker
+                .whenHeld(new AimShootCommand(m_hood, m_turret, m_vision, m_shooter)); // shooter
+
         new Button(() -> m_controller.getRightBumper())
-                .whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, true,
-                        !kUseColorSensor)); // above with low goal
+                .whenHeld(new SequentialCommandGroup(new InstantCommand(ShootCommand::useLowGoal),
+                        new ShootCommand(m_shooter, m_vision))); // low goal
+
+        new Button(() -> m_controller.getLeftBumper())
+                .whenHeld(new AimShootMoveCommand(m_hood, m_turret, m_vision, m_shooter)); // low goal
 
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
                 .whenHeld(new IntakeCommand(m_intake, .8))
                 .whenReleased(new Intake2Command(m_intake, m_kicker, m_shooter, .8));
-
-        new Button(() -> m_controller.getLeftBumper())
-                .whileHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 3, false, false, true));
 
         // Controller Buttons
         new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(m_intake, -.3));
@@ -166,12 +159,6 @@ public class Robot extends TimedRobot {
 
         new JoystickButton(m_controller, XboxController.Button.kStart.value)
                 .whenHeld(new AutoClimbCommand(m_climbing, false, false)); // climbing auto
-        
-        new Button(() -> m_controller.getPOV() == 0).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 5, false, false, !kUseColorSensor));
-        new Button(() -> m_controller.getPOV() == 180).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 6, false, false, !kUseColorSensor));
-
-        new Button(() -> m_controller.getPOV() == 90).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 7, false, false, !kUseColorSensor));
-        new Button(() -> m_controller.getPOV() == 270).whenHeld(new AimShootCommand(m_shooter, m_kicker, m_hood, m_turret, m_vision, 7, false, false, !kUseColorSensor));
     }
 
     /**

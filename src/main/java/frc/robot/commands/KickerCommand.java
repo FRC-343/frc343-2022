@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.commands.ShootingRelatingCommands.ShootCommand;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
 

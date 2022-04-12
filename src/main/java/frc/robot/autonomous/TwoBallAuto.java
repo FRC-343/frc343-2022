@@ -4,20 +4,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.AimShootCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.PresetHoodCommand;
-import frc.robot.commands.PresetTurretCommand;
-import frc.robot.commands.driveCommands.DriveDistanceCommand;
-import frc.robot.commands.driveCommands.DriveTurnCommand;
-import frc.robot.subsystems.Climbing;
-import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Hood;
-import frc.robot.subsystems.Kicker;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
-import frc.robot.subsystems.Vision;
+import frc.robot.commands.*;
+import frc.robot.commands.ShootingRelatingCommands.*;
+import frc.robot.commands.ShootingRelatingCommands.SpecificCommands.*;
+import frc.robot.commands.driveCommands.*;
+import frc.robot.subsystems.*;
 
 public class TwoBallAuto extends SequentialCommandGroup {
 
@@ -36,13 +27,12 @@ public class TwoBallAuto extends SequentialCommandGroup {
                 // rotate
                 new ParallelDeadlineGroup(
                         new DriveTurnCommand(110, 2, drive),
-                        new AimShootCommand(shooter, kicker, hood, turret, vision, 2),
+                        new AimShootCommandAuto(hood, turret, vision, shooter),
                         new IntakeCommand(intake)),
 
                 new WaitCommand(1),
                 new ParallelDeadlineGroup(
-                        // aim
-                        new AimShootCommand(shooter, kicker, hood, turret, vision, -1, false, false, true),
+                        new AimShootCommandAuto(hood, turret, vision, shooter),
                         new IntakeCommand(intake))
 
         );
