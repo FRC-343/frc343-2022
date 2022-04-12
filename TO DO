@@ -2,6 +2,7 @@ Things to do after testing is done
 ||||||||||||||||||||||||||||||||||||||||||||||||||
 ||||||||||||||||||||||||||||||||||||||||||||||||||
 
-sysid / drive characterzation 
+move intakeCommand to Kicker including fixing the shooterCommand to work with that
 
-auto 4 with trajectories
+make AIM and SHOOT command seperate and place methods in subsystems 
+    - make command have public methods to change modes rather than having int modes and 3 booleans
