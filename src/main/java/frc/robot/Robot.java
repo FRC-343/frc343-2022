@@ -52,13 +52,10 @@ public class Robot extends TimedRobot {
 
     public Robot() {
         m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
-        m_autoChooser.addOption("2BA",
-                new TwoBallAuto());
-        m_autoChooser.addOption("3BA",
-                new ThreeBallAuto());
+        m_autoChooser.addOption("2BA", new TwoBallAuto());
+        m_autoChooser.addOption("3BA", new ThreeBallAuto());
         m_autoChooser.addOption("Simple", new MoveAuto());
-        m_autoChooser.addOption("T_5",
-                new CCW5ball2022());
+        m_autoChooser.addOption("T_5", new CCW5ball2022());
         m_auto = m_autoChooser.getSelected();
 
     }
@@ -121,18 +118,15 @@ public class Robot extends TimedRobot {
 
         // Controller Triggers/Bumpers
 
-        new Button(() -> m_controller.getRightTriggerAxis() > 0.2)
-                .whenHeld(new AimShootCommand()); // shooter
+        new Button(() -> m_controller.getRightTriggerAxis() > 0.2).whenHeld(new AimShootCommand()); // shooter
 
         new Button(() -> m_controller.getRightBumper())
                 .whenHeld(new SequentialCommandGroup(new InstantCommand(ShootCommand::useLowGoal),
                         new ShootCommand())); // low goal
 
-        new Button(() -> m_controller.getLeftBumper())
-                .whenHeld(new AimShootMoveCommand()); // low goal
+        new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootMoveCommand()); // low goal
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2)
-                .whenHeld(new IntakeCommand(.8))
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(.8))
                 .whenReleased(new Intake2Command(.8));
 
         // Controller Buttons
@@ -150,8 +144,7 @@ public class Robot extends TimedRobot {
             m_kicker.setKicker(0.0);
         }, m_kicker));
 
-        new JoystickButton(m_controller, XboxController.Button.kX.value)
-                .whenPressed(new PresetHoodCommand(0, true));
+        new JoystickButton(m_controller, XboxController.Button.kX.value).whenPressed(new PresetHoodCommand(0, true));
 
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
@@ -233,7 +226,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
     }
 
-    @Override 
+    @Override
     public void disabledInit() {
         m_vision.setLEDS(false);
     }
