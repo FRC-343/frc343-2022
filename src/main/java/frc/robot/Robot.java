@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
     public static final double kMaxClimbingSpeed = .8;
 
     public final static boolean kUseColorSensor = false;
+    public final static boolean kUseColorSensorIntake = true;
 
     private static final Compressor Pressy = new Compressor(0, PneumaticsModuleType.CTREPCM);
 

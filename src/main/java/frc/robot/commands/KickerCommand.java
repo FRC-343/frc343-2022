@@ -43,15 +43,15 @@ public class KickerCommand extends CommandBase {
             shoot(0, 0);
             m_kicker.setKicker(1.0);
         } else { // if getCellDetector()
-            if (Robot.kUseColorSensor) {
+            if (Robot.kUseColorSensorIntake) {
                 if (!m_kicker.isBadCargo()) { // if good cargo stop kicker
-                    m_kicker.setKicker(1.0);
+                    m_kicker.setKicker(0.0);
                     shoot(0, 0);
                 } else if (m_kicker.isBadCargo()) { // if bad then shoot out
                     shoot(50, -95);
                     m_kicker.setKicker(1.0);
                 }
-            } else {
+            } else { // getCellDectector: ball in chamber
                 m_kicker.setKicker(0.0);
                 shoot(0, 0);
             }
@@ -61,7 +61,6 @@ public class KickerCommand extends CommandBase {
 
     private boolean runKickerForIntake() {
         return Intake.isRunning();
-        //TODO add a timer so it keeps running for a little longer after intake
     }
 
 }
