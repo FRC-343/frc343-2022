@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 
 public class Hood extends SubsystemBase {
     private static final Hood m_instance = new Hood();
@@ -84,17 +85,17 @@ public class Hood extends SubsystemBase {
             }
 
             if (m_zeroing) {
-                m_hoodMotor.set(1.0);
+                m_hoodMotor.set(Robot.kMaxHoodSpeed);
                 m_aimed = false;
             } else {
                 if (m_hoodFront.get()) {
                     m_zeroing = true;
                     m_hoodMotor.set(0.0);
                 } else if (m_hoodEncoder.getDistance() < m_target - 75) {
-                    m_hoodMotor.set(-1.0);
+                    m_hoodMotor.set(-Robot.kMaxHoodSpeed);
                     m_aimed = false;
                 } else if (m_hoodEncoder.getDistance() > m_target + 75) {
-                    m_hoodMotor.set(1.0);
+                    m_hoodMotor.set(Robot.kMaxHoodSpeed);
                     m_aimed = false;
                 } else { // m_hoodEncoder.getDistance >m_target-100 && < m_target+200
                     m_hoodMotor.set(0.0);

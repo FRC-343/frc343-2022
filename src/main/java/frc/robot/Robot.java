@@ -26,13 +26,13 @@ import edu.wpi.first.wpilibj.Compressor;
 public class Robot extends TimedRobot {
     public static final double kMaxJoySpeed = 3.0; // meters per sec
     public static final double kMaxJoyTurn = 5.0; // radians per sec
-    public static final double kMaxHoodSpeed = 1.0; // ratio
+    public static final double kMaxHoodSpeed = 0.2; // ratio
     public static final double kMaxWinchSpeed = 1.0;
     public static final double kMaxTurretSpeed = 0.6;
     public static final double kMaxClimbingSpeed = .8;
 
     public final static boolean kUseColorSensor = false;
-    public final static boolean kUseColorSensorIntake = true;
+    public final static boolean kUseColorSensorIntake = false;
 
     private static final Compressor Pressy = new Compressor(0, PneumaticsModuleType.CTREPCM);
 
@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
 
         Pressy.enableDigital(); // compressor has to be enabled manually
 
-        // Background commands that activate themselves when ready
+        // Background commands that activate themselves when ready, these commands just run the motor when requested
         m_shooter.setDefaultCommand(new ShooterCommand());
         m_kicker.setDefaultCommand(new KickerCommand());
 
@@ -122,13 +122,11 @@ public class Robot extends TimedRobot {
         new Button(() -> m_controller.getRightTriggerAxis() > 0.2).whenHeld(new AimShootCommand()); // shooter
 
         new Button(() -> m_controller.getRightBumper())
-                .whenHeld(new SequentialCommandGroup(new InstantCommand(ShootCommand::useLowGoal),
-                        new ShootCommand())); // low goal
+                .whenHeld(new SequentialCommandGroup(new InstantCommand(ShootCommand::useLowGoal), new ShootCommand())); // low goal
 
         new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootMoveCommand()); // low goal
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new IntakeCommand(.8))
-                .whenReleased(new Intake2Command(.8));
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(70, 35));
 
         // Controller Buttons
         new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(-.3));
@@ -197,9 +195,7 @@ public class Robot extends TimedRobot {
      * This function is called periodically during autonomous.
      */
     @Override
-    public void autonomousPeriodic() {
-
-    }
+    public void autonomousPeriodic() {}
 
     /**
      * This function is called when entering operator control.
@@ -218,9 +214,7 @@ public class Robot extends TimedRobot {
      * This function is called periodically during operator control.
      */
     @Override
-    public void teleopPeriodic() {
-
-    }
+    public void teleopPeriodic() {}
 
     @Override
     public void testInit() {
