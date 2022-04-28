@@ -49,18 +49,22 @@ public class Kicker extends SubsystemBase {
 
     @Override
     public void periodic() {
-        ColorMatchResult detectedColor = m_colorMatcher.matchClosestColor(m_color.getColor());
+        try {
+            ColorMatchResult detectedColor = m_colorMatcher.matchClosestColor(m_color.getColor());
+            if (detectedColor.color == kRed) {
+                SmartDashboard.putString("color_detected", "red");
+                colorString = "Red";
+            } else if (detectedColor.color == kBlue) {
+                SmartDashboard.putString("color_detected", "blue");
+                colorString = "Blue";
 
-        if (detectedColor.color == kRed) {
-            SmartDashboard.putString("color_detected", "red");
-            colorString = "Red";
-        } else if (detectedColor.color == kBlue) {
-            SmartDashboard.putString("color_detected", "blue");
-            colorString = "Blue";
+            } else {
+                SmartDashboard.putString("color_detected", "None Colors there be");
+                colorString = "";
+            }
 
-        } else {
-            SmartDashboard.putString("color_detected", "None Colors there be");
-            colorString = "";
+        } catch (NullPointerException e) {
+            System.err.println(e);
         }
 
         String s = m_color.getRed() + ", " + m_color.getGreen() + ", " + m_color.getBlue();
