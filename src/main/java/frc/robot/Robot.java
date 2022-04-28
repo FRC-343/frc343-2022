@@ -95,6 +95,8 @@ public class Robot extends TimedRobot {
 
         new JoystickButton(m_stick, 3).whenPressed(new PresetTurretCommand(110));
 
+        new JoystickButton(m_stick, 8).whenHeld(new RunCommand(m_vision::killYourEnimiesViaLEDS)).whenReleased(new RunCommand(() -> m_vision.setLEDS(true)));
+
         new JoystickButton(m_stick, 4).whenHeld(new RunCommand(() -> {
             m_turret.spin(-kMaxTurretSpeed);
         }, m_turret)).whenReleased(new RunCommand(() -> {
