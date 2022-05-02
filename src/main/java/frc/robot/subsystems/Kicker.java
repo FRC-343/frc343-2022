@@ -34,6 +34,7 @@ public class Kicker extends SubsystemBase {
     private String colorString = "";
 
     public Kicker() {
+
         m_kicker.setInverted(true);
 
         SendableRegistry.setSubsystem(m_kicker, this.getClass().getSimpleName());
@@ -61,11 +62,9 @@ public class Kicker extends SubsystemBase {
             kickerForIntake();
         } else {
             setKicker(0);
-            ;
         }
 
         // color sensor things
-
         ColorMatchResult detectedColor = m_colorMatcher.matchClosestColor(m_color.getColor());
         if (detectedColor.color == kRed) {
             SmartDashboard.putString("color_detected", "red");
@@ -77,9 +76,6 @@ public class Kicker extends SubsystemBase {
             SmartDashboard.putString("color_detected", "None Colors there be");
             colorString = "";
         }
-
-        String s = m_color.getRed() + ", " + m_color.getGreen() + ", " + m_color.getBlue();
-        SmartDashboard.putString("raw color", s);
 
     }
 
