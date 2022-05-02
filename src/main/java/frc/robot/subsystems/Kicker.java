@@ -13,9 +13,12 @@ import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
+import frc.robot.commands.ShootingRelatingCommands.ShootCommand;
 
 public class Kicker extends SubsystemBase {
     private static final Kicker m_instance = new Kicker();
+    public static double activateShooter[] = { 0, 0 }; // bottom speed, top speed
 
     private final Spark m_kicker = new Spark(4);
 
@@ -49,6 +52,19 @@ public class Kicker extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        //running kicker motor
+
+        if (ShootCommand.activateKicker != 0) {
+            setKicker(ShootCommand.activateKicker);
+        } else if (runKickerForIntake()) {
+            kickerForIntake();
+        } else {
+            setKicker(0);;
+        }
+
+        //color sensor things
+
         try{
             ColorMatchResult detectedColor = m_colorMatcher.matchClosestColor(m_color.getColor());
             if (detectedColor.color == kRed) {
@@ -90,4 +106,34 @@ public class Kicker extends SubsystemBase {
         return m_cellDetector.get();
     }
 
+    private void shoot(double bottom, double top) {
+        activateShooter[0] = bottom;
+        activateShooter[1] = top;
+
+    }
+
+    private void kickerForIntake() {
+        if (!getCellDetector()) { // if no ball is in chamber run the kicker so it goes into chanber // room for the 2nd ball in the hopper
+            shoot(0, 0);
+            setKicker(1.0);
+        } else { // if getCellDetector()
+            if (Robot.kUseColorSensorIntake) {
+                if (!isBadCargo()) { // if good cargo stop kicker
+                    setKicker(0.0);
+                    shoot(0, 0);
+                } else if (isBadCargo()) { // if bad then shoot out
+                    shoot(50, -95);
+                    setKicker(1.0);
+                }
+            } else { // getCellDectector: ball in chamber
+                setKicker(0.0);
+                shoot(0, 0);
+            }
+        }
+
+    }
+
+    private boolean runKickerForIntake() {
+        return Intake.isRunning();
+    }
 }

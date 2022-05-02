@@ -9,10 +9,6 @@ public class IntakeCommand extends CommandBase {
     private double kIntakeSpeed;
     private boolean m_raise;
 
-    public static boolean activateKicker = false;
-
-    public static double activateShooter[] = { 0, 0 };
-
     public IntakeCommand(double intakeSpeed, boolean raise) {
         m_intake = Intake.getInstance();
         kIntakeSpeed = intakeSpeed;

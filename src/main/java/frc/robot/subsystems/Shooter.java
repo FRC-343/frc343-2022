@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.ShootingRelatingCommands.ShootCommand;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -63,6 +64,14 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
+        //determiming when to run shooter
+        if (ShootCommand.activateShooter[0] != 0 || ShootCommand.activateShooter[1] != 0) {
+            shoot(ShootCommand.activateShooter[0], ShootCommand.activateShooter[1]);
+        } else if (Kicker.activateShooter[0] != 0 || Kicker.activateShooter[1] != 0) {
+            shoot(Kicker.activateShooter[0], Kicker.activateShooter[1]);
+        } else {
+            shoot(0);
+        }
         if (m_bottomSpeed > 0.01 || m_bottomSpeed < -0.01) {
             double shooterFeedforward = m_shooterFeedforward.calculate(m_bottomSpeed);
             double shooterPIDOutput = m_shooterPIDController.calculate(getBottomShooterRPS(), m_bottomSpeed);
@@ -72,6 +81,8 @@ public class Shooter extends SubsystemBase {
         } else {
             m_bottomShooter.setVoltage(0.0);
         }
+    
+        //PID and feed forward when running shooter
 
         if (m_topSpeed > 0.01 || m_topSpeed < -0.01) {
             double shooterFeedforward = m_shooterFeedforward.calculate(m_topSpeed);
