@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Timer;
 
 import com.revrobotics.ColorSensorV3;
 
@@ -23,7 +24,10 @@ public class Kicker extends SubsystemBase {
 
     private final ColorSensorV3 m_color = new ColorSensorV3(I2C.Port.kOnboard);
 
+    private final double kMinColorRatio = 1.3;
     private String colorString = "";
+
+    private Timer t = new Timer();
 
     public Kicker() {
         m_kicker.setInverted(true);
@@ -50,13 +54,14 @@ public class Kicker extends SubsystemBase {
             kickerForIntake();
         } else {
             setKicker(0);
+            shoot(0, 0);
         }
 
         // color sensor things
-        if (m_color.getRed() / m_color.getBlue() > 1.5) {
+        if (m_color.getRed() / m_color.getBlue() > kMinColorRatio) {
             SmartDashboard.putString("color_detected", "red");
             colorString = "Red";
-        } else if (m_color.getBlue() / m_color.getRed() > 1.5) {
+        } else if (m_color.getBlue() / m_color.getRed() > kMinColorRatio) {
             SmartDashboard.putString("color_detected", "blue");
             colorString = "Blue";
         } else {
@@ -64,6 +69,7 @@ public class Kicker extends SubsystemBase {
             colorString = "";
         }
 
+        isRecentlyBadCargo();
     }
 
     public void setKicker(double speed) {
@@ -82,8 +88,20 @@ public class Kicker extends SubsystemBase {
         return value;
     }
 
+    public boolean isRecentlyBadCargo() {
+        if (isBadCargo()) {
+            t.start();
+            t.reset();
+        }
+        if (t.get() < .5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean getCellDetector() {
-        return m_cellDetector.get();
+        return m_cellDetector.get(); // true = ball in chamber
     }
 
     private void shoot(double bottom, double top) {
@@ -98,12 +116,12 @@ public class Kicker extends SubsystemBase {
             setKicker(1.0);
         } else { // if getCellDetector()
             if (Robot.kUseColorSensorIntake) {
-                if (!isBadCargo()) { // if good cargo stop kicker
+                if (isBadCargo() || isRecentlyBadCargo()) { // if bad cargo shoot out
+                    shoot(40, -70);
+                    setKicker(1.0);
+                } else { // if good, then stop cargo
                     setKicker(0.0);
                     shoot(0, 0);
-                } else if (isBadCargo()) { // if bad then shoot out
-                    shoot(50, -95);
-                    setKicker(1.0);
                 }
             } else { // getCellDectector: ball in chamber
                 setKicker(0.0);
