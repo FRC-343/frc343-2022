@@ -53,32 +53,29 @@ public class Kicker extends SubsystemBase {
     @Override
     public void periodic() {
 
-        //running kicker motor
+        // running kicker motor
 
         if (ShootCommand.activateKicker != 0) {
             setKicker(ShootCommand.activateKicker);
         } else if (runKickerForIntake()) {
             kickerForIntake();
         } else {
-            setKicker(0);;
+            setKicker(0);
+            ;
         }
 
-        //color sensor things
+        // color sensor things
 
-        try{
-            ColorMatchResult detectedColor = m_colorMatcher.matchClosestColor(m_color.getColor());
-            if (detectedColor.color == kRed) {
-                SmartDashboard.putString("color_detected", "red");
-                colorString = "Red";
-            } else if (detectedColor.color == kBlue) {
-                SmartDashboard.putString("color_detected", "blue");
-                colorString = "Blue";
-            } else {
-                SmartDashboard.putString("color_detected", "None Colors there be");
-                colorString = "";
-            }
-        } 
-        catch (NullPointerException e) {
+        ColorMatchResult detectedColor = m_colorMatcher.matchClosestColor(m_color.getColor());
+        if (detectedColor.color == kRed) {
+            SmartDashboard.putString("color_detected", "red");
+            colorString = "Red";
+        } else if (detectedColor.color == kBlue) {
+            SmartDashboard.putString("color_detected", "blue");
+            colorString = "Blue";
+        } else {
+            SmartDashboard.putString("color_detected", "None Colors there be");
+            colorString = "";
         }
 
         String s = m_color.getRed() + ", " + m_color.getGreen() + ", " + m_color.getBlue();

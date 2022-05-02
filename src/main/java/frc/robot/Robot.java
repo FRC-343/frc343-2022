@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     public static final double kMaxClimbingSpeed = .8;
 
     public final static boolean kUseColorSensor = false;
-    public final static boolean kUseColorSensorIntake = false;
+    public final static boolean kUseColorSensorIntake = true;
 
     private static final Compressor Pressy = new Compressor(0, PneumaticsModuleType.CTREPCM);
 
@@ -92,18 +92,6 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 3).whenPressed(new PresetTurretCommand(110));
 
         new JoystickButton(m_stick, 8).whenHeld(new RunCommand(m_vision::killYourEnimiesViaLEDS)).whenReleased(new RunCommand(() -> m_vision.setLEDS(true)));
-
-        new JoystickButton(m_stick, 4).whenHeld(new RunCommand(() -> {
-            m_turret.spin(-kMaxTurretSpeed);
-        }, m_turret)).whenReleased(new RunCommand(() -> {
-            m_turret.stop();
-        }, m_turret));
-
-        new JoystickButton(m_stick, 5).whenHeld(new RunCommand(() -> {
-            m_turret.spin(kMaxTurretSpeed);
-        }, m_turret)).whenReleased(new RunCommand(() -> {
-            m_turret.stop();
-        }, m_turret));
 
         // Controller joysticks
         m_hood.setDefaultCommand(
