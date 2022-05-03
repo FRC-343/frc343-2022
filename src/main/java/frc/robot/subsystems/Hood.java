@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -92,12 +92,16 @@ public class Hood extends SubsystemBase {
                     m_zeroing = true;
                     m_hoodMotor.set(0.0);
                 } else if (m_hoodEncoder.getDistance() < m_target - 75) {
-                    m_hoodMotor.set(-Robot.kMaxHoodSpeed);
+                    double error = m_hoodEncoder.getDistance() - m_target; // this will be negative
+                    double speed = error * 0.000444 -.1556;
+                    m_hoodMotor.set(MathUtil.clamp(speed, -.2, -.4));
                     m_aimed = false;
                 } else if (m_hoodEncoder.getDistance() > m_target + 75) {
-                    m_hoodMotor.set(Robot.kMaxHoodSpeed);
+                    double error = m_hoodEncoder.getDistance() - m_target; // this will be positev
+                    double speed = error * 0.000444 -.1556;
+                    m_hoodMotor.set(MathUtil.clamp(speed, .2, .4));
                     m_aimed = false;
-                } else { // m_hoodEncoder.getDistance >m_target-100 && < m_target+200
+                } else { // m_hoodEncoder.getDistance >m_target-75 && < m_target+75
                     m_hoodMotor.set(0.0);
                     m_aimed = true;
                 }
