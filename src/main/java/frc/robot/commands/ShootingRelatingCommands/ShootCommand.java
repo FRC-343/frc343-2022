@@ -2,6 +2,7 @@ package frc.robot.commands.ShootingRelatingCommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
 public class ShootCommand extends CommandBase {
@@ -13,6 +14,9 @@ public class ShootCommand extends CommandBase {
 
     private final Shooter m_shooter;
     private final Vision m_vision;
+    private final Kicker m_kicker;
+
+    private static final double lowGoalSpeed[] = { 21, 11 }; // bottom wheel, top wheel
 
     private double y; // ty from limelight
     private double v; // tv from limelight, # = # of targets
@@ -35,9 +39,10 @@ public class ShootCommand extends CommandBase {
     public ShootCommand() {
 
         m_shooter = Shooter.getInstance();
+        m_kicker = Kicker.getInstance();
         m_vision = Vision.getInstance();
 
-        addRequirements(); // vision and shooter don't run any motors, they just grabs values
+        addRequirements(); // vision, shooter, and kicker don't run any motors, they just grabs values
 
         refreshAimValues();
 
@@ -58,12 +63,16 @@ public class ShootCommand extends CommandBase {
     public void execute() {
         refreshAimValues();
 
-        if (useVariableSpeed) {
-            setShooterSpeed(getShooterSpeed());
-        } else {
-            setShooterSpeed(shooterDesiredSpeed[0], shooterDesiredSpeed[1]);
+        if (Robot.kUseColorSensor && (m_kicker.isBadCargo() || m_kicker.isRecentlyBadCargo(.3))) { // if bad cargo
+            ejectBadCargo();
+        } else { // good carg
+            if (useVariableSpeed) {
+                setShooterSpeed(getShooterSpeed());
+            } else {
+                setShooterSpeed(shooterDesiredSpeed[0], shooterDesiredSpeed[1]);
+            }
+            shootShooter();
         }
-        shootShooter();
 
     }
 
@@ -94,7 +103,7 @@ public class ShootCommand extends CommandBase {
         boolean h = AimCommand.isHoodAimed();
 
         if ((w == 0) || (w == 1 && a) || (w == 2 && t) || (w == 3 && h)) {
-            shootActivateKicker();
+            shootActivateKicker(); // accounts for shooter wheel speed
         } else {
             activateKicker = 0;
         }
@@ -153,7 +162,21 @@ public class ShootCommand extends CommandBase {
         y = m_vision.getTy();
     }
 
-    //Settings called before calling shootCommand
+    public void ejectBadCargo() {
+        if (shooterDesiredSpeed == lowGoalSpeed) { // low goal
+            shoot(50, 50); // give it more power
+            if (m_shooter.getBottomShooterRPS() > 30 && m_shooter.getTopShooterRPS() > 30) {
+                activateKicker = 1;
+            }
+        } else { //not low goal
+            shoot(20, 20); // less power
+            if (m_shooter.getBottomShooterRPS() < 40 && m_shooter.getTopShooterRPS() < 40) {
+                activateKicker = 1;
+            }
+        }
+    }
+
+    // Settings called before calling shootCommand
     public static void useStandardAutoAim() {
         useVariableSpeed = true;
         waitForAim = 1; // true
@@ -168,10 +191,10 @@ public class ShootCommand extends CommandBase {
 
     public static void useLowGoal() {
         useVariableSpeed = false;
-        shooterDesiredSpeed[0] = 23;
-        shooterDesiredSpeed[1] = 11;
+        shooterDesiredSpeed = lowGoalSpeed;
         waitForAim = 0;
         stopShooterAfterTime = false;
+
     }
 
     public static void useCustom(boolean useVarSpeed, double bottomSpeed, double topSpeed, int waitAim,

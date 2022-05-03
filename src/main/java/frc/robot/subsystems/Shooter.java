@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
         //determiming when to run shooter
         if (ShootCommand.activateShooter[0] != 0 || ShootCommand.activateShooter[1] != 0) {
             shoot(ShootCommand.activateShooter[0], ShootCommand.activateShooter[1]);
-        } else if (Kicker.activateShooter[0] != 0 || Kicker.activateShooter[1] != 0) {
+        } else if (Kicker.activateShooter[0] != 0 || Kicker.activateShooter[1] != 0) { // eject while intaking
             shoot(Kicker.activateShooter[0], Kicker.activateShooter[1]);
         } else {
             shoot(0);

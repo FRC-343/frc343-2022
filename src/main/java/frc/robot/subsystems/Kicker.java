@@ -27,7 +27,8 @@ public class Kicker extends SubsystemBase {
     private final double kMinColorRatio = 1.3;
     private String colorString = "";
 
-    private Timer t = new Timer();
+    private Timer timerBadCargo = new Timer();
+    private Timer timerIntake = new Timer();
 
     public Kicker() {
         m_kicker.setInverted(true);
@@ -47,10 +48,11 @@ public class Kicker extends SubsystemBase {
     public void periodic() {
 
         // running kicker motor
-
-        if (ShootCommand.activateKicker != 0) {
+        if (Robot.activateKicker != 0) {// manual control
+            setKicker(Robot.activateKicker);
+        } else if (ShootCommand.activateKicker != 0) { // shooter is ready
             setKicker(ShootCommand.activateKicker);
-        } else if (runKickerForIntake()) {
+        } else if (runKickerForIntake()) { // kicker for intake
             kickerForIntake();
         } else {
             setKicker(0);
@@ -58,18 +60,24 @@ public class Kicker extends SubsystemBase {
         }
 
         // color sensor things
-        if (m_color.getRed() / m_color.getBlue() > kMinColorRatio) {
-            SmartDashboard.putString("color_detected", "red");
-            colorString = "Red";
-        } else if (m_color.getBlue() / m_color.getRed() > kMinColorRatio) {
-            SmartDashboard.putString("color_detected", "blue");
-            colorString = "Blue";
+        if (m_color.getRed() != 0 && m_color.getBlue() != 0) {
+            if (m_color.getRed() / m_color.getBlue() > kMinColorRatio) {
+                SmartDashboard.putString("color_detected", "red");
+                colorString = "Red";
+            } else if (m_color.getBlue() / m_color.getRed() > kMinColorRatio) {
+                SmartDashboard.putString("color_detected", "blue");
+                colorString = "Blue";
+            } else {
+                SmartDashboard.putString("color_detected", "None Colors there be");
+                colorString = "";
+            }
         } else {
-            SmartDashboard.putString("color_detected", "None Colors there be");
+            SmartDashboard.putString("color_detected", "color sensor is color blind");
             colorString = "";
         }
 
-        isRecentlyBadCargo();
+        isRecentlyBadCargo(); // make sure the timers are triggered
+        recentlyRunningIntake(4);
     }
 
     public void setKicker(double speed) {
@@ -88,16 +96,20 @@ public class Kicker extends SubsystemBase {
         return value;
     }
 
-    public boolean isRecentlyBadCargo() {
+    public boolean isRecentlyBadCargo(double time) {
         if (isBadCargo()) {
-            t.start();
-            t.reset();
+            timerBadCargo.start();
+            timerBadCargo.reset();
         }
-        if (t.get() < .5) {
+        if (timerBadCargo.get() < time) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public boolean isRecentlyBadCargo() {
+        return isRecentlyBadCargo(.5);
     }
 
     public boolean getCellDetector() {
@@ -132,6 +144,19 @@ public class Kicker extends SubsystemBase {
     }
 
     private boolean runKickerForIntake() {
-        return Intake.isRunning();
+        return Intake.isRunning() || recentlyRunningIntake(4);
+    }
+
+    private boolean recentlyRunningIntake(double time) {
+        if (Intake.isRunning()) {
+            timerIntake.start();
+            timerIntake.reset();
+        }
+        if (timerIntake.get() < time) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }

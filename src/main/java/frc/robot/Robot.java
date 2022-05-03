@@ -31,25 +31,26 @@ public class Robot extends TimedRobot {
     public static final double kMaxTurretSpeed = 0.6;
     public static final double kMaxClimbingSpeed = .8;
 
-    public final static boolean kUseColorSensor = false;
+    public final static boolean kUseColorSensor = true;
     public final static boolean kUseColorSensorIntake = true;
 
     private static final Compressor Pressy = new Compressor(0, PneumaticsModuleType.CTREPCM);
 
     private final Drive m_drive = Drive.getInstance();
     private final Hood m_hood = Hood.getInstance();
-    private final Shooter m_shooter = Shooter.getInstance();
     private final Vision m_vision = Vision.getInstance();
     private final Turret m_turret = Turret.getInstance();
-    private final Kicker m_kicker = Kicker.getInstance();
     private final Intake m_intake = Intake.getInstance();
     private final Climbing m_climbing = Climbing.getInstance();
+    // shooter and kicker exist also, but are not needed in this file. They are still created though because other commands call the getInstance() method
 
     private final XboxController m_controller = new XboxController(1);
     private final Joystick m_stick = new Joystick(0);
 
     private CommandBase m_auto;
     private final SendableChooser<CommandBase> m_autoChooser = new SendableChooser<CommandBase>();
+
+    public static double activateKicker = 0;
 
     public Robot() {
         m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
@@ -58,7 +59,6 @@ public class Robot extends TimedRobot {
         m_autoChooser.addOption("Simple", new MoveAuto());
         m_autoChooser.addOption("T_5", new CCW5ball2022());
         m_auto = m_autoChooser.getSelected();
-
     }
 
     /**
@@ -73,6 +73,7 @@ public class Robot extends TimedRobot {
         Pressy.enableDigital(); // compressor has to be enabled manually
 
         // Joystick
+
         m_drive.setDefaultCommand(new RunCommand(() -> m_drive.drive(kMaxJoySpeed *
                 MiscMath.deadband(-m_stick.getY()),
                 kMaxJoyTurn * MiscMath.deadband(-m_stick.getX())), m_drive));
@@ -87,13 +88,15 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 1).whenHeld(new IntakeCommand(.8))
                 .whenReleased(new Intake2Command(.8));
 
-        // Other Joystick Buttons (turret Presets)
+        // Other Joystick Buttons
 
         new JoystickButton(m_stick, 3).whenPressed(new PresetTurretCommand(110));
 
-        new JoystickButton(m_stick, 8).whenHeld(new RunCommand(m_vision::killYourEnimiesViaLEDS)).whenReleased(new RunCommand(() -> m_vision.setLEDS(true)));
+        new JoystickButton(m_stick, 8).whenHeld(new RunCommand(m_vision::killYourEnimiesViaLEDS))
+                .whenReleased(new RunCommand(() -> m_vision.setLEDS(true)));
 
         // Controller joysticks
+
         m_hood.setDefaultCommand(
                 new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getRightY()), m_hood));
 
@@ -115,19 +118,8 @@ public class Robot extends TimedRobot {
         new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(70, 35));
 
         // Controller Buttons
+
         new Button(() -> m_controller.getYButton()).whenHeld(new IntakeCommand(-.3));
-
-        new JoystickButton(m_controller, XboxController.Button.kA.value).whenPressed(new RunCommand(() -> {
-            m_kicker.setKicker(1.0);
-        }, m_kicker)).whenReleased(new RunCommand(() -> {
-            m_kicker.setKicker(0.0);
-        }, m_kicker));
-
-        new JoystickButton(m_controller, XboxController.Button.kB.value).whenPressed(new RunCommand(() -> {
-            m_kicker.setKicker(-1.0);
-        }, m_kicker)).whenReleased(new RunCommand(() -> {
-            m_kicker.setKicker(0.0);
-        }, m_kicker));
 
         new JoystickButton(m_controller, XboxController.Button.kX.value).whenPressed(new PresetHoodCommand(0, true));
 
@@ -136,6 +128,16 @@ public class Robot extends TimedRobot {
 
         new JoystickButton(m_controller, XboxController.Button.kStart.value)
                 .whenHeld(new AutoClimbCommand(false, false)); // climbing auto
+
+        // these two commands are weird, "activateKicker" is public, kicker subsystem will activate kicker based off of that var
+        // this way manual control always overrides other things that are happening with the kicker
+        new JoystickButton(m_controller, XboxController.Button.kA.value)
+                .whenPressed(new RunCommand(() -> activateKicker = 1))
+                .whenReleased(new RunCommand(() -> activateKicker = 0));
+
+        new JoystickButton(m_controller, XboxController.Button.kB.value)
+                .whenPressed(new RunCommand(() -> activateKicker = -1))
+                .whenReleased(new RunCommand(() -> activateKicker = 0));
     }
 
     /**
@@ -181,7 +183,8 @@ public class Robot extends TimedRobot {
      * This function is called periodically during autonomous.
      */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+    }
 
     /**
      * This function is called when entering operator control.
@@ -200,7 +203,8 @@ public class Robot extends TimedRobot {
      * This function is called periodically during operator control.
      */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+    }
 
     @Override
     public void testInit() {
@@ -209,6 +213,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        m_vision.setLEDS(false);
+    }
+
+    @Override
+    public void disabledPeriodic() {
         m_vision.setLEDS(false);
     }
 

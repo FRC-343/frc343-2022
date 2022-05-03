@@ -1,5 +1,6 @@
 package frc.robot.commands.ShootingRelatingCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
@@ -18,6 +19,7 @@ public class AimCommand extends CommandBase {
     private double x;
     private double y;
     private double v;
+    private double vert;
 
     private static boolean isHoodAimed = false;
     private static boolean isTurretAimed = false;
@@ -81,7 +83,10 @@ public class AimCommand extends CommandBase {
     private void refreshAimValues() {
         x = m_vision.getTx();
         v = m_vision.getTv();
-        y = m_vision.getTy(); // put distance formula in here later
+        y = m_vision.getTy();
+        vert = m_vision.getTvert();
+
+        SmartDashboard.putNumber("Tvert", vert);
     }
 
     private void refreshIsAimedValues() { // have to use the static values since isAimed needs to be static to access in ShootCommand

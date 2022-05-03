@@ -32,6 +32,10 @@ public class Vision extends SubsystemBase {
         return table.getEntry("thor").getDouble(0.0);
     }
 
+    public double getTvert() { // the vertical number of pixels
+        return table.getEntry("tvert").getDouble(0.0);
+    }
+
     public boolean isAimed(double precision) {
         return Math.abs(getTx()) < precision;
     }
