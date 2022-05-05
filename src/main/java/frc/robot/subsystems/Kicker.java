@@ -56,7 +56,6 @@ public class Kicker extends SubsystemBase {
             kickerForIntake();
         } else {
             setKicker(0);
-            shoot(0, 0);
         }
 
         // color sensor things

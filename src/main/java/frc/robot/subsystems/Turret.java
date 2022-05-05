@@ -73,7 +73,7 @@ public class Turret extends SubsystemBase {
     }
 
     public void aim(double target) { 
-        aim(target);
+        aim(target, false);
     }
 
     @Override

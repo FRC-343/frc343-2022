@@ -113,9 +113,9 @@ public class Robot extends TimedRobot {
         new Button(() -> m_controller.getRightBumper())
                 .whenHeld(new SequentialCommandGroup(new InstantCommand(ShootCommand::useLowGoal), new ShootCommand())); // low goal
 
-        new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootMoveCommand()); // low goal
+        new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootMoveCommand()); // Orbit
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(70, 35));
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(70, 35)); //set speed
 
         // Controller Buttons
 
