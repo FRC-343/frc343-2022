@@ -143,7 +143,7 @@ public class Kicker extends SubsystemBase {
     }
 
     private boolean runKickerForIntake() {
-        return Intake.isRunning() || recentlyRunningIntake(4);
+        return Intake.isRunning()/* || recentlyRunningIntake(4)*/;
     }
 
     private boolean recentlyRunningIntake(double time) {
