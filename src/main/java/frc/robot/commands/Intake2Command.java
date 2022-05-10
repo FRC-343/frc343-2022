@@ -3,25 +3,25 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Kicker;
-import frc.robot.subsystems.Shooter;
 
 public class Intake2Command extends CommandBase {
     private final Intake m_intake;
-    private final Kicker m_kicker;
-    private final Shooter m_shooter;
     private final Timer t;
 
-    private double kIntakeSpeed;
+    private final double time;
+    private final double kIntakeSpeed;
 
-    public Intake2Command(double intakeSpeed) {
+    public Intake2Command(double intakeSpeed, double time) {
         m_intake = Intake.getInstance();
-        m_kicker = Kicker.getInstance();
-        m_shooter = Shooter.getInstance();
-        addRequirements(m_intake, m_kicker, m_shooter);
+        addRequirements(m_intake);
 
         kIntakeSpeed = intakeSpeed;
         t = new Timer();
+        this.time = time; // time to run the intake 
+    }
+
+    public Intake2Command(double intakeSpeed) {
+        this(intakeSpeed, Math.sqrt(2) / 2); //defaults time to this
     }
 
     public Intake2Command() {
@@ -50,7 +50,7 @@ public class Intake2Command extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (t.get() >= (Math.sqrt(2) / 2)) { // no comet // no comment
+        if (t.get() >= time) {
             return true;
         } else {
             return false;

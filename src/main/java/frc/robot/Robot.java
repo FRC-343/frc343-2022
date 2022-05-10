@@ -31,10 +31,9 @@ public class Robot extends TimedRobot {
     public static final double kMaxTurretSpeed = 0.6;
     public static final double kMaxClimbingSpeed = .8;
 
-    public final static boolean kUseColorSensor = true;
-    public final static boolean kUseColorSensorIntake = true;
-
     private static final Compressor Pressy = new Compressor(0, PneumaticsModuleType.CTREPCM);
+
+    public static double activateKicker = 0;
 
     private final Drive m_drive = Drive.getInstance();
     private final Hood m_hood = Hood.getInstance();
@@ -50,7 +49,11 @@ public class Robot extends TimedRobot {
     private CommandBase m_auto;
     private final SendableChooser<CommandBase> m_autoChooser = new SendableChooser<CommandBase>();
 
-    public static double activateKicker = 0;
+    private final SendableChooser<Boolean> m_colorSensorIntakeChooser = new SendableChooser<>();
+    private final SendableChooser<Boolean> m_colorSensorShooterChooser = new SendableChooser<>();
+
+    public static boolean kUseColorSensor = true;
+    public static boolean kUseColorSensorIntake = true;
 
     public Robot() {
         m_autoChooser.setDefaultOption("No_Auto", new NoAutonomous());
@@ -58,7 +61,12 @@ public class Robot extends TimedRobot {
         m_autoChooser.addOption("3BA", new ThreeBallAuto());
         m_autoChooser.addOption("Simple", new MoveAuto());
         m_autoChooser.addOption("T_5", new CCW5ball2022());
-        m_auto = m_autoChooser.getSelected();
+
+        m_colorSensorIntakeChooser.setDefaultOption("Intake color on", true);
+        m_colorSensorIntakeChooser.addOption("Intake color off", false);
+
+        m_colorSensorShooterChooser.setDefaultOption("Shooter color on", true);
+        m_colorSensorShooterChooser.addOption("Shooter color off", false);
     }
 
     /**
@@ -69,6 +77,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
 
         SmartDashboard.putData("Auto_Choice", m_autoChooser);
+        SmartDashboard.putData("Color Intake", m_colorSensorIntakeChooser);
+        SmartDashboard.putData("Color Shooter", m_colorSensorShooterChooser);
 
         Pressy.enableDigital(); // compressor has to be enabled manually
 
@@ -152,6 +162,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        
+        kUseColorSensorIntake = m_colorSensorIntakeChooser.getSelected(); 
+        kUseColorSensor = m_colorSensorShooterChooser.getSelected();
     }
 
     /**

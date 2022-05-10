@@ -28,7 +28,6 @@ public class Kicker extends SubsystemBase {
     private String colorString = "";
 
     private Timer timerBadCargo = new Timer();
-    private Timer timerIntake = new Timer();
 
     public Kicker() {
         m_kicker.setInverted(true);
@@ -52,7 +51,7 @@ public class Kicker extends SubsystemBase {
             setKicker(Robot.activateKicker);
         } else if (ShootCommand.activateKicker != 0) { // shooter is ready
             setKicker(ShootCommand.activateKicker);
-        } else if (runKickerForIntake()) { // kicker for intake
+        } else if (Intake.isRunning()) { // kicker for intake
             kickerForIntake();
         } else {
             setKicker(0);
@@ -75,8 +74,7 @@ public class Kicker extends SubsystemBase {
             colorString = "";
         }
 
-        isRecentlyBadCargo(); // make sure the timers are triggered
-        recentlyRunningIntake(4);
+        isRecentlyBadCargo(); // make sure the timer is triggered
     }
 
     public void setKicker(double speed) {
@@ -128,7 +126,7 @@ public class Kicker extends SubsystemBase {
         } else { // if getCellDetector()
             if (Robot.kUseColorSensorIntake) {
                 if (isBadCargo() || isRecentlyBadCargo()) { // if bad cargo shoot out
-                    shoot(40, -70);
+                    shoot(40, -80);
                     setKicker(1.0);
                 } else { // if good, then stop cargo
                     setKicker(0.0);
@@ -142,20 +140,4 @@ public class Kicker extends SubsystemBase {
 
     }
 
-    private boolean runKickerForIntake() {
-        return Intake.isRunning()/* || recentlyRunningIntake(4)*/;
-    }
-
-    private boolean recentlyRunningIntake(double time) {
-        if (Intake.isRunning()) {
-            timerIntake.start();
-            timerIntake.reset();
-        }
-        if (timerIntake.get() < time) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
 }
