@@ -8,9 +8,7 @@ import frc.robot.subsystems.*;
 public class ShootCommand extends CommandBase {
     // in Rev/Sec
     private double kTopShootSpeed;
-    private double kTopShootReadySpeed;
     private double kBottomShootSpeed;
-    private double kBottomShootReadySpeed;
 
     private final Shooter m_shooter;
     private final Vision m_vision;
@@ -115,8 +113,8 @@ public class ShootCommand extends CommandBase {
     }
 
     private void shootActivateKicker() {
-        if (m_shooter.getBottomShooterRPS() >= kBottomShootReadySpeed
-                && m_shooter.getTopShooterRPS() >= kTopShootReadySpeed) {
+        if (m_shooter.getBottomShooterRPS() > kBottomShootSpeed - 5.0 && m_shooter.getBottomShooterRPS() < kBottomShootSpeed + 5.0
+                && m_shooter.getTopShooterRPS() > kTopShootSpeed - 5.0 && m_shooter.getTopShooterRPS() < kBottomShootSpeed + 5.0) {
             activateKicker = 1;
         } else {
             activateKicker = 0;
@@ -124,17 +122,8 @@ public class ShootCommand extends CommandBase {
     }
 
     private void setShooterSpeed(double bottomspeed, double topSpeed) {
-        kBottomShootReadySpeed = bottomspeed;
-        kTopShootReadySpeed = topSpeed;
-
-        // TODO all this should change so it works better (shooter characterization)
-        if (kBottomShootReadySpeed <= 70) {
-            kBottomShootSpeed = kBottomShootReadySpeed * (8.0 / 7); // bottom speed = 1/7 more than bottom ready speed, 80 rps
-        } else { // kBottomShootReadySpeed > 70
-            kBottomShootSpeed = kBottomShootReadySpeed * 1.2; // higher value so the ready speed will reach the speed it is aiming for
-        }
-
-        kTopShootSpeed = kTopShootReadySpeed * (8.0 / 7); // top speed = 1/7 more than top ready speed, 40 rps
+        kBottomShootSpeed = bottomspeed;
+        kTopShootSpeed = topSpeed;
     }
 
     private void setShooterSpeed(double speed) {
@@ -165,12 +154,12 @@ public class ShootCommand extends CommandBase {
     public void ejectBadCargo() {
         if (shooterDesiredSpeed == lowGoalSpeed) { // low goal
             shoot(50, 50); // give it more power
-            if (m_shooter.getBottomShooterRPS() > 30 && m_shooter.getTopShooterRPS() > 30) {
+            if (m_shooter.getBottomShooterRPS() > 30.0 && m_shooter.getTopShooterRPS() > 30.0) {
                 activateKicker = 1;
             }
         } else { //not low goal
             shoot(20, 20); // less power
-            if (m_shooter.getBottomShooterRPS() < 40 && m_shooter.getTopShooterRPS() < 40) {
+            if (m_shooter.getBottomShooterRPS() < 40.0 && m_shooter.getTopShooterRPS() < 40.0) {
                 activateKicker = 1;
             }
         }

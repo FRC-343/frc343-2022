@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
         // Controller joysticks
 
         m_hood.setDefaultCommand(
-                new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getRightY()), m_hood));
+                new RunCommand(() -> m_hood.move(.8 * m_controller.getRightY()), m_hood));
 
         m_turret.setDefaultCommand(
                 new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
@@ -125,7 +125,7 @@ public class Robot extends TimedRobot {
 
         new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootMoveCommand()); // Orbit
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(70, 35)); //set speed
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(60, 70)); //set speed
 
         // Controller Buttons
 
@@ -142,12 +142,12 @@ public class Robot extends TimedRobot {
         // these two commands are weird, "activateKicker" is public, kicker subsystem will activate kicker based off of that var
         // this way manual control always overrides other things that are happening with the kicker
         new JoystickButton(m_controller, XboxController.Button.kA.value)
-                .whenPressed(new RunCommand(() -> activateKicker = 1))
-                .whenReleased(new RunCommand(() -> activateKicker = 0));
+                .whenPressed(new InstantCommand(() -> activateKicker = 1))
+                .whenReleased(new InstantCommand(() -> activateKicker = 0));
 
         new JoystickButton(m_controller, XboxController.Button.kB.value)
-                .whenPressed(new RunCommand(() -> activateKicker = -1))
-                .whenReleased(new RunCommand(() -> activateKicker = 0));
+                .whenPressed(new InstantCommand(() -> activateKicker = -1))
+                .whenReleased(new InstantCommand(() -> activateKicker = 0));
     }
 
     /**
@@ -231,7 +231,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
-        m_vision.setLEDS(false);
     }
 
 }
