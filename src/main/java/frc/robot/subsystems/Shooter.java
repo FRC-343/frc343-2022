@@ -24,8 +24,10 @@ public class Shooter extends SubsystemBase {
     private final RelativeEncoder m_topShooterEncoder = m_topShooter
             .getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
-    private final PIDController m_shooterPIDController = new PIDController(0.10, 0.0, 0.0);
-    private final SimpleMotorFeedforward m_shooterFeedforward = new SimpleMotorFeedforward(1.71, 0.0782);
+    private final PIDController m_bottomShooterPIDController = new PIDController(0.167, 0.0, 0.0);
+    private final SimpleMotorFeedforward m_bottomShooterFeedforward = new SimpleMotorFeedforward(0.1113, 0.12233);
+    private final PIDController m_topShooterPIDController = new PIDController(0.112, 0.0, 0.0);
+    private final SimpleMotorFeedforward m_topShooterFeedforward = new SimpleMotorFeedforward(.1117, 0.1219);
 
     private double m_bottomSpeed = 0.0;
     private double m_topSpeed = 0.0;
@@ -37,8 +39,10 @@ public class Shooter extends SubsystemBase {
         m_topShooter.setInverted(true);
         m_topShooterEncoder.setVelocityConversionFactor(0.01666);
 
-        SendableRegistry.setSubsystem(m_shooterPIDController, this.getClass().getSimpleName());
-        SendableRegistry.setName(m_shooterPIDController, "Shooter PIDController");
+        SendableRegistry.setSubsystem(m_topShooterPIDController, this.getClass().getSimpleName());
+        SendableRegistry.setName(m_topShooterPIDController, "Shooter PIDController");
+        SendableRegistry.setSubsystem(m_bottomShooterPIDController, this.getClass().getSimpleName());
+        SendableRegistry.setName(m_bottomShooterPIDController, "Shooter PIDController");
     }
 
     public static Shooter getInstance() {
@@ -78,8 +82,8 @@ public class Shooter extends SubsystemBase {
         //PID and feed forward when running shooter
 
         if (m_bottomSpeed > 0.01 || m_bottomSpeed < -0.01) {
-            double shooterFeedforward = m_shooterFeedforward.calculate(m_bottomSpeed);
-            double shooterPIDOutput = m_shooterPIDController.calculate(getBottomShooterRPS(), m_bottomSpeed);
+            double shooterFeedforward = m_bottomShooterFeedforward.calculate(m_bottomSpeed);
+            double shooterPIDOutput = m_bottomShooterPIDController.calculate(getBottomShooterRPS(), m_bottomSpeed);
             double shooterOutput = shooterFeedforward + shooterPIDOutput;
 
             m_bottomShooter.setVoltage(shooterOutput);
@@ -88,8 +92,8 @@ public class Shooter extends SubsystemBase {
         }
 
         if (m_topSpeed > 0.01 || m_topSpeed < -0.01) {
-            double shooterFeedforward = m_shooterFeedforward.calculate(m_topSpeed);
-            double shooterPIDOutput = m_shooterPIDController.calculate(getTopShooterRPS(), m_topSpeed);
+            double shooterFeedforward = m_topShooterFeedforward.calculate(m_topSpeed);
+            double shooterPIDOutput = m_topShooterPIDController.calculate(getTopShooterRPS(), m_topSpeed);
             double shooterOutput = shooterFeedforward + shooterPIDOutput;
 
             m_topShooter.setVoltage(shooterOutput);
