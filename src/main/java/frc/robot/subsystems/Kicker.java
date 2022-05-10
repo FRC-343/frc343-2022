@@ -55,6 +55,7 @@ public class Kicker extends SubsystemBase {
             kickerForIntake();
         } else {
             setKicker(0);
+            shoot(0, 0); // if shooter wants to run to shoot, it will override this
         }
 
         // color sensor things
@@ -83,7 +84,11 @@ public class Kicker extends SubsystemBase {
 
     public boolean isBadCargo() { // returns true if wrong color
         boolean value;
-        if (colorString.isBlank()) {
+
+        if (DriverStation.getAlliance().equals(DriverStation.Alliance.valueOf("Invalid"))) { // check to see if the driver station is actually returninng a proper team color
+            value = false;
+            SmartDashboard.putString("color_detected", "Purple");
+        } else if (colorString.isBlank()) {
             value = false;
         } else if (!getCellDetector()) {
             value = false;

@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.Compressor;
 public class Robot extends TimedRobot {
     public static final double kMaxJoySpeed = 3.0; // meters per sec
     public static final double kMaxJoyTurn = 5.0; // radians per sec
-    public static final double kMaxHoodSpeed = 0.4; // ratio
+    public static final double kMaxHoodSpeed = 0.8; // ratio
     public static final double kMaxWinchSpeed = 1.0;
     public static final double kMaxTurretSpeed = 0.6;
     public static final double kMaxClimbingSpeed = .8;
@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
         // Controller joysticks
 
         m_hood.setDefaultCommand(
-                new RunCommand(() -> m_hood.move(.8 * m_controller.getRightY()), m_hood));
+                new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getRightY()), m_hood));
 
         m_turret.setDefaultCommand(
                 new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
@@ -196,8 +196,7 @@ public class Robot extends TimedRobot {
      * This function is called periodically during autonomous.
      */
     @Override
-    public void autonomousPeriodic() {
-    }
+    public void autonomousPeriodic() {}
 
     /**
      * This function is called when entering operator control.
@@ -216,8 +215,7 @@ public class Robot extends TimedRobot {
      * This function is called periodically during operator control.
      */
     @Override
-    public void teleopPeriodic() {
-    }
+    public void teleopPeriodic() {}
 
     @Override
     public void testInit() {
@@ -230,7 +228,9 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void disabledPeriodic() {
-    }
+    public void disabledPeriodic() {}
+
+    @Override
+    public void simulationPeriodic() {}
 
 }

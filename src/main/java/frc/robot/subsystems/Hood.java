@@ -91,17 +91,17 @@ public class Hood extends SubsystemBase {
                 if (m_hoodFront.get()) {
                     m_zeroing = true;
                     m_hoodMotor.set(0.0);
-                } else if (m_hoodEncoder.getDistance() < m_target - 50) {
+                } else if (m_hoodEncoder.getDistance() < m_target - 25) {
                     double error = m_hoodEncoder.getDistance() - m_target; // this will be negative
-                    double speed = error * 0.000444 -.1556;
-                    m_hoodMotor.set(MathUtil.clamp(speed, -.2, -.6));
+                    double speed = error / 1000;
+                    m_hoodMotor.set(MathUtil.clamp(speed, -.4, -Robot.kMaxHoodSpeed));
                     m_aimed = false;
-                } else if (m_hoodEncoder.getDistance() > m_target + 50) {
-                    double error = m_hoodEncoder.getDistance() - m_target; // this will be positev
-                    double speed = error * 0.000444 -.1556;
-                    m_hoodMotor.set(MathUtil.clamp(speed, .2, .6));
+                } else if (m_hoodEncoder.getDistance() > m_target + 25) {
+                    double error = m_hoodEncoder.getDistance() - m_target; // this will be positive
+                    double speed = error / 1000; 
+                    m_hoodMotor.set(MathUtil.clamp(speed, .4, Robot.kMaxHoodSpeed));
                     m_aimed = false;
-                } else { // m_hoodEncoder.getDistance >m_target-75 && < m_target+75
+                } else { // m_hoodEncoder.getDistance >m_target-25 && < m_target+25
                     m_hoodMotor.set(0.0);
                     m_aimed = true;
                 }
