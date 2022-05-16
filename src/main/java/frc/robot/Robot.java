@@ -49,9 +49,6 @@ public class Robot extends TimedRobot {
     private CommandBase m_auto;
     private final SendableChooser<CommandBase> m_autoChooser = new SendableChooser<CommandBase>();
 
-    private final SendableChooser<Boolean> m_colorSensorIntakeChooser = new SendableChooser<>();
-    private final SendableChooser<Boolean> m_colorSensorShooterChooser = new SendableChooser<>();
-
     public static boolean kUseColorSensor = true;
     public static boolean kUseColorSensorIntake = true;
 
@@ -61,12 +58,6 @@ public class Robot extends TimedRobot {
         m_autoChooser.addOption("3BA", new ThreeBallAuto());
         m_autoChooser.addOption("Simple", new MoveAuto());
         m_autoChooser.addOption("T_5", new CCW5ball2022());
-
-        m_colorSensorIntakeChooser.setDefaultOption("Intake color on", true);
-        m_colorSensorIntakeChooser.addOption("Intake color off", false);
-
-        m_colorSensorShooterChooser.setDefaultOption("Shooter color on", true);
-        m_colorSensorShooterChooser.addOption("Shooter color off", false);
     }
 
     /**
@@ -77,8 +68,6 @@ public class Robot extends TimedRobot {
     public void robotInit() {
 
         SmartDashboard.putData("Auto_Choice", m_autoChooser);
-        SmartDashboard.putData("Color Intake", m_colorSensorIntakeChooser);
-        SmartDashboard.putData("Color Shooter", m_colorSensorShooterChooser);
 
         Pressy.enableDigital(); // compressor has to be enabled manually
 
@@ -125,7 +114,7 @@ public class Robot extends TimedRobot {
 
         new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootMoveCommand()); // Orbit
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(60, 70)); //set speed
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(50)); //set speed
 
         // Controller Buttons
 
@@ -148,6 +137,8 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_controller, XboxController.Button.kB.value)
                 .whenPressed(new InstantCommand(() -> activateKicker = -1))
                 .whenReleased(new InstantCommand(() -> activateKicker = 0));
+
+        new JoystickButton(m_stick, 6).whenPressed(new PresetHoodCommand(1000, false));
     }
 
     /**
@@ -162,9 +153,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        
-        kUseColorSensorIntake = m_colorSensorIntakeChooser.getSelected(); 
-        kUseColorSensor = m_colorSensorShooterChooser.getSelected();
     }
 
     /**

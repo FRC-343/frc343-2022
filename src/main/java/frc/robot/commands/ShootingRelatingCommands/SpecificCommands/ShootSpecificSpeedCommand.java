@@ -13,7 +13,7 @@ public class ShootSpecificSpeedCommand extends SequentialCommandGroup {
     );
   }
 
-  public ShootSpecificSpeedCommand() {
-    this(70, 40);
+  public ShootSpecificSpeedCommand(double speed) {
+    this(speed, speed);
   }
 }

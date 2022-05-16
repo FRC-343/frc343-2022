@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climbing extends SubsystemBase {
@@ -39,11 +38,6 @@ public class Climbing extends SubsystemBase {
 
     public static Climbing getInstance() {
         return m_instance;
-    }
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putBoolean("climber pnumatics State", m_climber.get() == DoubleSolenoid.Value.kForward);
     }
 
     public void disEngage() {

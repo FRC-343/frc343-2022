@@ -14,7 +14,7 @@ public class ShootCommand extends CommandBase {
     private final Vision m_vision;
     private final Kicker m_kicker;
 
-    private static final double lowGoalSpeed[] = { 21, 11 }; // bottom wheel, top wheel
+    private static final double lowGoalSpeed[] = { 30, 30 }; // bottom wheel, top wheel
 
     private double y; // ty from limelight
     private double v; // tv from limelight, # = # of targets
@@ -113,8 +113,9 @@ public class ShootCommand extends CommandBase {
     }
 
     private void shootActivateKicker() {
-        if (m_shooter.getBottomShooterRPS() > kBottomShootSpeed - 5.0 && m_shooter.getBottomShooterRPS() < kBottomShootSpeed + 5.0
-                && m_shooter.getTopShooterRPS() > kTopShootSpeed - 5.0 && m_shooter.getTopShooterRPS() < kBottomShootSpeed + 5.0) {
+        double marginOfSpeedError = 3.0;
+        if (m_shooter.getBottomShooterRPS() > kBottomShootSpeed - marginOfSpeedError && m_shooter.getBottomShooterRPS() < kBottomShootSpeed + marginOfSpeedError 
+                && m_shooter.getTopShooterRPS() > kTopShootSpeed - marginOfSpeedError && m_shooter.getTopShooterRPS() < kTopShootSpeed + marginOfSpeedError) {
             activateKicker = 1;
         } else {
             activateKicker = 0;
@@ -127,7 +128,7 @@ public class ShootCommand extends CommandBase {
     }
 
     private void setShooterSpeed(double speed) {
-        setShooterSpeed(speed, (speed / 2)); // set topSpeed higher so less rotation
+        setShooterSpeed(speed, speed); // set topSpeed higher so less rotation
     }
 
     private double getShooterSpeed() {
@@ -153,7 +154,7 @@ public class ShootCommand extends CommandBase {
 
     public void ejectBadCargo() {
         if (shooterDesiredSpeed == lowGoalSpeed) { // low goal
-            shoot(50, 50); // give it more power
+            shoot(40, 40); // give it more power
             if (m_shooter.getBottomShooterRPS() > 30.0 && m_shooter.getTopShooterRPS() > 30.0) {
                 activateKicker = 1;
             }

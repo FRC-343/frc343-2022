@@ -37,6 +37,8 @@ public class Kicker extends SubsystemBase {
 
         SendableRegistry.setSubsystem(m_cellDetector, this.getClass().getSimpleName());
         SendableRegistry.setName(m_cellDetector, "cell detector for shooter/intake");
+
+        timerBadCargo.start();
     }
 
     public static Kicker getInstance() {

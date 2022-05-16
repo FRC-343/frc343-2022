@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -47,6 +46,8 @@ public class Hood extends SubsystemBase {
             m_aiming = true;
             if (startWithZeroing) {
                 m_zeroing = true;
+            } else {
+                m_zeroing = false;
             }
         }
     }
@@ -91,17 +92,13 @@ public class Hood extends SubsystemBase {
                 if (m_hoodFront.get()) {
                     m_zeroing = true;
                     m_hoodMotor.set(0.0);
-                } else if (m_hoodEncoder.getDistance() < m_target - 25) {
-                    double error = m_hoodEncoder.getDistance() - m_target; // this will be negative
-                    double speed = error / 1000;
-                    m_hoodMotor.set(MathUtil.clamp(speed, -.4, -Robot.kMaxHoodSpeed));
+                } else if (m_hoodEncoder.getDistance() < m_target - 50) {
+                    m_hoodMotor.set(-0.8);
                     m_aimed = false;
-                } else if (m_hoodEncoder.getDistance() > m_target + 25) {
-                    double error = m_hoodEncoder.getDistance() - m_target; // this will be positive
-                    double speed = error / 1000; 
-                    m_hoodMotor.set(MathUtil.clamp(speed, .4, Robot.kMaxHoodSpeed));
+                } else if (m_hoodEncoder.getDistance() > m_target + 50) {
+                    m_hoodMotor.set(0.8);
                     m_aimed = false;
-                } else { // m_hoodEncoder.getDistance >m_target-25 && < m_target+25
+                } else { // m_hoodEncoder.getDistance >m_target-50 && < m_target+50
                     m_hoodMotor.set(0.0);
                     m_aimed = true;
                 }

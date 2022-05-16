@@ -25,9 +25,9 @@ public class Shooter extends SubsystemBase {
             .getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
     private final PIDController m_bottomShooterPIDController = new PIDController(0.167, 0.0, 0.0);
-    private final SimpleMotorFeedforward m_bottomShooterFeedforward = new SimpleMotorFeedforward(0.1113, 0.12233);
+    private final SimpleMotorFeedforward m_bottomShooterFeedforward = new SimpleMotorFeedforward(0.1113, 0.12233, 0.004487);
     private final PIDController m_topShooterPIDController = new PIDController(0.112, 0.0, 0.0);
-    private final SimpleMotorFeedforward m_topShooterFeedforward = new SimpleMotorFeedforward(.1117, 0.1219);
+    private final SimpleMotorFeedforward m_topShooterFeedforward = new SimpleMotorFeedforward(.1117, 0.1219, 0.003317);
 
     private double m_bottomSpeed = 0.0;
     private double m_topSpeed = 0.0;
@@ -101,15 +101,11 @@ public class Shooter extends SubsystemBase {
             m_topShooter.setVoltage(0.0);
         }
 
-        SmartDashboard.putNumber("Bottom shooter RPS", getBottomShooterRPS());
-        SmartDashboard.putNumber("Top shooter RPS", getTopShooterRPS());
+        SmartDashboard.putString("shooter RPS", "" + (int) getBottomShooterRPS() + ", " + (int) getTopShooterRPS());
     }
 
     public void set(double topSpeed, double bottomSpeed) {
         m_topShooter.set(topSpeed);
         m_bottomShooter.set(bottomSpeed);
-        System.out.println("top speed = " + getTopShooterRPS());
-        System.out.println("bottom speed = " + getBottomShooterRPS());
-        System.out.println("done");
     }
 }
