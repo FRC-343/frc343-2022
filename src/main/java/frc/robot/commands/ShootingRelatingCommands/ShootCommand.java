@@ -2,6 +2,7 @@ package frc.robot.commands.ShootingRelatingCommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
@@ -19,7 +20,7 @@ public class ShootCommand extends CommandBase {
     private double y; // ty from limelight
     private double v; // tv from limelight, # = # of targets
 
-    private Timer t = new Timer(); // for ending shooting
+    private Timer endTimer = new Timer(); // for ending shooting
     private static boolean stopShooterAfterTime; // for auto
     private static double time;
 
@@ -52,8 +53,8 @@ public class ShootCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        t.start();
-        t.reset();
+        endTimer.start();
+        endTimer.reset();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -79,13 +80,14 @@ public class ShootCommand extends CommandBase {
     public void end(boolean interrupted) {
         shoot(0, 0);
         activateKicker = 0;
+        CommandScheduler.getInstance().schedule(new PresetHoodCommand(0, true));
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
         if (stopShooterAfterTime) {
-            return t.get() >= time;
+            return endTimer.get() >= time;
         } else {
             return false;
         }
@@ -96,12 +98,12 @@ public class ShootCommand extends CommandBase {
         shoot(kBottomShootSpeed, kTopShootSpeed);
 
         int w = waitForAim;
-        boolean a = AimCommand.isAimFinished();
+        boolean a = AimCommand.isAimFinished(); //both turret and hood
         boolean t = AimCommand.isTurretAimed();
         boolean h = AimCommand.isHoodAimed();
 
-        if ((w == 0) || (w == 1 && a) || (w == 2 && t) || (w == 3 && h)) {
-            shootActivateKicker(); // accounts for shooter wheel speed
+        if (((w == 0) || (w == 1 && a) || (w == 2 && t) || (w == 3 && h)) && isShooterSpeedReady()) {
+            activateKicker = 1; //if aimed mode matches what needs to be aimed and shooter speed is ready then turn on kicker
         } else {
             activateKicker = 0;
         }
@@ -112,14 +114,11 @@ public class ShootCommand extends CommandBase {
         activateShooter[1] = topSpeed;
     }
 
-    private void shootActivateKicker() {
+    private boolean isShooterSpeedReady() {
         double marginOfSpeedError = 3.0;
-        if (m_shooter.getBottomShooterRPS() > kBottomShootSpeed - marginOfSpeedError && m_shooter.getBottomShooterRPS() < kBottomShootSpeed + marginOfSpeedError 
-                && m_shooter.getTopShooterRPS() > kTopShootSpeed - marginOfSpeedError && m_shooter.getTopShooterRPS() < kTopShootSpeed + marginOfSpeedError) {
-            activateKicker = 1;
-        } else {
-            activateKicker = 0;
-        }
+        return (m_shooter.getBottomShooterRPS() > kBottomShootSpeed - marginOfSpeedError && m_shooter.getBottomShooterRPS() < kBottomShootSpeed + marginOfSpeedError 
+                && m_shooter.getTopShooterRPS() > kTopShootSpeed - marginOfSpeedError && m_shooter.getTopShooterRPS() < kTopShootSpeed + marginOfSpeedError);
+                // if speed is within the margin of error it will return true
     }
 
     private void setShooterSpeed(double bottomspeed, double topSpeed) {

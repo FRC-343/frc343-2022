@@ -1,6 +1,6 @@
 package frc.robot.commands.ShootingRelatingCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
@@ -16,10 +16,11 @@ public class AimCommand extends CommandBase {
     private double turretPrecision;
     private double turretSpeed;
 
+    // limelight values
     private double x;
     private double y;
     private double v;
-    private double vert;
+    private double numberOfTargets;
 
     private static boolean isHoodAimed = false;
     private static boolean isTurretAimed = false;
@@ -35,12 +36,6 @@ public class AimCommand extends CommandBase {
         m_vision = Vision.getInstance();
 
         addRequirements(m_hood, m_turret);
-
-        refreshAimValues();
-    }
-
-    @Override
-    public void initialize() {
     }
 
     @Override
@@ -52,7 +47,7 @@ public class AimCommand extends CommandBase {
             aimTurret();
         } else if (aimWhat == 2) {
             aimTurret();
-        } else if (aimWhat == 3)  {
+        } else if (aimWhat == 3) {
             aimHood();
         }
     }
@@ -81,30 +76,28 @@ public class AimCommand extends CommandBase {
     }
 
     private void refreshAimValues() {
-        x = m_vision.getTx();
-        v = m_vision.getTv();
-        y = m_vision.getTy();
-        vert = m_vision.getTvert();
-
-        SmartDashboard.putNumber("Tvert", vert);
+        x = m_vision.getTx(); // left/right displacement angle
+        y = m_vision.getTy(); // vertical displacement angle
+        v = m_vision.getTvert(); // vertical number of pixels
+        numberOfTargets = m_vision.getTv(); // 0 = no target, 1 = target
     }
 
     private void refreshIsAimedValues() { // have to use the static values since isAimed needs to be static to access in ShootCommand
         isHoodAimed = m_hood.isAimed();
         isTurretAimed = m_vision.isAimed(turretPrecision);
-        isTarget = v;
+        isTarget = numberOfTargets;
     }
 
     private void aimHood() {
-        if (v == 1) {
+        if (numberOfTargets == 1) {
             if (y > 10) { // 65 rps
-                m_hood.aim(-85.6237 * y + 2001); // possibly increase soon (originiall lowered this and 70rps by 300 to account for cargo inflation)
+                m_hood.aim(-85.6237 * y + 2001);
             } else if (y > 5.1) { // 70 rps
-                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700); // -300, +122 (over lowered this value)
+                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700);
             } else if (y > 1.9) { // 75 rps
-                m_hood.aim(21.4843 * y * y - 291.0156 * y + 2500); // +185 (recently increased this becaues close to safezoon we be undershooting)
+                m_hood.aim(21.4843 * y * y - 291.0156 * y + 2500);
             } else if (y <= -1.9) { // 80 rps
-                m_hood.aim(71.6124 * y * y - 353.6925 * y + 1984.3842); // sniper man good
+                m_hood.aim(71.6124 * y * y - 353.6925 * y + 1984.3842);
             }
         }
     }
@@ -113,7 +106,7 @@ public class AimCommand extends CommandBase {
         if (!aimWhileMove) {
             aimTurretMain(x);
         } else {
-            aimTurretAlt();
+            aimTurretWhileMoving();
         }
     }
 
@@ -131,22 +124,17 @@ public class AimCommand extends CommandBase {
     }
 
     private void aimTurretSpeed() {
-        double speed;
-        speed = Math.abs(x) / 35.0; // equivilent to a PID (P only), goes proportionally slower the closer you are
-        if (speed > .5) { // increase these to .5 if it doesn't break
-            speed = .5;
-        } else if (speed < .2) {
-            speed = .2;
-        }
-
-        turretSpeed = speed;
+        double speed = Math.abs(x) / 35.0; // equivilent to a PID (P only), goes proportionally slower the closer you are
+        turretSpeed = MathUtil.clamp(speed, .22, .6); // min = .22, max = .6
     }
 
     private void refreshTurretPrecision() { // designed to get the precision based on speed (on distance)
-        turretPrecision = 1;
+        if (v > 0) {
+            turretPrecision = 1;
+        }
     }
 
-    private void aimTurretAlt() {
+    private void aimTurretWhileMoving() {
         double robotSpeed = Drive.getSpeed();
 
         double degreesOfTarget = m_vision.getThor() / 320 * 54;
@@ -171,10 +159,7 @@ public class AimCommand extends CommandBase {
         return isTurretAimed;
     }
 
-    public static void setUnendingAiming(boolean doesItEnd) {
-        doesEnd = doesItEnd;
-    }
-
+    // settings to be called by instantCommands
     public static void useCustom(boolean doesItEnd, boolean movingAiming, int aimMode) {
         doesEnd = doesItEnd;
         aimWhileMove = movingAiming;

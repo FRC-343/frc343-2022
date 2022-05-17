@@ -137,8 +137,6 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_controller, XboxController.Button.kB.value)
                 .whenPressed(new InstantCommand(() -> activateKicker = -1))
                 .whenReleased(new InstantCommand(() -> activateKicker = 0));
-
-        new JoystickButton(m_stick, 6).whenPressed(new PresetHoodCommand(1000, false));
     }
 
     /**
