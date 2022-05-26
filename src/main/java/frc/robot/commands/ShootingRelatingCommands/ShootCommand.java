@@ -2,7 +2,6 @@ package frc.robot.commands.ShootingRelatingCommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
@@ -80,7 +79,6 @@ public class ShootCommand extends CommandBase {
     public void end(boolean interrupted) {
         shoot(0, 0);
         activateKicker = 0;
-        CommandScheduler.getInstance().schedule(new PresetHoodCommand(0, true));
     }
 
     // Returns true when the command should end.
