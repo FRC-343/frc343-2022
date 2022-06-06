@@ -19,7 +19,6 @@ public class AimCommand extends CommandBase {
     // limelight values
     private double x;
     private double y;
-    private double v;
     private double numberOfTargets;
 
     private static boolean isHoodAimed = false;
@@ -78,7 +77,6 @@ public class AimCommand extends CommandBase {
     private void refreshAimValues() {
         x = m_vision.getTx(); // left/right displacement angle
         y = m_vision.getTy(); // vertical displacement angle
-        v = m_vision.getTvert(); // vertical number of pixels
         numberOfTargets = m_vision.getTv(); // 0 = no target, 1 = target
     }
 
@@ -129,7 +127,7 @@ public class AimCommand extends CommandBase {
     }
 
     private void refreshTurretPrecision() { // designed to get the precision based on speed (on distance)
-        if (v > 0) {
+        if (numberOfTargets > 0) {
             turretPrecision = 1;
         }
     }

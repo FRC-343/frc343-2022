@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
@@ -15,11 +14,6 @@ public class Vision extends SubsystemBase {
 
     public static Vision getInstance() {
         return m_instance;
-    }
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putNumber("Tvert", getTvert());
     }
 
     public double getTx() {
@@ -36,10 +30,6 @@ public class Vision extends SubsystemBase {
 
     public double getThor() { //possibly with a hammer
         return table.getEntry("thor").getDouble(0.0);
-    }
-
-    public double getTvert() { // the vertical number of pixels
-        return table.getEntry("tvert").getDouble(0.0);
     }
 
     public boolean isAimed(double precision) {
