@@ -130,10 +130,10 @@ public class ShootCommand extends CommandBase {
 
     private double getShooterSpeed() {
         if (v == 1) {
-            if (y > 10) {
-                shooterSpeed = 65;
-            } else if (y > 5.1) {
-                shooterSpeed = 70;
+            if (y > 6.9) {
+                shooterSpeed = 55;
+            } else if (y > 2.0) {
+                shooterSpeed = 60;
             } else if (y > 1.9) {
                 shooterSpeed = 75;
             } else if (y <= 1.9) {

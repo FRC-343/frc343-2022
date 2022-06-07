@@ -88,10 +88,10 @@ public class AimCommand extends CommandBase {
 
     private void aimHood() {
         if (numberOfTargets == 1) {
-            if (y > 10) { // 65 rps
-                m_hood.aim(-85.6237 * y + 2001);
-            } else if (y > 5.1) { // 70 rps
-                m_hood.aim(27.6693 * y * y - 556.39365 * y + 3700);
+            if (y > 6.6) { // 55 rps
+                m_hood.aim(3581.55 + y * -453.53 + y * y * 25.3331 + y * y * y * -0.5068);
+            } else if (y > 2.0) { // 60 rps
+                m_hood.aim(16.1772 * y * y + -327.65 * y + 2390.59);
             } else if (y > 1.9) { // 75 rps
                 m_hood.aim(21.4843 * y * y - 291.0156 * y + 2500);
             } else if (y <= -1.9) { // 80 rps

@@ -94,10 +94,13 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_stick, 8).whenHeld(new RunCommand(m_vision::killYourEnimiesViaLEDS))
                 .whenReleased(new RunCommand(() -> m_vision.setLEDS(true)));
 
+        new JoystickButton(m_stick, 7).whenHeld(new IntakeCommand(.8))
+                .whenReleased(new Intake2Command(.8));
+
         // Controller joysticks
 
         m_hood.setDefaultCommand(
-                new RunCommand(() -> m_hood.move(kMaxHoodSpeed * m_controller.getRightY()), m_hood));
+                new RunCommand(() -> m_hood.move(/*kMaxHoodSpeed*/ .2 * m_controller.getRightY()), m_hood));
 
         m_turret.setDefaultCommand(
                 new RunCommand(() -> m_turret.spin(kMaxTurretSpeed * m_controller.getRightX()), m_turret));
@@ -114,7 +117,7 @@ public class Robot extends TimedRobot {
 
         new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootMoveCommand()); // Orbit
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(50)); //set speed
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(60)); //set speed
 
         // Controller Buttons
 
