@@ -134,10 +134,11 @@ public class ShootCommand extends CommandBase {
                 shooterSpeed = 55;
             } else if (y > 2.0) {
                 shooterSpeed = 60;
+                //TODO values below need to be updated
             } else if (y > 1.9) {
-                shooterSpeed = 75;
+                shooterSpeed = 65;
             } else if (y <= 1.9) {
-                shooterSpeed = 80;
+                shooterSpeed = 75;
             }
         }
 

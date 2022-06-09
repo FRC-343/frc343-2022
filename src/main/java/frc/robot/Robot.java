@@ -117,7 +117,7 @@ public class Robot extends TimedRobot {
 
         new Button(() -> m_controller.getLeftBumper()).whenHeld(new AimShootMoveCommand()); // Orbit
 
-        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(60)); //set speed
+        new Button(() -> m_controller.getLeftTriggerAxis() > 0.2).whenHeld(new ShootSpecificSpeedCommand(60)); //set speed //TODO change this value to change constant speed
 
         // Controller Buttons
 
