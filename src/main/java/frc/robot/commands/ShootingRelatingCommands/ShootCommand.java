@@ -23,6 +23,8 @@ public class ShootCommand extends CommandBase {
     private static boolean stopShooterAfterTime; // for auto
     private static double time;
 
+    private Timer isGoodSpeed = new Timer(); // used for when shooting to check if speed has been good for x time
+
     private static int waitForAim; // 0 = false, 1 = true, 2 = only turret, 3 = only hood
 
     private static boolean useVariableSpeed;
@@ -54,12 +56,15 @@ public class ShootCommand extends CommandBase {
     public void initialize() {
         endTimer.start();
         endTimer.reset();
+        isGoodSpeed.start();
+        isGoodSpeed.reset();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         refreshAimValues();
+        isShooterSpeedReady_v2();
 
         if (Robot.kUseColorSensor && (m_kicker.isBadCargo() || m_kicker.isRecentlyBadCargo(.3))) { // if bad cargo
             ejectBadCargo();
@@ -117,6 +122,18 @@ public class ShootCommand extends CommandBase {
         return (m_shooter.getBottomShooterRPS() > kBottomShootSpeed - marginOfSpeedError && m_shooter.getBottomShooterRPS() < kBottomShootSpeed + marginOfSpeedError 
                 && m_shooter.getTopShooterRPS() > kTopShootSpeed - marginOfSpeedError && m_shooter.getTopShooterRPS() < kTopShootSpeed + marginOfSpeedError);
                 // if speed is within the margin of error it will return true
+    }
+
+    private boolean isShooterSpeedReady_v2(double time) {
+        if (!isShooterSpeedReady()) {
+            isGoodSpeed.reset();
+        }
+
+        return (isShooterSpeedReady() && isGoodSpeed.get() > time);
+    }
+
+    private boolean isShooterSpeedReady_v2() {
+        return isShooterSpeedReady_v2(1.5);
     }
 
     private void setShooterSpeed(double bottomspeed, double topSpeed) {
