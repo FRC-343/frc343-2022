@@ -91,9 +91,9 @@ public class AimCommand extends CommandBase {
             if (y > 6.9) { // 55 rps
                 m_hood.aim(3581.55 + y * -453.53 + y * y * 25.3331 + y * y * y * -0.5068); 
             } else if (y > 2.0) { // 60 rps
-                m_hood.aim(16.1772 * y * y + -327.65 * y + 2390.59);
+                m_hood.aim(16.1772 * y * y + -327.65 * y + 2500);
             } else if (y <= 2.0) { // 65 rps
-                m_hood.aim(639.7111 * y * y - 1740.6978 * y + 1910.4211);
+                m_hood.aim(2176.33 + -84.183 * Math.pow(0.77463, y));
              }
         }
     }
@@ -120,13 +120,17 @@ public class AimCommand extends CommandBase {
     }
 
     private void aimTurretSpeed() {
-        double speed = Math.abs(x) / 35.0; // equivilent to a PID (P only), goes proportionally slower the closer you are
+        double speed = Math.abs(x) / 50.0; // equivilent to a PID (P only), goes proportionally slower the closer you are
         turretSpeed = MathUtil.clamp(speed, .22, .6); // min = .22, max = .6
     }
 
     private void refreshTurretPrecision() { // designed to get the precision based on speed (on distance)
         if (numberOfTargets > 0) {
-            turretPrecision = 1;
+            if (y > 10) {
+                turretPrecision = 2;
+            } else {
+                turretPrecision = 1;
+            }
         }
     }
 

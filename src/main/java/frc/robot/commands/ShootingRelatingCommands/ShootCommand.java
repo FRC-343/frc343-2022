@@ -105,7 +105,7 @@ public class ShootCommand extends CommandBase {
         boolean t = AimCommand.isTurretAimed();
         boolean h = AimCommand.isHoodAimed();
 
-        if (((w == 0) || (w == 1 && a) || (w == 2 && t) || (w == 3 && h)) && isShooterSpeedReady()) {
+        if (((w == 0) || (w == 1 && a) || (w == 2 && t) || (w == 3 && h)) && isShooterSpeedReady_v2()) {
             activateKicker = 1; //if aimed mode matches what needs to be aimed and shooter speed is ready then turn on kicker
         } else {
             activateKicker = 0;
@@ -133,7 +133,7 @@ public class ShootCommand extends CommandBase {
     }
 
     private boolean isShooterSpeedReady_v2() {
-        return isShooterSpeedReady_v2(1.5);
+        return isShooterSpeedReady_v2(0.5);
     }
 
     private void setShooterSpeed(double bottomspeed, double topSpeed) {

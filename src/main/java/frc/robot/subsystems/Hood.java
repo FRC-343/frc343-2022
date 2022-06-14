@@ -89,14 +89,19 @@ public class Hood extends SubsystemBase {
                 m_hoodMotor.set(Robot.kMaxHoodSpeed);
                 m_aimed = false;
             } else {
+                double speed = .8;
+                if (Math.abs(m_hoodEncoder.getDistance() - m_target) < 600) {
+                    speed = .4;
+                }
+
                 if (m_hoodFront.get()) {
                     m_zeroing = true;
                     m_hoodMotor.set(0.0);
-                } else if (m_hoodEncoder.getDistance() < m_target - 50) {
-                    m_hoodMotor.set(-0.8);
+                } else if (m_hoodEncoder.getDistance() < m_target - 150) {
+                    m_hoodMotor.set(-speed);
                     m_aimed = false;
-                } else if (m_hoodEncoder.getDistance() > m_target + 50) {
-                    m_hoodMotor.set(0.8);
+                } else if (m_hoodEncoder.getDistance() > m_target + 150) {
+                    m_hoodMotor.set(speed);
                     m_aimed = false;
                 } else { // m_hoodEncoder.getDistance >m_target-50 && < m_target+50
                     m_hoodMotor.set(0.0);
