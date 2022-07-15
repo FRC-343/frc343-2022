@@ -1,6 +1,7 @@
 package frc.robot.commands.ShootingRelatingCommands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
@@ -15,6 +16,8 @@ public class AimCommand extends CommandBase {
 
     private double turretPrecision;
     private double turretSpeed;
+
+    private PIDController turretPidController = new PIDController(-0.05, 0, -0.003);
 
     // limelight values
     private double x;
@@ -100,15 +103,45 @@ public class AimCommand extends CommandBase {
 
     private void aimTurret() {
         if (!aimWhileMove) {
-            aimTurretMain(x);
+            aimTurretPrototype(x);
+            // aimTurretMain(x);
         } else {
             aimTurretWhileMoving();
         }
     }
 
+    private void aimTurretPrototype(double tx) {
+        //turret precission 
+        if (y > 10) {
+            turretPrecision = 4;
+        } else {
+            turretPrecision = 2;
+        }
+
+        if (Math.abs(x) > turretPrecision) {
+            double tSpeed = turretPidController.calculate(x, 0);
+            System.out.println(tSpeed);
+            double tSpeedClamped;
+            if (tSpeed > 0) {
+                tSpeedClamped = MathUtil.clamp(tSpeed, .15, .6);
+            } else {
+                tSpeedClamped = MathUtil.clamp(tSpeed, -.6, -.15);
+            }
+            m_turret.spin(tSpeedClamped);
+        } else {
+            m_turret.spin(0);
+        }
+
+    }
+
     private void aimTurretMain(double tx) {
         aimTurretSpeed();
         refreshTurretPrecision();
+
+        if (aimWhileMove) {
+            turretPrecision *=3;
+            turretSpeed = MathUtil.clamp(Math.abs(x) / 25, .22, .6);
+        }
 
         if (tx > turretPrecision) {
             m_turret.spin(turretSpeed);
@@ -137,14 +170,15 @@ public class AimCommand extends CommandBase {
     private void aimTurretWhileMoving() {
         double robotSpeed = Drive.getSpeed();
 
-        double degreesOfTarget = m_vision.getThor() / 320 * 54;
-        double kConstant = 3;
+        double degreesOfTarget = m_vision.getThor() / 320 * 54; // degrese of target horizortally
+        double kConstant = 1;
         double offset = degreesOfTarget * kConstant * robotSpeed;
         if (m_turret.getEncoder() > 125) {
             offset *= -1;
         }
 
-        aimTurretMain(x - offset);
+        // aimTurretMain(x - offset);
+        aimTurretPrototype(x-offset);
     }
 
     public static boolean isAimFinished() {
