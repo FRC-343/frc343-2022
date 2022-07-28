@@ -17,7 +17,7 @@ public class AimCommand extends CommandBase {
     private double turretPrecision;
     private double turretSpeed;
 
-    private PIDController turretPidController = new PIDController(-0.05, 0, -0.003);
+    private PIDController turretPidController = new PIDController(-0.05, .005, -0.003);
 
     // limelight values
     private double x;
@@ -38,6 +38,8 @@ public class AimCommand extends CommandBase {
         m_vision = Vision.getInstance();
 
         addRequirements(m_hood, m_turret);
+
+        turretPidController.setIntegratorRange(-5, 5);
     }
 
     @Override
@@ -120,7 +122,6 @@ public class AimCommand extends CommandBase {
 
         if (Math.abs(x) > turretPrecision) {
             double tSpeed = turretPidController.calculate(x, 0);
-            System.out.println(tSpeed);
             double tSpeedClamped;
             if (tSpeed > 0) {
                 tSpeedClamped = MathUtil.clamp(tSpeed, .15, .6);
