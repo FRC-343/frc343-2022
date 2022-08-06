@@ -91,11 +91,11 @@ public class Robot extends TimedRobot {
 
         new JoystickButton(m_stick, 3).whenPressed(new PresetTurretCommand(110));
 
-        new JoystickButton(m_stick, 8).whenHeld(new RunCommand(m_vision::killYourEnimiesViaLEDS))
-                .whenReleased(new RunCommand(() -> m_vision.setLEDS(true)));
+        // new JoystickButton(m_stick, 8).whenHeld(new RunCommand(m_vision::killYourEnimiesViaLEDS))
+        //         .whenReleased(new RunCommand(() -> m_vision.setLEDS(true)));
 
-        new JoystickButton(m_stick, 7).whenHeld(new IntakeCommand(.8))
-                .whenReleased(new Intake2Command(.8));
+        // new JoystickButton(m_stick, 7).whenHeld(new IntakeCommand(.8))
+        //         .whenReleased(new Intake2Command(.8));
 
         // Controller joysticks
 
@@ -128,8 +128,8 @@ public class Robot extends TimedRobot {
         new JoystickButton(m_controller, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(m_climbing::toBeOrNotToBe, m_climbing)); // toggle climber pnumatics
 
-        new JoystickButton(m_controller, XboxController.Button.kStart.value)
-                .whenHeld(new AutoClimbCommand(false, false)); // climbing auto
+        // new JoystickButton(m_controller, XboxController.Button.kStart.value)
+        //         .whenHeld(new AutoClimbCommand(false, false)); // climbing auto
 
         // these two commands are weird, "activateKicker" is public, kicker subsystem will activate kicker based off of that var
         // this way manual control always overrides other things that are happening with the kicker
