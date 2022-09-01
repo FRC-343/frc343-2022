@@ -57,7 +57,7 @@ public class Climbing extends SubsystemBase {
     }
 
     public boolean getLeftTopLimit() {
-        return m_isLeftTop.get();
+        return false; //m_isLeftTop.get();
     }
 
     public boolean getLeftBottomLimit() {
@@ -70,7 +70,7 @@ public class Climbing extends SubsystemBase {
 
     public void setWinch(double speed) {
         m_climbingMotor.setInverted(true);
-        if (speed < 0.0 && m_isLeftTop.get()) {
+        if (speed < 0.0 && getLeftTopLimit()) {
             m_climbingMotor.set(0.0);
         } else if (speed > 0 && (m_isRightBottom.get() || m_isLeftBottom.get())) {
             m_climbingMotor.set(0.0);

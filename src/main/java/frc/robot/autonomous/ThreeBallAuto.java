@@ -33,10 +33,10 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                 // aim and shoot
                 new AimShootCommandAuto(),
 
-                new DriveDistanceCommand(0.7, kDriveSpeed),
+                // new DriveDistanceCommand(0.7, 2),
 
                 new ParallelDeadlineGroup(
-                        new DriveDistanceCommand(1.3, kDriveSpeed),
+                        new DriveDistanceCommand(2.0 /*1.3*/, 1.5),
                         new IntakeCommand()),
 
                 new ParallelDeadlineGroup(
